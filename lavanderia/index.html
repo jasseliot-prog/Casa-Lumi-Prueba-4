@@ -15,7 +15,6 @@
   --rosa:#f1b8ff;
   --texto:#f9eaff;
 }
-
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 
@@ -25,7 +24,7 @@ body{
   color:var(--texto);
   font-family:Georgia,serif;
   background:
-    radial-gradient(ellipse at 50% 0%,#622b82 0%,transparent 55%),
+    radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
     radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
     var(--fondo);
 }
@@ -146,7 +145,6 @@ body::before{
 
 .marco-escena{
   position:relative;
-  min-height:410px;
   padding:11px;
   border:3px double #e0a5ff;
   border-radius:16px;
@@ -161,6 +159,7 @@ body::before{
   position:absolute;
   inset:0;
   pointer-events:none;
+  z-index:2;
 }
 
 .esquinas span{
@@ -184,36 +183,29 @@ body::before{
   font-size:24px;
 }
 
+/* FONDOS OFICIALES DE LA LAVANDERÍA */
 .escena-interior{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  min-height:330px;
-  padding:20px;
-  text-align:center;
+  position:relative;
+  width:100%;
+  min-height:250px;
+  overflow:hidden;
   border-radius:12px;
-  background:
-    radial-gradient(circle at center,#8b54ad65,transparent 70%),
-    linear-gradient(160deg,#301547,#1b0c2b);
+  background:#1b0c2b;
 }
 
-.escena-interior .icono{
-  font-size:68px;
-  filter:drop-shadow(0 0 18px #b86aff);
+.fondo-lavanderia{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
 }
 
-.escena-interior h2{
-  font-size:25px;
+.error-imagen{
+  display:none;
+  padding:45px 15px;
+  text-align:center;
   color:#f2d4ff;
-  margin:14px 0 8px;
-}
-
-.escena-interior p{
-  font-size:14px;
   line-height:1.7;
-  color:#dfc1f1;
-  max-width:330px;
 }
 
 .pie-escena{
@@ -302,7 +294,10 @@ body::before{
   cursor:pointer;
 }
 
-.accion:hover{background:#73408f}
+.accion:hover,.accion.activa{
+  background:#73408f;
+  box-shadow:0 0 12px #b96aff77;
+}
 
 .navegacion{
   display:flex;
@@ -350,22 +345,26 @@ body::before{
   .contenido{grid-template-columns:1fr;gap:14px}
   .titulo{margin:15px 0}
   .escenario{padding:8px}
-  .marco-escena{min-height:330px;padding:8px}
-  .escena-interior{min-height:270px;padding:15px}
-  .escena-interior .icono{font-size:54px}
+  .marco-escena{padding:8px}
   .panel{padding:16px}
+
   .navegacion{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:9px;
   }
-  .boton{font-size:12px;padding:10px 7px}
+
+  .boton{
+    font-size:12px;
+    padding:10px 7px;
+  }
 }
 
 @media(prefers-reduced-motion:no-preference){
   .titulo .corona{
     animation:flotar 4s ease-in-out infinite;
   }
+
   @keyframes flotar{
     0%,100%{transform:translateY(0)}
     50%{transform:translateY(-5px)}
@@ -377,157 +376,216 @@ body::before{
 <body>
 <div class="casa">
 
-  <header class="cabecera marco">
-    <div class="marca">
-      ☾ Casa-Lumi 💜
-      <small>Mi pequeño universo mágico</small>
-    </div>
-
-    <div class="reloj">
-      <div id="hora">--:--</div>
-      <small id="fecha">Cargando...</small>
-    </div>
-  </header>
-
-  <div class="titulo">
-    <div class="corona">🧺 🎀 🫧</div>
-    <h1>Mi Lavandería</h1>
-    <p>✧ Un rincón limpio y lleno de magia ✧</p>
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>Mi pequeño universo mágico</small>
   </div>
 
-  <main class="contenido">
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
 
-    <section class="escenario marco">
+<div class="titulo">
+  <div class="corona">🧺 🎀 🫧</div>
+  <h1>Mi Lavandería</h1>
+  <p>✧ Un rincón limpio y lleno de magia ✧</p>
+</div>
 
-      <div class="lazos">
-        <span>🌹</span>
-        <span>🎀 ✦ 🎀</span>
-        <span>🌹</span>
+<main class="contenido">
+
+  <section class="escenario marco">
+
+    <div class="lazos">
+      <span>🌹</span>
+      <span>🎀 ✦ 🎀</span>
+      <span>🌹</span>
+    </div>
+
+    <div class="marco-escena">
+
+      <div class="esquinas">
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
       </div>
 
-      <div class="marco-escena">
+      <div class="escena-interior" id="escenario">
 
-        <div class="esquinas">
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
+        <img
+          id="imagen-lavanderia"
+          class="fondo-lavanderia"
+          src="../assets/lavanderia/lavanderia-vacia-dia.png"
+          alt="Lavandería oficial de Casa-Lumi"
+        >
+
+        <div class="error-imagen" id="error-imagen">
+          🧺 No se pudo cargar el fondo de la lavandería.
+          Revisa los archivos en assets/lavanderia.
         </div>
 
-        <div class="escena-interior" id="escenario">
+      </div>
 
-          <div class="icono">🧺 🫧</div>
+    </div>
 
-          <h2>La lavandería de Lumi</h2>
+    <div class="pie-escena">
+      🌹 ✧ 🧺 ✧ 🌹
+    </div>
 
-          <p>
-            Aquí aparecerán las ilustraciones
-            oficiales de Lumi lavando, secando,
-            doblando y guardando su ropa.
-          </p>
+  </section>
 
-          <div class="adorno">✧ ✦ ✧</div>
+  <aside class="lateral">
 
+    <section class="panel marco">
+      <h2>🎀 Mi estado actual</h2>
+
+      <div class="estado">
+
+        <div class="estado-fila">
+          <span>💜 Emoción</span>
+          <span class="valor" id="emocion">
+            Tranquila
+          </span>
         </div>
+
+        <div class="estado-fila">
+          <span>👗 Vestuario</span>
+          <span class="valor" id="vestuario">
+            Pendiente de conectar
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>🧺 Actividad</span>
+          <span class="valor" id="actividad">
+            Habitación vacía
+          </span>
+        </div>
+
       </div>
 
-      <div class="pie-escena">
-        🌹 ✧ 🧺 ✧ 🌹
-      </div>
+      <div class="acciones" id="panel-actividades">
 
+        <button class="accion" data-actividad="Lavar ropa">
+          🫧 Lavar
+        </button>
+
+        <button class="accion" data-actividad="Secar ropa">
+          ☀️ Secar
+        </button>
+
+        <button class="accion" data-actividad="Doblar ropa">
+          👕 Doblar
+        </button>
+
+        <button class="accion" data-actividad="Guardar ropa">
+          🧺 Guardar
+        </button>
+
+      </div>
     </section>
 
-    <aside class="lateral">
+    <section class="diario marco" id="diario-panel">
+      <h2>💌 Mi pequeño diario</h2>
 
-      <section class="panel marco">
-        <h2>🎀 Mi estado actual</h2>
+      <div class="burbuja">
+        <p id="mensaje-lumi">
+          Mi lavandería está preparada.
+          Pronto podré lavar, secar,
+          doblar y guardar mi ropa. 💜
+        </p>
+      </div>
 
-        <div class="estado">
+      <div class="adorno">✧ 🫧 ✧</div>
+    </section>
 
-          <div class="estado-fila">
-            <span>💜 Emoción</span>
-            <span class="valor" id="emocion">
-              Tranquila
-            </span>
-          </div>
+  </aside>
 
-          <div class="estado-fila">
-            <span>👗 Vestuario</span>
-            <span class="valor" id="vestuario">
-              Ropa del día
-            </span>
-          </div>
+</main>
 
-          <div class="estado-fila">
-            <span>🧺 Actividad</span>
-            <span class="valor" id="actividad">
-              Ordenando ropa
-            </span>
-          </div>
+<nav class="navegacion">
 
-        </div>
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
 
-        <div class="acciones">
-          <button class="accion" data-actividad="Lavar ropa">
-            🫧 Lavar
-          </button>
-          <button class="accion" data-actividad="Secar ropa">
-            ☀️ Secar
-          </button>
-          <button class="accion" data-actividad="Doblar ropa">
-            👕 Doblar
-          </button>
-          <button class="accion" data-actividad="Guardar ropa">
-            🧺 Guardar
-          </button>
-        </div>
-      </section>
+  <button class="boton" id="encontrar" type="button">
+    📍 Encontrar a Lumi
+  </button>
 
-      <section class="diario marco" id="diario-panel">
-        <h2>💌 Mi pequeño diario</h2>
+  <button class="boton" id="actividades" type="button">
+    ✨ Actividades
+  </button>
 
-        <div class="burbuja">
-          <p id="mensaje-lumi">
-            Hoy quiero dejar toda mi ropita
-            limpia y ordenada. 💜
-          </p>
-        </div>
+  <button class="boton" id="diario" type="button">
+    📖 Mi diario
+  </button>
 
-        <div class="adorno">✧ 🫧 ✧</div>
-      </section>
+</nav>
 
-    </aside>
-
-  </main>
-
-  <nav class="navegacion">
-
-    <a class="boton" href="../index.html">
-      🏠 Volver a casa
-    </a>
-
-    <button class="boton" id="encontrar" type="button">
-      📍 Encontrar a Lumi
-    </button>
-
-    <button class="boton" id="actividades" type="button">
-      ✨ Actividades
-    </button>
-
-    <button class="boton" id="diario" type="button">
-      📖 Mi diario
-    </button>
-
-  </nav>
-
-  <footer class="pie">
-    ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
-  </footer>
+<footer class="pie">
+  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+</footer>
 
 </div>
 
 <script>
 "use strict";
+
+/* =====================================
+   CASA-LUMI 4 · LAVANDERÍA
+   Fondos automáticos y actividades
+   ===================================== */
+
+const imagenLavanderia =
+  document.getElementById("imagen-lavanderia");
+
+const errorImagen =
+  document.getElementById("error-imagen");
+
+// NOMBRES ESPERADOS DE LAS IMÁGENES
+const fondos = {
+  dia: "../assets/lavanderia/lavanderia-vacia-dia.png",
+  tarde: "../assets/lavanderia/lavanderia-vacia-tarde.png",
+  noche: "../assets/lavanderia/lavanderia-vacia-noche.png"
+};
+
+function obtenerMomento(hora){
+  if(hora>=7 && hora<18){
+    return "dia";
+  }
+
+  if(hora>=18 && hora<21){
+    return "tarde";
+  }
+
+  return "noche";
+}
+
+function actualizarLavanderia(){
+  const momento=obtenerMomento(new Date().getHours());
+  const archivo=fondos[momento];
+
+  if(imagenLavanderia.getAttribute("src")!==archivo){
+    imagenLavanderia.src=archivo;
+  }
+
+  imagenLavanderia.alt=
+    "Lavandería de Casa-Lumi en horario de "+momento;
+}
+
+imagenLavanderia.addEventListener("error",()=>{
+  imagenLavanderia.style.display="none";
+  errorImagen.style.display="block";
+});
+
+imagenLavanderia.addEventListener("load",()=>{
+  imagenLavanderia.style.display="block";
+  errorImagen.style.display="none";
+});
 
 function actualizarReloj(){
   const ahora=new Date();
@@ -535,7 +593,8 @@ function actualizarReloj(){
   document.getElementById("hora").textContent=
     ahora.toLocaleTimeString("es-CL",{
       hour:"2-digit",
-      minute:"2-digit"
+      minute:"2-digit",
+      hour12:false
     });
 
   document.getElementById("fecha").textContent=
@@ -546,10 +605,16 @@ function actualizarReloj(){
     });
 }
 
-actualizarReloj();
-setInterval(actualizarReloj,30000);
+function actualizarTodo(){
+  actualizarReloj();
+  actualizarLavanderia();
+}
 
-// ACTIVIDADES VISUALES PROVISIONALES
+actualizarTodo();
+setInterval(actualizarTodo,30000);
+
+/* ACTIVIDADES DE LA LAVANDERÍA */
+
 const mensajes={
   "Lavar ropa":"¡A preparar la ropa para lavarla! 🫧",
   "Secar ropa":"Ahora toca dejar que la ropa se seque. ☀️",
@@ -568,9 +633,18 @@ document.querySelectorAll("[data-actividad]")
     document.getElementById("mensaje-lumi").textContent=
       mensajes[actividad];
 
-    // Las animaciones se incorporarán después.
+    document.querySelectorAll("[data-actividad]")
+      .forEach(otro=>{
+        otro.classList.toggle(
+          "activa",
+          otro===boton
+        );
+      });
   });
 });
+
+// La lavandería comienza vacía.
+// Las animaciones y la autonomía se conectarán después.
 
 document.getElementById("encontrar")
 .addEventListener("click",()=>{
@@ -581,13 +655,13 @@ document.getElementById("encontrar")
     });
 
   alert(
-    "Esta es la lavandería. Más adelante conectaremos la ubicación autónoma de Lumi."
+    "La lavandería está preparada. La ubicación autónoma de Lumi todavía no está conectada."
   );
 });
 
 document.getElementById("actividades")
 .addEventListener("click",()=>{
-  document.querySelector(".acciones")
+  document.getElementById("panel-actividades")
     .scrollIntoView({
       behavior:"smooth",
       block:"center"
