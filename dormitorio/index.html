@@ -18,7 +18,6 @@
 }
 
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
 
 body{
@@ -144,13 +143,10 @@ body::before{
   gap:16px;
 }
 
-.escenario{
-  padding:11px;
-}
+.escenario{padding:11px}
 
 .marco-escena{
   position:relative;
-  min-height:410px;
   padding:11px;
   border:3px double #e0a5ff;
   border-radius:16px;
@@ -165,6 +161,7 @@ body::before{
   position:absolute;
   inset:0;
   pointer-events:none;
+  z-index:2;
 }
 
 .esquinas span{
@@ -188,36 +185,29 @@ body::before{
   font-size:24px;
 }
 
+/* FONDOS OFICIALES DEL DORMITORIO */
 .escena-interior{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  min-height:330px;
-  padding:20px;
-  text-align:center;
+  position:relative;
+  width:100%;
+  min-height:250px;
+  overflow:hidden;
   border-radius:12px;
-  background:
-    radial-gradient(circle at center,#8b54ad65,transparent 70%),
-    linear-gradient(160deg,#301547,#1b0c2b);
+  background:#1b0c2b;
 }
 
-.escena-interior .icono{
-  font-size:68px;
-  filter:drop-shadow(0 0 18px #b86aff);
+.fondo-dormitorio{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
 }
 
-.escena-interior h2{
-  font-size:25px;
+.error-imagen{
+  display:none;
+  padding:50px 15px;
+  text-align:center;
   color:#f2d4ff;
-  margin:14px 0 8px;
-}
-
-.escena-interior p{
-  font-size:14px;
   line-height:1.7;
-  color:#dfc1f1;
-  max-width:330px;
 }
 
 .pie-escena{
@@ -329,11 +319,8 @@ body::before{
 
 @media(max-width:760px){
   .casa{padding:10px}
-
   .cabecera{padding:12px}
-
   .marca{font-size:17px}
-
   .reloj{font-size:18px}
 
   .contenido{
@@ -342,22 +329,8 @@ body::before{
   }
 
   .titulo{margin:15px 0}
-
   .escenario{padding:8px}
-
-  .marco-escena{
-    min-height:330px;
-    padding:8px;
-  }
-
-  .escena-interior{
-    min-height:270px;
-    padding:15px;
-  }
-
-  .escena-interior .icono{
-    font-size:54px;
-  }
+  .marco-escena{padding:8px}
 
   .lateral{
     display:grid;
@@ -394,147 +367,210 @@ body::before{
 <body>
 <div class="casa">
 
-  <!-- ENCABEZADO -->
-  <header class="cabecera marco">
-    <div class="marca">
-      ☾ Casa-Lumi 💜
-      <small>Mi pequeño universo mágico</small>
-    </div>
-
-    <div class="reloj">
-      <div id="hora">--:--</div>
-      <small id="fecha">Cargando...</small>
-    </div>
-  </header>
-
-  <!-- TÍTULO -->
-  <div class="titulo">
-    <div class="corona">🎀 ☾ 🎀</div>
-    <h1>Mi Dormitorio</h1>
-    <p>✧ Mi refugio entre estrellas ✧</p>
+<!-- CABECERA -->
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>Mi pequeño universo mágico</small>
   </div>
 
-  <!-- CONTENIDO -->
-  <main class="contenido">
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
 
-    <!-- ESCENARIO PRINCIPAL -->
-    <section class="escenario marco">
+<!-- TÍTULO -->
+<div class="titulo">
+  <div class="corona">🎀 ☾ 🎀</div>
+  <h1>Mi Dormitorio</h1>
+  <p>✧ Mi refugio entre estrellas ✧</p>
+</div>
 
-      <div class="lazos">
-        <span>🌹</span>
-        <span>🎀 ✦ 🎀</span>
-        <span>🌹</span>
+<main class="contenido">
+
+  <!-- ESCENARIO -->
+  <section class="escenario marco">
+
+    <div class="lazos">
+      <span>🌹</span>
+      <span>🎀 ✦ 🎀</span>
+      <span>🌹</span>
+    </div>
+
+    <div class="marco-escena">
+
+      <div class="esquinas">
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
       </div>
 
-      <div class="marco-escena">
+      <div class="escena-interior" id="escenario">
 
-        <div class="esquinas">
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
+        <img
+          id="imagen-dormitorio"
+          class="fondo-dormitorio"
+          src="../assets/dormitorio/dormitorio-vacio-dia.png"
+          alt="Dormitorio oficial de Casa-Lumi"
+        >
+
+        <div class="error-imagen" id="error-imagen">
+          🌙 No se pudo cargar el fondo del dormitorio.
+          Revisa que las imágenes estén en
+          assets/dormitorio.
         </div>
 
-        <div class="escena-interior" id="escenario">
-          <div class="icono">🌙 🐈‍⬛</div>
+      </div>
 
-          <h2>El dormitorio de Lumi</h2>
+    </div>
 
-          <p>
-            Aquí colocaremos nuestras ilustraciones
-            oficiales del dormitorio, respetando
-            el vestuario y las actividades de Lumi.
-          </p>
+    <div class="pie-escena">
+      🌹 ✧ ☾ ✧ 🌹
+    </div>
 
-          <div class="adorno">✧ ✦ ✧</div>
+  </section>
+
+  <!-- PANELES -->
+  <aside class="lateral">
+
+    <section class="panel marco">
+      <h2>🎀 Mi estado actual</h2>
+
+      <div class="estado">
+
+        <div class="estado-fila">
+          <span>💜 Emoción</span>
+          <span class="valor" id="emocion">
+            Tranquila
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>👗 Vestuario</span>
+          <span class="valor" id="vestuario">
+            Pendiente de conectar
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>⭐ Actividad</span>
+          <span class="valor" id="actividad">
+            Habitación vacía
+          </span>
         </div>
 
       </div>
-
-      <div class="pie-escena">
-        🌹 ✧ ☾ ✧ 🌹
-      </div>
-
     </section>
 
-    <!-- PANELES -->
-    <aside class="lateral">
+    <section class="diario marco" id="diario-panel">
+      <h2>💌 Mi pequeño diario</h2>
 
-      <section class="panel marco">
-        <h2>🎀 Mi estado actual</h2>
+      <div class="burbuja">
+        <p id="mensaje-lumi">
+          Mi dormitorio está preparado.
+          Pronto podré disfrutar de mis actividades aquí. 💜
+        </p>
+      </div>
 
-        <div class="estado">
+      <div class="adorno">✧ 🌹 ✧</div>
+    </section>
 
-          <div class="estado-fila">
-            <span>💜 Emoción</span>
-            <span class="valor" id="emocion">
-              Tranquila
-            </span>
-          </div>
+  </aside>
 
-          <div class="estado-fila">
-            <span>👗 Vestuario</span>
-            <span class="valor" id="vestuario">
-              Mi pijama
-            </span>
-          </div>
+</main>
 
-          <div class="estado-fila">
-            <span>⭐ Actividad</span>
-            <span class="valor" id="actividad">
-              Descansando
-            </span>
-          </div>
+<!-- NAVEGACIÓN -->
+<nav class="navegacion">
 
-        </div>
-      </section>
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
 
-      <section class="diario marco" id="diario-panel">
-        <h2>💌 Mi pequeño diario</h2>
+  <button class="boton" id="encontrar" type="button">
+    📍 Encontrar a Lumi
+  </button>
 
-        <div class="burbuja">
-          <p id="mensaje-lumi">
-            Hoy quiero disfrutar de un momento
-            tranquilo en mi habitación. 💜
-          </p>
-        </div>
+  <button class="boton" id="actividades" type="button">
+    ✨ Actividades
+  </button>
 
-        <div class="adorno">✧ 🌹 ✧</div>
-      </section>
+  <button class="boton" id="diario" type="button">
+    📖 Mi diario
+  </button>
 
-    </aside>
+</nav>
 
-  </main>
-
-  <!-- NAVEGACIÓN -->
-  <nav class="navegacion">
-
-    <a class="boton" href="../index.html">
-      🏠 Volver a casa
-    </a>
-
-    <button class="boton" id="encontrar" type="button">
-      📍 Encontrar a Lumi
-    </button>
-
-    <button class="boton" id="actividades" type="button">
-      ✨ Actividades
-    </button>
-
-    <button class="boton" id="diario" type="button">
-      📖 Mi diario
-    </button>
-
-  </nav>
-
-  <footer class="pie">
-    ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
-  </footer>
+<footer class="pie">
+  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+</footer>
 
 </div>
 
 <script>
 "use strict";
+
+/* =====================================
+   CASA-LUMI 4 · DORMITORIO
+   Cambio automático de fondos
+   ===================================== */
+
+const imagenDormitorio =
+  document.getElementById("imagen-dormitorio");
+
+const errorImagen =
+  document.getElementById("error-imagen");
+
+// RUTAS REALES DEL REPOSITORIO
+const fondos = {
+  dia: "../assets/dormitorio/dormitorio-vacio-dia.png",
+  tarde: "../assets/dormitorio/dormitorio-vacio-tarde.png",
+  noche: "../assets/dormitorio/dormitorio-vacio-noche.png"
+};
+
+// HORARIOS
+// Día:   07:00 a 17:59
+// Tarde: 18:00 a 20:59
+// Noche: 21:00 a 06:59
+
+function obtenerMomento(hora){
+  if(hora>=7 && hora<18){
+    return "dia";
+  }
+
+  if(hora>=18 && hora<21){
+    return "tarde";
+  }
+
+  return "noche";
+}
+
+// CAMBIO AUTOMÁTICO DE ESCENARIO
+function actualizarDormitorio(){
+  const ahora=new Date();
+  const momento=obtenerMomento(ahora.getHours());
+  const archivo=fondos[momento];
+
+  if(imagenDormitorio.getAttribute("src")!==archivo){
+    imagenDormitorio.src=archivo;
+  }
+
+  imagenDormitorio.alt=
+    "Dormitorio de Casa-Lumi durante la "+momento;
+}
+
+// SI FALLA UNA IMAGEN
+imagenDormitorio.addEventListener("error",()=>{
+  imagenDormitorio.style.display="none";
+  errorImagen.style.display="block";
+});
+
+// SI CARGA CORRECTAMENTE
+imagenDormitorio.addEventListener("load",()=>{
+  imagenDormitorio.style.display="block";
+  errorImagen.style.display="none";
+});
 
 // RELOJ
 function actualizarReloj(){
@@ -543,7 +579,8 @@ function actualizarReloj(){
   document.getElementById("hora").textContent=
     ahora.toLocaleTimeString("es-CL",{
       hour:"2-digit",
-      minute:"2-digit"
+      minute:"2-digit",
+      hour12:false
     });
 
   document.getElementById("fecha").textContent=
@@ -554,10 +591,16 @@ function actualizarReloj(){
     });
 }
 
-actualizarReloj();
-setInterval(actualizarReloj,30000);
+// ACTUALIZACIÓN GENERAL
+function actualizarTodo(){
+  actualizarReloj();
+  actualizarDormitorio();
+}
 
-// BOTÓN ENCONTRAR
+actualizarTodo();
+setInterval(actualizarTodo,30000);
+
+// ENCONTRAR A LUMI
 document.getElementById("encontrar")
 .addEventListener("click",()=>{
   document.getElementById("escenario")
@@ -567,19 +610,19 @@ document.getElementById("encontrar")
     });
 
   alert(
-    "Este es el dormitorio. Más adelante conectaremos la ubicación autónoma de Lumi."
+    "El dormitorio está conectado. La ubicación autónoma de Lumi se integrará próximamente."
   );
 });
 
-// BOTÓN ACTIVIDADES
+// ACTIVIDADES
 document.getElementById("actividades")
 .addEventListener("click",()=>{
   alert(
-    "Próximamente: actividades automáticas del dormitorio."
+    "Las actividades autónomas del dormitorio todavía están pendientes de conexión."
   );
 });
 
-// BOTÓN DIARIO
+// DIARIO
 document.getElementById("diario")
 .addEventListener("click",()=>{
   document.getElementById("diario-panel")
