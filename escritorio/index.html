@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Mi Escritorio | Casa-Lumi</title>
+
+<style>
+:root{
+  --fondo:#100719;
+  --violeta:#b96aff;
+  --texto:#f9eaff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--texto);
+  font-family:Georgia,serif;
+  background:
+    radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
+    radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
+    var(--fondo);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.3;
+  background-image:
+    radial-gradient(#e7b4ff 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.casa{
+  position:relative;
+  width:min(1100px,100%);
+  margin:auto;
+  padding:12px;
+}
+.marco{
+  position:relative;
+  border:2px solid #ad66e3;
+  border-radius:22px;
+  background:linear-gradient(145deg,#34174b,#1b0b2a);
+  box-shadow:
+    0 0 0 3px #36174d,
+    0 0 17px #ad56ef70,
+    inset 0 0 20px #a54edc25;
+}
+.marco::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid #df9eff55;
+  border-radius:16px;
+  pointer-events:none;
+}
+.cabecera{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 17px;
+}
+.marca{
+  font-size:20px;
+  font-weight:bold;
+  color:#f4d5ff;
+}
+.marca small,.reloj small{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  font-weight:normal;
+  color:#dcb5ef;
+}
+.reloj{
+  text-align:right;
+  font-size:21px;
+  color:#f5d8ff;
+}
+.titulo{
+  text-align:center;
+  margin:20px 0;
+}
+.titulo h1{
+  margin:5px 0;
+  font-size:clamp(29px,6vw,43px);
+  color:#f4d6ff;
+  text-shadow:0 0 17px #d27aff;
+}
+.titulo p{
+  font-size:13px;
+  color:#d8b5eb;
+}
+.contenido{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(240px,1fr);
+  gap:16px;
+}
+.escenario{padding:11px}
+.lazos{
+  display:flex;
+  justify-content:space-between;
+  padding:0 30px;
+  font-size:24px;
+}
+.marco-escena{
+  position:relative;
+  padding:12px;
+  border:3px double #e0a5ff;
+  border-radius:16px;
+  background:radial-gradient(circle,#704193,#2c123f 75%);
+  box-shadow:inset 0 0 35px #17051d;
+}
+.escena-interior{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:330px;
+  padding:20px;
+  text-align:center;
+  border-radius:12px;
+  background:
+    radial-gradient(circle,#8b54ad65,transparent 70%),
+    linear-gradient(160deg,#301547,#1b0c2b);
+}
+.icono-escena{
+  font-size:65px;
+  filter:drop-shadow(0 0 18px #b86aff);
+}
+.escena-interior h2{
+  font-size:25px;
+  color:#f2d4ff;
+  margin:14px 0 8px;
+}
+.escena-interior p{
+  font-size:14px;
+  line-height:1.7;
+  color:#dfc1f1;
+  max-width:340px;
+}
+.adorno,.pie-escena{
+  text-align:center;
+  color:#f0c7ff;
+  text-shadow:0 0 12px #d17aff;
+  letter-spacing:5px;
+  padding:12px;
+}
+.lateral{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.panel,.diario{padding:20px 17px}
+.panel h2,.diario h2{
+  margin:0 0 18px;
+  text-align:center;
+  font-size:21px;
+  color:#f0ccff;
+}
+.estado{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+.estado-fila{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+}
+.valor{
+  padding:8px 12px;
+  border:1px solid #b779eb;
+  border-radius:20px;
+  background:linear-gradient(145deg,#663582,#3e1c57);
+  color:#ffeaff;
+  text-align:center;
+  font-size:13px;
+}
+.diario{
+  flex:1;
+  text-align:center;
+}
+.burbuja{
+  padding:20px 14px;
+  border:1px solid #b977eb;
+  border-radius:18px;
+  background:#4c286477;
+  line-height:1.7;
+  font-size:16px;
+}
+.actividades{
+  margin-top:16px;
+  padding:20px;
+}
+.actividades h2{
+  margin:0 0 15px;
+  text-align:center;
+  color:#f0ccff;
+  font-size:21px;
+}
+.lista-actividades{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.accion{
+  min-height:47px;
+  padding:10px;
+  border:1px solid #b779eb;
+  border-radius:15px;
+  background:linear-gradient(145deg,#63357c,#38184f);
+  color:#ffeaff;
+  font:inherit;
+  font-size:13px;
+  cursor:pointer;
+}
+.accion:hover,.accion.activa{
+  background:#80509c;
+  box-shadow:0 0 12px #b96aff77;
+}
+.navegacion{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin:22px 0 14px;
+}
+.boton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  padding:11px 18px;
+  border:2px solid #bd79ef;
+  border-radius:28px;
+  background:linear-gradient(145deg,#61347c,#311542);
+  color:#f9eaff;
+  text-decoration:none;
+  font:inherit;
+  font-size:14px;
+  box-shadow:0 0 12px #b96aff66;
+  cursor:pointer;
+}
+.pie{
+  padding:12px;
+  text-align:center;
+  color:#cba4dd;
+  font-size:12px;
+}
+@media(max-width:760px){
+  .marca{font-size:17px}
+  .reloj{font-size:18px}
+  .contenido{grid-template-columns:1fr}
+  .escena-interior{min-height:270px}
+  .icono-escena{font-size:54px}
+  .navegacion{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .boton{font-size:12px;padding:10px 7px}
+}
+</style>
+</head>
+
+<body>
+<div class="casa">
+
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>Mi pequeño universo mágico</small>
+  </div>
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
+
+<div class="titulo">
+  <div>🌹 🎀 🖥️ 🎀 🌹</div>
+  <h1>Mi Escritorio</h1>
+  <p>✧ Un rincón para crear, aprender y soñar ✧</p>
+</div>
+
+<main class="contenido">
+
+<section class="escenario marco">
+  <div class="lazos">
+    <span>🌹</span>
+    <span>🎀 ✦ 🎀</span>
+    <span>🌹</span>
+  </div>
+
+  <div class="marco-escena">
+    <div class="escena-interior" id="escenario">
+      <div class="icono-escena" id="icono-escena">
+        💻 ✨
+      </div>
+      <h2 id="titulo-escena">
+        Lumi usa su notebook
+      </h2>
+      <p id="descripcion-escena">
+        Estoy trabajando tranquilamente
+        en mi rincón creativo.
+      </p>
+      <div class="adorno">✧ ✦ ✧</div>
+    </div>
+  </div>
+
+  <div class="pie-escena">🌹 ✧ 🖥️ ✧ 🌹</div>
+</section>
+
+<aside class="lateral">
+
+  <section class="panel marco">
+    <h2>🎀 Mi estado actual</h2>
+
+    <div class="estado">
+      <div class="estado-fila">
+        <span>💜 Emoción</span>
+        <span class="valor" id="emocion">Inspirada</span>
+      </div>
+
+      <div class="estado-fila">
+        <span>👗 Vestuario</span>
+        <span class="valor" id="vestuario">Ropa del día</span>
+      </div>
+
+      <div class="estado-fila">
+        <span>🖥️ Actividad</span>
+        <span class="valor" id="actividad">Usar notebook</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="diario marco" id="diario-panel">
+    <h2>💌 Mi pequeño diario</h2>
+
+    <div class="burbuja">
+      <p id="mensaje-lumi">
+        Hoy tengo muchas ideas bonitas para crear. 💜
+      </p>
+    </div>
+
+    <div class="adorno">✧ 🌙 ✧</div>
+  </section>
+
+</aside>
+</main>
+
+<section class="actividades marco" id="panel-actividades">
+  <h2>🎀 Mis actividades en el escritorio</h2>
+
+  <div class="lista-actividades">
+    <button class="accion" data-id="notebook">
+      💻 Usar notebook
+    </button>
+    <button class="accion" data-id="escribir">
+      ✍️ Escribir
+    </button>
+    <button class="accion" data-id="dibujar">
+      🎨 Dibujar
+    </button>
+    <button class="accion" data-id="estudiar">
+      📚 Estudiar
+    </button>
+    <button class="accion" data-id="organizar">
+      📒 Organizar ideas
+    </button>
+    <button class="accion" data-id="descansar">
+      ☕ Descansar
+    </button>
+  </div>
+</section>
+
+<nav class="navegacion">
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
+
+  <button class="boton" id="encontrar" type="button">
+    📍 Encontrar a Lumi
+  </button>
+
+  <button class="boton" id="ver-actividades" type="button">
+    ✨ Actividades
+  </button>
+
+  <button class="boton" id="diario" type="button">
+    📖 Mi diario
+  </button>
+</nav>
+
+<footer class="pie">
+  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+function actualizarReloj(){
+  const ahora=new Date();
+
+  document.getElementById("hora").textContent=
+    ahora.toLocaleTimeString("es-CL",{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  document.getElementById("fecha").textContent=
+    ahora.toLocaleDateString("es-CL",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+}
+
+actualizarReloj();
+setInterval(actualizarReloj,30000);
+
+const actividades={
+  notebook:{
+    nombre:"Usar notebook",
+    icono:"💻 ✨",
+    titulo:"Lumi usa su notebook",
+    descripcion:"Estoy trabajando tranquilamente en mi rincón creativo.",
+    mensaje:"Hoy tengo muchas ideas bonitas para crear. 💜"
+  },
+  escribir:{
+    nombre:"Escribir",
+    icono:"✍️ 📓",
+    titulo:"Lumi está escribiendo",
+    descripcion:"Anoto historias y pensamientos en mi cuaderno.",
+    mensaje:"¡Tengo tantas cositas que escribir! 💜"
+  },
+  dibujar:{
+    nombre:"Dibujar",
+    icono:"🎨 ✏️",
+    titulo:"Lumi está dibujando",
+    descripcion:"Mi imaginación se llena de colores y estrellas.",
+    mensaje:"¡Hoy quiero crear un dibujo mágico! ✨"
+  },
+  estudiar:{
+    nombre:"Estudiar",
+    icono:"📚 🌙",
+    titulo:"Lumi está estudiando",
+    descripcion:"Aprendo cosas nuevas con calma y curiosidad.",
+    mensaje:"Cada día puedo descubrir algo interesante. 💜"
+  },
+  organizar:{
+    nombre:"Organizar ideas",
+    icono:"📒 🎀",
+    titulo:"Lumi organiza sus ideas",
+    descripcion:"Ordeno mis notas y proyectos pendientes.",
+    mensaje:"¡Mis ideas ya tienen su propio lugar! ✨"
+  },
+  descansar:{
+    nombre:"Descansar",
+    icono:"☕ 🌸",
+    titulo:"Lumi toma un descanso",
+    descripcion:"Un pequeño momento de tranquilidad.",
+    mensaje:"Un descansito también ayuda a crear. 💜"
+  }
+};
+
+function mostrarActividad(id){
+  const datos=actividades[id];
+  if(!datos)return;
+
+  document.getElementById("actividad").textContent=datos.nombre;
+  document.getElementById("icono-escena").textContent=datos.icono;
+  document.getElementById("titulo-escena").textContent=datos.titulo;
+  document.getElementById("descripcion-escena").textContent=datos.descripcion;
+  document.getElementById("mensaje-lumi").textContent=datos.mensaje;
+
+  document.querySelectorAll("[data-id]").forEach(boton=>{
+    boton.classList.toggle(
+      "activa",
+      boton.dataset.id===id
+    );
+  });
+}
+
+document.querySelectorAll("[data-id]").forEach(boton=>{
+  boton.addEventListener("click",()=>{
+    mostrarActividad(boton.dataset.id);
+
+    document.getElementById("escenario")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+  });
+});
+
+mostrarActividad("notebook");
+
+document.getElementById("encontrar")
+.addEventListener("click",()=>{
+  document.getElementById("escenario")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+});
+
+document.getElementById("ver-actividades")
+.addEventListener("click",()=>{
+  document.getElementById("panel-actividades")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+});
+
+document.getElementById("diario")
+.addEventListener("click",()=>{
+  document.getElementById("diario-panel")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+});
+</script>
+</body>
+</html>
