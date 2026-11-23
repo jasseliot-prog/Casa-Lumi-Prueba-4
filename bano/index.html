@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Mi Baño | Casa-Lumi</title>
+
+<style>
+:root{
+  --fondo:#100719;
+  --oscuro:#1d0c2b;
+  --panel:#2c123f;
+  --violeta:#b96aff;
+  --rosa:#f1b8ff;
+  --texto:#f9eaff;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--texto);
+  font-family:Georgia,serif;
+  background:
+    radial-gradient(ellipse at 50% 0%,#622b82 0%,transparent 55%),
+    radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
+    var(--fondo);
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.35;
+  background-image:
+    radial-gradient(#e7b4ff 1px,transparent 1px),
+    radial-gradient(#b66aff 1px,transparent 1px);
+  background-size:48px 48px,79px 79px;
+  background-position:0 0,20px 30px;
+}
+
+.casa{
+  position:relative;
+  width:min(1100px,100%);
+  margin:auto;
+  padding:12px;
+}
+
+.marco{
+  position:relative;
+  isolation:isolate;
+  border:2px solid #ad66e3;
+  border-radius:22px;
+  background:linear-gradient(145deg,#34174b,#1b0b2a);
+  box-shadow:
+    0 0 0 3px #36174d,
+    0 0 17px #ad56ef70,
+    inset 0 0 20px #a54edc25;
+}
+
+.marco::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid #df9eff55;
+  border-radius:16px;
+  pointer-events:none;
+}
+
+.adorno{
+  color:#f0c7ff;
+  text-shadow:0 0 12px #d17aff;
+  text-align:center;
+  letter-spacing:5px;
+}
+
+.cabecera{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 17px;
+  margin-bottom:14px;
+}
+
+.marca{
+  font-size:20px;
+  font-weight:bold;
+  color:#f4d5ff;
+}
+
+.marca small{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  font-weight:normal;
+  color:#dcb5ef;
+}
+
+.reloj{
+  text-align:right;
+  font-size:21px;
+  color:#f5d8ff;
+}
+
+.reloj small{
+  display:block;
+  font-size:11px;
+  margin-top:4px;
+}
+
+.titulo{
+  text-align:center;
+  margin:16px 0 20px;
+}
+
+.titulo .corona{
+  font-size:25px;
+  margin-bottom:3px;
+}
+
+.titulo h1{
+  margin:0;
+  font-size:clamp(29px,6vw,43px);
+  color:#f4d6ff;
+  text-shadow:0 0 17px #d27aff;
+}
+
+.titulo p{
+  margin:8px 0 0;
+  font-size:13px;
+  color:#d8b5eb;
+}
+
+.contenido{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(240px,1fr);
+  gap:16px;
+}
+
+.escenario{padding:11px}
+
+.marco-escena{
+  position:relative;
+  min-height:410px;
+  padding:11px;
+  border:3px double #e0a5ff;
+  border-radius:16px;
+  background:
+    radial-gradient(circle at center,#704193,#2c123f 75%);
+  box-shadow:
+    inset 0 0 35px #17051d,
+    0 0 12px #c47aff55;
+}
+
+.esquinas{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.esquinas span{
+  position:absolute;
+  font-size:25px;
+  color:#f5caff;
+  text-shadow:0 0 12px #d78bff;
+}
+
+.esquinas span:nth-child(1){top:4px;left:8px}
+.esquinas span:nth-child(2){top:4px;right:8px}
+.esquinas span:nth-child(3){bottom:4px;left:8px}
+.esquinas span:nth-child(4){bottom:4px;right:8px}
+
+.lazos{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+  margin-bottom:5px;
+  font-size:24px;
+}
+
+.escena-interior{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:330px;
+  padding:20px;
+  text-align:center;
+  border-radius:12px;
+  background:
+    radial-gradient(circle at center,#8b54ad65,transparent 70%),
+    linear-gradient(160deg,#301547,#1b0c2b);
+}
+
+.escena-interior .icono{
+  font-size:68px;
+  filter:drop-shadow(0 0 18px #b86aff);
+}
+
+.escena-interior h2{
+  font-size:25px;
+  color:#f2d4ff;
+  margin:14px 0 8px;
+}
+
+.escena-interior p{
+  font-size:14px;
+  line-height:1.7;
+  color:#dfc1f1;
+  max-width:330px;
+}
+
+.pie-escena{
+  text-align:center;
+  padding:13px 0 3px;
+  font-size:20px;
+  color:#edbfff;
+}
+
+.lateral{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.panel{padding:20px 17px}
+
+.panel h2{
+  margin:0 0 18px;
+  text-align:center;
+  font-size:21px;
+  color:#f0ccff;
+}
+
+.estado{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.estado-fila{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+}
+
+.valor{
+  padding:8px 12px;
+  border:1px solid #b779eb;
+  border-radius:20px;
+  background:linear-gradient(145deg,#663582,#3e1c57);
+  color:#ffeaff;
+  text-align:center;
+  font-size:13px;
+}
+
+.diario{
+  padding:20px;
+  flex:1;
+  text-align:center;
+}
+
+.diario h2{
+  margin:0 0 15px;
+  color:#f0ccff;
+  font-size:21px;
+}
+
+.burbuja{
+  padding:20px 14px;
+  border:1px solid #b977eb;
+  border-radius:18px;
+  background:#4c286477;
+  line-height:1.7;
+  font-size:16px;
+}
+
+.navegacion{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin:22px 0 14px;
+}
+
+.boton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:45px;
+  padding:11px 18px;
+  border:2px solid #bd79ef;
+  border-radius:28px;
+  background:linear-gradient(145deg,#61347c,#311542);
+  color:#f9eaff;
+  text-decoration:none;
+  font:inherit;
+  font-size:14px;
+  box-shadow:0 0 12px #b96aff66;
+  cursor:pointer;
+}
+
+.boton:hover{
+  background:#78469b;
+  box-shadow:0 0 19px #ca80ff;
+}
+
+.pie{
+  padding:12px;
+  text-align:center;
+  color:#cba4dd;
+  font-size:12px;
+}
+
+@media(max-width:760px){
+  .casa{padding:10px}
+  .cabecera{padding:12px}
+  .marca{font-size:17px}
+  .reloj{font-size:18px}
+
+  .contenido{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .titulo{margin:15px 0}
+  .escenario{padding:8px}
+
+  .marco-escena{
+    min-height:330px;
+    padding:8px;
+  }
+
+  .escena-interior{
+    min-height:270px;
+    padding:15px;
+  }
+
+  .escena-interior .icono{font-size:54px}
+  .lateral{display:grid;grid-template-columns:1fr}
+  .panel{padding:16px}
+
+  .navegacion{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .boton{
+    font-size:12px;
+    padding:10px 7px;
+  }
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .titulo .corona{
+    animation:flotar 4s ease-in-out infinite;
+  }
+
+  @keyframes flotar{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-5px)}
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="casa">
+
+  <!-- ENCABEZADO -->
+  <header class="cabecera marco">
+    <div class="marca">
+      ☾ Casa-Lumi 💜
+      <small>Mi pequeño universo mágico</small>
+    </div>
+
+    <div class="reloj">
+      <div id="hora">--:--</div>
+      <small id="fecha">Cargando...</small>
+    </div>
+  </header>
+
+  <!-- TÍTULO -->
+  <div class="titulo">
+    <div class="corona">🫧 🎀 🫧</div>
+    <h1>Mi Baño</h1>
+    <p>✧ Un rinconcito de cuidado y magia ✧</p>
+  </div>
+
+  <!-- CONTENIDO -->
+  <main class="contenido">
+
+    <!-- ESCENARIO -->
+    <section class="escenario marco">
+
+      <div class="lazos">
+        <span>🌹</span>
+        <span>🫧 🎀 🫧</span>
+        <span>🌹</span>
+      </div>
+
+      <div class="marco-escena">
+
+        <div class="esquinas">
+          <span>✦</span>
+          <span>✦</span>
+          <span>✦</span>
+          <span>✦</span>
+        </div>
+
+        <div class="escena-interior" id="escenario">
+          <div class="icono">🛁 🫧</div>
+
+          <h2>El baño de Lumi</h2>
+
+          <p>
+            Aquí aparecerán las ilustraciones
+            oficiales de Lumi lavándose,
+            peinándose y realizando
+            sus rutinas de aseo.
+          </p>
+
+          <div class="adorno">✧ ✦ ✧</div>
+        </div>
+
+      </div>
+
+      <div class="pie-escena">
+        🌹 ✧ 🫧 ✧ 🌹
+      </div>
+
+    </section>
+
+    <!-- ESTADO Y DIARIO -->
+    <aside class="lateral">
+
+      <section class="panel marco">
+        <h2>🎀 Mi estado actual</h2>
+
+        <div class="estado">
+
+          <div class="estado-fila">
+            <span>💜 Emoción</span>
+            <span class="valor" id="emocion">
+              Tranquila
+            </span>
+          </div>
+
+          <div class="estado-fila">
+            <span>👗 Vestuario</span>
+            <span class="valor" id="vestuario">
+              Ropa del día
+            </span>
+          </div>
+
+          <div class="estado-fila">
+            <span>🫧 Actividad</span>
+            <span class="valor" id="actividad">
+              Aseo personal
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="diario marco" id="diario-panel">
+        <h2>💌 Mi pequeño diario</h2>
+
+        <div class="burbuja">
+          <p id="mensaje-lumi">
+            Un poquito de cuidado,
+            burbujas y magia para comenzar
+            un día bonito. 💜
+          </p>
+        </div>
+
+        <div class="adorno">✧ 🫧 ✧</div>
+      </section>
+
+    </aside>
+
+  </main>
+
+  <!-- NAVEGACIÓN -->
+  <nav class="navegacion">
+
+    <a class="boton" href="../index.html">
+      🏠 Volver a casa
+    </a>
+
+    <button class="boton" id="encontrar" type="button">
+      📍 Encontrar a Lumi
+    </button>
+
+    <button class="boton" id="actividades" type="button">
+      ✨ Actividades
+    </button>
+
+    <button class="boton" id="diario" type="button">
+      📖 Mi diario
+    </button>
+
+  </nav>
+
+  <footer class="pie">
+    ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+// RELOJ
+function actualizarReloj(){
+  const ahora=new Date();
+
+  document.getElementById("hora").textContent=
+    ahora.toLocaleTimeString("es-CL",{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  document.getElementById("fecha").textContent=
+    ahora.toLocaleDateString("es-CL",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+}
+
+actualizarReloj();
+setInterval(actualizarReloj,30000);
+
+// ENCONTRAR A LUMI
+document.getElementById("encontrar")
+.addEventListener("click",()=>{
+  document.getElementById("escenario")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  alert(
+    "Este es el baño. Más adelante conectaremos la ubicación autónoma de Lumi."
+  );
+});
+
+// ACTIVIDADES
+document.getElementById("actividades")
+.addEventListener("click",()=>{
+  alert(
+    "Próximamente: rutinas automáticas de aseo, peinado y cuidado personal."
+  );
+});
+
+// DIARIO
+document.getElementById("diario")
+.addEventListener("click",()=>{
+  document.getElementById("diario-panel")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+});
+</script>
+
+</body>
+</html>
