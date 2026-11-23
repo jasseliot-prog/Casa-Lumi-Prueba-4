@@ -5,12 +5,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#160b25">
-<title>Mi Cocina | Casa-Lumi</title>
+<title>Mi Baño | Casa-Lumi</title>
 
 <style>
 :root{
   --fondo:#100719;
+  --oscuro:#1d0c2b;
+  --panel:#2c123f;
   --violeta:#b96aff;
+  --rosa:#f1b8ff;
   --texto:#f9eaff;
 }
 
@@ -23,7 +26,7 @@ body{
   color:var(--texto);
   font-family:Georgia,serif;
   background:
-    radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
+    radial-gradient(ellipse at 50% 0%,#622b82 0%,transparent 55%),
     radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
     var(--fondo);
 }
@@ -33,9 +36,12 @@ body::before{
   position:fixed;
   inset:0;
   pointer-events:none;
-  opacity:.3;
-  background-image:radial-gradient(#e7b4ff 1px,transparent 1px);
-  background-size:48px 48px;
+  opacity:.35;
+  background-image:
+    radial-gradient(#e7b4ff 1px,transparent 1px),
+    radial-gradient(#b66aff 1px,transparent 1px);
+  background-size:48px 48px,79px 79px;
+  background-position:0 0,20px 30px;
 }
 
 .casa{
@@ -47,6 +53,7 @@ body::before{
 
 .marco{
   position:relative;
+  isolation:isolate;
   border:2px solid #ad66e3;
   border-radius:22px;
   background:linear-gradient(145deg,#34174b,#1b0b2a);
@@ -65,12 +72,20 @@ body::before{
   pointer-events:none;
 }
 
+.adorno{
+  color:#f0c7ff;
+  text-shadow:0 0 12px #d17aff;
+  text-align:center;
+  letter-spacing:5px;
+}
+
 .cabecera{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
   padding:13px 17px;
+  margin-bottom:14px;
 }
 
 .marca{
@@ -79,7 +94,7 @@ body::before{
   color:#f4d5ff;
 }
 
-.marca small,.reloj small{
+.marca small{
   display:block;
   margin-top:4px;
   font-size:11px;
@@ -93,19 +108,31 @@ body::before{
   color:#f5d8ff;
 }
 
+.reloj small{
+  display:block;
+  font-size:11px;
+  margin-top:4px;
+}
+
 .titulo{
   text-align:center;
-  margin:20px 0;
+  margin:16px 0 20px;
+}
+
+.titulo .corona{
+  font-size:25px;
+  margin-bottom:3px;
 }
 
 .titulo h1{
-  margin:5px 0;
+  margin:0;
   font-size:clamp(29px,6vw,43px);
   color:#f4d6ff;
   text-shadow:0 0 17px #d27aff;
 }
 
 .titulo p{
+  margin:8px 0 0;
   font-size:13px;
   color:#d8b5eb;
 }
@@ -118,23 +145,47 @@ body::before{
 
 .escenario{padding:11px}
 
+.marco-escena{
+  position:relative;
+  padding:11px;
+  border:3px double #e0a5ff;
+  border-radius:16px;
+  background:
+    radial-gradient(circle at center,#704193,#2c123f 75%);
+  box-shadow:
+    inset 0 0 35px #17051d,
+    0 0 12px #c47aff55;
+}
+
+.esquinas{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+}
+
+.esquinas span{
+  position:absolute;
+  font-size:25px;
+  color:#f5caff;
+  text-shadow:0 0 12px #d78bff;
+}
+
+.esquinas span:nth-child(1){top:4px;left:8px}
+.esquinas span:nth-child(2){top:4px;right:8px}
+.esquinas span:nth-child(3){bottom:4px;left:8px}
+.esquinas span:nth-child(4){bottom:4px;right:8px}
+
 .lazos{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:0 30px;
+  margin-bottom:5px;
   font-size:24px;
 }
 
-.marco-escena{
-  position:relative;
-  padding:12px;
-  border:3px double #e0a5ff;
-  border-radius:16px;
-  background:radial-gradient(circle,#704193,#2c123f 75%);
-  box-shadow:inset 0 0 35px #17051d;
-}
-
-/* IMÁGENES DE LA COCINA */
+/* FONDOS OFICIALES DEL BAÑO */
 .escena-interior{
   position:relative;
   width:100%;
@@ -144,7 +195,7 @@ body::before{
   background:#1b0c2b;
 }
 
-.fondo-cocina{
+.fondo-bano{
   display:block;
   width:100%;
   height:auto;
@@ -153,18 +204,17 @@ body::before{
 
 .error-imagen{
   display:none;
-  padding:45px 15px;
+  padding:50px 15px;
   text-align:center;
   color:#f2d4ff;
   line-height:1.7;
 }
 
-.adorno,.pie-escena{
+.pie-escena{
   text-align:center;
-  color:#f0c7ff;
-  text-shadow:0 0 12px #d17aff;
-  letter-spacing:5px;
-  padding:12px;
+  padding:13px 0 3px;
+  font-size:20px;
+  color:#edbfff;
 }
 
 .lateral{
@@ -173,9 +223,9 @@ body::before{
   gap:16px;
 }
 
-.panel,.diario{padding:20px 17px}
+.panel{padding:20px 17px}
 
-.panel h2,.diario h2{
+.panel h2{
   margin:0 0 18px;
   text-align:center;
   font-size:21px;
@@ -207,8 +257,15 @@ body::before{
 }
 
 .diario{
+  padding:20px;
   flex:1;
   text-align:center;
+}
+
+.diario h2{
+  margin:0 0 15px;
+  color:#f0ccff;
+  font-size:21px;
 }
 
 .burbuja{
@@ -218,42 +275,6 @@ body::before{
   background:#4c286477;
   line-height:1.7;
   font-size:16px;
-}
-
-/* ACTIVIDADES */
-.actividades{
-  margin-top:16px;
-  padding:20px;
-}
-
-.actividades h2{
-  margin:0 0 15px;
-  text-align:center;
-  color:#f0ccff;
-  font-size:21px;
-}
-
-.lista-actividades{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-}
-
-.accion{
-  min-height:47px;
-  padding:10px;
-  border:1px solid #b779eb;
-  border-radius:15px;
-  background:linear-gradient(145deg,#63357c,#38184f);
-  color:#ffeaff;
-  font:inherit;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.accion:hover,.accion.activa{
-  background:#80509c;
-  box-shadow:0 0 12px #b96aff77;
 }
 
 .navegacion{
@@ -268,6 +289,7 @@ body::before{
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  gap:7px;
   min-height:45px;
   padding:11px 18px;
   border:2px solid #bd79ef;
@@ -294,9 +316,26 @@ body::before{
 }
 
 @media(max-width:760px){
+  .casa{padding:10px}
+  .cabecera{padding:12px}
   .marca{font-size:17px}
   .reloj{font-size:18px}
-  .contenido{grid-template-columns:1fr}
+
+  .contenido{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .titulo{margin:15px 0}
+  .escenario{padding:8px}
+  .marco-escena{padding:8px}
+
+  .lateral{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .panel{padding:16px}
 
   .navegacion{
     display:grid;
@@ -307,6 +346,17 @@ body::before{
   .boton{
     font-size:12px;
     padding:10px 7px;
+  }
+}
+
+@media(prefers-reduced-motion:no-preference){
+  .titulo .corona{
+    animation:flotar 4s ease-in-out infinite;
+  }
+
+  @keyframes flotar{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-5px)}
   }
 }
 </style>
@@ -328,135 +378,103 @@ body::before{
 </header>
 
 <div class="titulo">
-  <div>🌹 🎀 🍓 🎀 🌹</div>
-  <h1>Mi Cocina</h1>
-  <p>✧ Un rincón de sabores y magia ✧</p>
+  <div class="corona">🫧 🎀 🫧</div>
+  <h1>Mi Baño</h1>
+  <p>✧ Un rinconcito de cuidado y magia ✧</p>
 </div>
 
 <main class="contenido">
 
-<section class="escenario marco">
+  <section class="escenario marco">
 
-  <div class="lazos">
-    <span>🌹</span>
-    <span>🎀 ✦ 🎀</span>
-    <span>🌹</span>
-  </div>
+    <div class="lazos">
+      <span>🌹</span>
+      <span>🫧 🎀 🫧</span>
+      <span>🌹</span>
+    </div>
 
-  <div class="marco-escena">
+    <div class="marco-escena">
 
-    <div class="escena-interior" id="escenario">
+      <div class="esquinas">
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
+      </div>
 
-      <img
-        id="imagen-cocina"
-        class="fondo-cocina"
-        src="../assets/cocina/cocina-vacia-dia.png"
-        alt="Cocina oficial de Casa-Lumi"
-      >
+      <div class="escena-interior" id="escenario">
 
-      <div class="error-imagen" id="error-imagen">
-        🍓 No se pudo cargar la imagen de la cocina.
-        Revisa los archivos en assets/cocina.
+        <img
+          id="imagen-bano"
+          class="fondo-bano"
+          src="../assets/bano/bano-vacio-dia.png"
+          alt="Baño oficial de Casa-Lumi"
+        >
+
+        <div class="error-imagen" id="error-imagen">
+          🫧 No se pudo cargar el fondo del baño.
+          Revisa los nombres de las imágenes
+          en assets/bano.
+        </div>
+
       </div>
 
     </div>
 
-  </div>
-
-  <div class="pie-escena">
-    🌹 ✧ 🍓 ✧ 🌹
-  </div>
-
-</section>
-
-<aside class="lateral">
-
-  <section class="panel marco">
-    <h2>🎀 Mi estado actual</h2>
-
-    <div class="estado">
-
-      <div class="estado-fila">
-        <span>💜 Emoción</span>
-        <span class="valor" id="emocion">
-          Tranquila
-        </span>
-      </div>
-
-      <div class="estado-fila">
-        <span>👗 Vestuario</span>
-        <span class="valor" id="vestuario">
-          Pendiente de conectar
-        </span>
-      </div>
-
-      <div class="estado-fila">
-        <span>🍓 Actividad</span>
-        <span class="valor" id="actividad">
-          Habitación vacía
-        </span>
-      </div>
-
+    <div class="pie-escena">
+      🌹 ✧ 🫧 ✧ 🌹
     </div>
+
   </section>
 
-  <section class="diario marco" id="diario-panel">
-    <h2>💌 Mi pequeño diario</h2>
+  <aside class="lateral">
 
-    <div class="burbuja">
-      <p id="mensaje-lumi">
-        Mi cocina está preparada.
-        Pronto podré cocinar y disfrutar
-        de mis comidas aquí. 💜
-      </p>
-    </div>
+    <section class="panel marco">
+      <h2>🎀 Mi estado actual</h2>
 
-    <div class="adorno">✧ 🌙 ✧</div>
-  </section>
+      <div class="estado">
 
-</aside>
+        <div class="estado-fila">
+          <span>💜 Emoción</span>
+          <span class="valor" id="emocion">
+            Tranquila
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>👗 Vestuario</span>
+          <span class="valor" id="vestuario">
+            Pendiente de conectar
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>🫧 Actividad</span>
+          <span class="valor" id="actividad">
+            Habitación vacía
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="diario marco" id="diario-panel">
+      <h2>💌 Mi pequeño diario</h2>
+
+      <div class="burbuja">
+        <p id="mensaje-lumi">
+          Mi baño está preparado.
+          Pronto podré realizar mis rutinas
+          de cuidado personal aquí. 💜
+        </p>
+      </div>
+
+      <div class="adorno">✧ 🫧 ✧</div>
+    </section>
+
+  </aside>
+
 </main>
-
-<section class="actividades marco" id="panel-actividades">
-
-  <h2>🎀 Mis actividades en la cocina</h2>
-
-  <div class="lista-actividades">
-
-    <button class="accion" data-id="entrar">
-      🚪 Entrar a la cocina
-    </button>
-
-    <button class="accion" data-id="desayuno">
-      🍞 Preparar desayuno
-    </button>
-
-    <button class="accion" data-id="palta">
-      🥑 Buscar la palta
-    </button>
-
-    <button class="accion" data-id="pan">
-      🍞 Preparar el pan
-    </button>
-
-    <button class="accion" data-id="comer">
-      🍽️ Comer desayuno
-    </button>
-
-    <button class="accion" data-id="once">
-      🫖 Preparar once
-    </button>
-
-    <button class="accion" data-id="cocinar">
-      🍲 Cocinar
-    </button>
-
-    <button class="accion" data-id="limpiar">
-      🧽 Ordenar y limpiar
-    </button>
-
-  </div>
-</section>
 
 <nav class="navegacion">
 
@@ -468,7 +486,7 @@ body::before{
     📍 Encontrar a Lumi
   </button>
 
-  <button class="boton" id="ver-actividades" type="button">
+  <button class="boton" id="actividades" type="button">
     ✨ Actividades
   </button>
 
@@ -488,22 +506,27 @@ body::before{
 "use strict";
 
 /* =====================================
-   CASA-LUMI 4 · COCINA
-   Fondos automáticos y actividades
+   CASA-LUMI 4 · BAÑO
+   Cambio automático de fondos
    ===================================== */
 
-const imagenCocina =
-  document.getElementById("imagen-cocina");
+const imagenBano =
+  document.getElementById("imagen-bano");
 
 const errorImagen =
   document.getElementById("error-imagen");
 
-// NOMBRES ESPERADOS DE LAS IMÁGENES
+// RUTAS DE LOS FONDOS DEL BAÑO
 const fondos = {
-  dia: "../assets/cocina/cocina-vacia-dia.png",
-  tarde: "../assets/cocina/cocina-vacia-tarde.png",
-  noche: "../assets/cocina/cocina-vacia-noche.png"
+  dia: "../assets/bano/bano-vacio-dia.png",
+  tarde: "../assets/bano/bano-vacio-tarde.png",
+  noche: "../assets/bano/bano-vacio-noche.png"
 };
+
+// HORARIOS
+// Día:   07:00 a 17:59
+// Tarde: 18:00 a 20:59
+// Noche: 21:00 a 06:59
 
 function obtenerMomento(hora){
   if(hora>=7 && hora<18){
@@ -517,28 +540,33 @@ function obtenerMomento(hora){
   return "noche";
 }
 
-function actualizarCocina(){
-  const momento=obtenerMomento(new Date().getHours());
+// CAMBIO AUTOMÁTICO DE FONDO
+function actualizarBano(){
+  const ahora=new Date();
+  const momento=obtenerMomento(ahora.getHours());
   const archivo=fondos[momento];
 
-  if(imagenCocina.getAttribute("src")!==archivo){
-    imagenCocina.src=archivo;
+  if(imagenBano.getAttribute("src")!==archivo){
+    imagenBano.src=archivo;
   }
 
-  imagenCocina.alt=
-    "Cocina de Casa-Lumi en horario de "+momento;
+  imagenBano.alt=
+    "Baño de Casa-Lumi en horario de "+momento;
 }
 
-imagenCocina.addEventListener("error",()=>{
-  imagenCocina.style.display="none";
+// SI FALLA UNA IMAGEN
+imagenBano.addEventListener("error",()=>{
+  imagenBano.style.display="none";
   errorImagen.style.display="block";
 });
 
-imagenCocina.addEventListener("load",()=>{
-  imagenCocina.style.display="block";
+// SI CARGA CORRECTAMENTE
+imagenBano.addEventListener("load",()=>{
+  imagenBano.style.display="block";
   errorImagen.style.display="none";
 });
 
+// RELOJ
 function actualizarReloj(){
   const ahora=new Date();
 
@@ -557,84 +585,16 @@ function actualizarReloj(){
     });
 }
 
+// ACTUALIZACIÓN GENERAL
 function actualizarTodo(){
   actualizarReloj();
-  actualizarCocina();
+  actualizarBano();
 }
 
 actualizarTodo();
 setInterval(actualizarTodo,30000);
 
-/* ACTIVIDADES CONSERVADAS */
-
-const actividades={
-  entrar:{
-    nombre:"Entrar a la cocina",
-    mensaje:"¡Buenos días! Voy a preparar algo rico. 💜"
-  },
-  desayuno:{
-    nombre:"Preparar desayuno",
-    mensaje:"¡Qué rico comenzar el día con un desayuno! 💜"
-  },
-  palta:{
-    nombre:"Buscar la palta",
-    mensaje:"¡Encontré la palta para mi desayuno! 💜"
-  },
-  pan:{
-    nombre:"Preparar el pan",
-    mensaje:"¡Mi pancito está quedando delicioso! ✨"
-  },
-  comer:{
-    nombre:"Comer desayuno",
-    mensaje:"¡Qué rico quedó mi desayuno! 💜"
-  },
-  once:{
-    nombre:"Preparar once",
-    mensaje:"¡Es hora de una once calentita! 💜"
-  },
-  cocinar:{
-    nombre:"Cocinar",
-    mensaje:"¡Hoy la cocina está llena de aromas ricos! ✨"
-  },
-  limpiar:{
-    nombre:"Ordenar y limpiar",
-    mensaje:"¡Qué bonita quedó mi cocina! 💜"
-  }
-};
-
-function mostrarActividad(id){
-  const datos=actividades[id];
-  if(!datos)return;
-
-  document.getElementById("actividad").textContent=
-    datos.nombre;
-
-  document.getElementById("mensaje-lumi").textContent=
-    datos.mensaje;
-
-  document.querySelectorAll("[data-id]").forEach(boton=>{
-    boton.classList.toggle(
-      "activa",
-      boton.dataset.id===id
-    );
-  });
-}
-
-document.querySelectorAll("[data-id]").forEach(boton=>{
-  boton.addEventListener("click",()=>{
-    mostrarActividad(boton.dataset.id);
-
-    document.getElementById("escenario")
-      .scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-  });
-});
-
-// La habitación inicia vacía.
-// Las actividades se activan al pulsar los botones.
-
+// ENCONTRAR A LUMI
 document.getElementById("encontrar")
 .addEventListener("click",()=>{
   document.getElementById("escenario")
@@ -642,17 +602,21 @@ document.getElementById("encontrar")
       behavior:"smooth",
       block:"center"
     });
+
+  alert(
+    "El baño está conectado. La ubicación autónoma de Lumi se integrará próximamente."
+  );
 });
 
-document.getElementById("ver-actividades")
+// ACTIVIDADES
+document.getElementById("actividades")
 .addEventListener("click",()=>{
-  document.getElementById("panel-actividades")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+  alert(
+    "Las rutinas autónomas de aseo, peinado y cuidado personal todavía están pendientes de conexión."
+  );
 });
 
+// DIARIO
 document.getElementById("diario")
 .addEventListener("click",()=>{
   document.getElementById("diario-panel")
