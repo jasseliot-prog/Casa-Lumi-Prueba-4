@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Patio Jardín | Casa-Lumi</title>
+
+<style>
+:root{
+  --fondo:#100719;
+  --violeta:#b96aff;
+  --texto:#f9eaff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--texto);
+  font-family:Georgia,serif;
+  background:
+    radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
+    radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
+    var(--fondo);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.3;
+  background-image:
+    radial-gradient(#e7b4ff 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.casa{
+  position:relative;
+  width:min(1100px,100%);
+  margin:auto;
+  padding:12px;
+}
+.marco{
+  position:relative;
+  border:2px solid #ad66e3;
+  border-radius:22px;
+  background:linear-gradient(145deg,#34174b,#1b0b2a);
+  box-shadow:
+    0 0 0 3px #36174d,
+    0 0 17px #ad56ef70,
+    inset 0 0 20px #a54edc25;
+}
+.marco::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid #df9eff55;
+  border-radius:16px;
+  pointer-events:none;
+}
+.cabecera{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 17px;
+}
+.marca{
+  font-size:20px;
+  font-weight:bold;
+  color:#f4d5ff;
+}
+.marca small,.reloj small{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  font-weight:normal;
+  color:#dcb5ef;
+}
+.reloj{
+  text-align:right;
+  font-size:21px;
+  color:#f5d8ff;
+}
+.titulo{
+  text-align:center;
+  margin:20px 0;
+}
+.titulo h1{
+  margin:5px 0;
+  font-size:clamp(29px,6vw,43px);
+  color:#f4d6ff;
+  text-shadow:0 0 17px #d27aff;
+}
+.titulo p{
+  font-size:13px;
+  color:#d8b5eb;
+}
+.contenido{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(240px,1fr);
+  gap:16px;
+}
+.escenario{padding:11px}
+.lazos{
+  display:flex;
+  justify-content:space-between;
+  padding:0 30px;
+  font-size:24px;
+}
+.marco-escena{
+  padding:12px;
+  border:3px double #e0a5ff;
+  border-radius:16px;
+  background:radial-gradient(circle,#704193,#2c123f 75%);
+  box-shadow:inset 0 0 35px #17051d;
+}
+.jardin{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:350px;
+  padding:20px;
+  text-align:center;
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 50% 75%,#6b388c,transparent 65%),
+    linear-gradient(#301547,#1b0c2b);
+}
+.lulu{
+  font-size:100px;
+  line-height:1.5;
+  filter:drop-shadow(0 0 20px #ba78ff);
+  transition:transform .3s;
+}
+.lulu.feliz{transform:scale(1.12)}
+.maceta{
+  font-size:60px;
+  margin-top:-12px;
+}
+.jardin h2{
+  margin:12px 0 4px;
+  color:#f2d4ff;
+}
+.jardin p{
+  font-size:14px;
+  line-height:1.7;
+  color:#dfc1f1;
+}
+.adorno,.pie-escena{
+  text-align:center;
+  color:#f0c7ff;
+  text-shadow:0 0 12px #d17aff;
+  letter-spacing:4px;
+  padding:12px;
+}
+.lateral{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.panel,.diario{padding:20px 17px}
+.panel h2,.diario h2{
+  margin:0 0 18px;
+  text-align:center;
+  font-size:21px;
+  color:#f0ccff;
+}
+.estado{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+.estado-fila{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+}
+.valor{
+  padding:8px 12px;
+  border:1px solid #b779eb;
+  border-radius:20px;
+  background:linear-gradient(145deg,#663582,#3e1c57);
+  color:#ffeaff;
+  text-align:center;
+  font-size:13px;
+}
+.barra{
+  height:13px;
+  overflow:hidden;
+  border:1px solid #bb7bed;
+  border-radius:20px;
+  background:#160b25;
+}
+.relleno{
+  height:100%;
+  width:0;
+  border-radius:20px;
+  background:linear-gradient(90deg,#8650bd,#edb7ff);
+  transition:width .4s;
+}
+.medidor{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0 5px;
+  font-size:13px;
+}
+.diario{
+  flex:1;
+  text-align:center;
+}
+.burbuja{
+  padding:20px 14px;
+  border:1px solid #b977eb;
+  border-radius:18px;
+  background:#4c286477;
+  line-height:1.7;
+  font-size:16px;
+}
+.cuidados{
+  margin-top:16px;
+  padding:20px;
+}
+.cuidados h2{
+  margin:0 0 15px;
+  text-align:center;
+  color:#f0ccff;
+  font-size:21px;
+}
+.botones-cuidado{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.accion{
+  min-height:47px;
+  padding:10px;
+  border:1px solid #b779eb;
+  border-radius:15px;
+  background:linear-gradient(145deg,#63357c,#38184f);
+  color:#ffeaff;
+  font:inherit;
+  font-size:13px;
+  cursor:pointer;
+}
+.accion:hover{
+  background:#80509c;
+  box-shadow:0 0 12px #b96aff77;
+}
+.accion:disabled{
+  opacity:.55;
+  cursor:default;
+}
+.navegacion{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin:22px 0 14px;
+}
+.boton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  padding:11px 18px;
+  border:2px solid #bd79ef;
+  border-radius:28px;
+  background:linear-gradient(145deg,#61347c,#311542);
+  color:#f9eaff;
+  text-decoration:none;
+  font:inherit;
+  font-size:14px;
+  box-shadow:0 0 12px #b96aff66;
+  cursor:pointer;
+}
+.pie{
+  padding:12px;
+  text-align:center;
+  color:#cba4dd;
+  font-size:12px;
+}
+@media(max-width:760px){
+  .marca{font-size:17px}
+  .reloj{font-size:18px}
+  .contenido{grid-template-columns:1fr}
+  .jardin{min-height:290px}
+  .lulu{font-size:80px}
+  .botones-cuidado{grid-template-columns:1fr 1fr 1fr}
+  .accion{font-size:12px;padding:8px 4px}
+  .navegacion{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .boton{font-size:12px;padding:10px 7px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .lulu{animation:flotar 4s ease-in-out infinite}
+  @keyframes flotar{
+    0%,100%{translate:0 0}
+    50%{translate:0 -7px}
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="casa">
+
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>Mi pequeño universo mágico</small>
+  </div>
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
+
+<div class="titulo">
+  <div>🌹 🎀 🌱 🎀 🌹</div>
+  <h1>Mi Patio Jardín</h1>
+  <p>✧ El hogar mágico de Lulú ✧</p>
+</div>
+
+<main class="contenido">
+
+<section class="escenario marco">
+  <div class="lazos">
+    <span>🌹</span>
+    <span>🎀 ✦ 🎀</span>
+    <span>🌹</span>
+  </div>
+
+  <div class="marco-escena">
+    <div class="jardin" id="escenario">
+      <div class="adorno">☾ ✦ ✧ ✦ ☾</div>
+
+      <div class="lulu" id="lulu">🫘</div>
+      <div class="maceta">🪴</div>
+
+      <h2 id="etapa">Semillita mágica</h2>
+      <p id="descripcion">
+        Lulú está comenzando su aventura.
+      </p>
+
+      <div class="adorno">✧ 🌱 ✧</div>
+    </div>
+  </div>
+
+  <div class="pie-escena">
+    🌹 ✧ 🌱 ✧ 🌹
+  </div>
+</section>
+
+<aside class="lateral">
+
+  <section class="panel marco">
+    <h2>🎀 Mi pequeña Lulú</h2>
+
+    <div class="estado">
+      <div class="estado-fila">
+        <span>🌱 Nivel</span>
+        <span class="valor" id="nivel">1</span>
+      </div>
+      <div class="estado-fila">
+        <span>✨ Experiencia</span>
+        <span class="valor" id="experiencia">0 / 100</span>
+      </div>
+    </div>
+
+    <div class="medidor">
+      <span>Progreso del nivel</span>
+      <span id="porcentaje">0%</span>
+    </div>
+    <div class="barra">
+      <div class="relleno" id="barra-xp"></div>
+    </div>
+
+    <div class="medidor">
+      <span>💧 Agua</span>
+      <span id="agua-texto">60%</span>
+    </div>
+    <div class="barra">
+      <div class="relleno" id="barra-agua"></div>
+    </div>
+
+    <div class="medidor">
+      <span>☀️ Luz</span>
+      <span id="luz-texto">60%</span>
+    </div>
+    <div class="barra">
+      <div class="relleno" id="barra-luz"></div>
+    </div>
+
+    <div class="medidor">
+      <span>💜 Cariño</span>
+      <span id="carino-texto">60%</span>
+    </div>
+    <div class="barra">
+      <div class="relleno" id="barra-carino"></div>
+    </div>
+  </section>
+
+  <section class="diario marco" id="diario-panel">
+    <h2>💌 Diario del jardín</h2>
+    <div class="burbuja">
+      <p id="mensaje">
+        ¡Una semillita mágica acaba de llegar
+        a Casa-Lumi! 🌱💜
+      </p>
+    </div>
+    <div class="adorno">✧ 🌙 ✧</div>
+  </section>
+
+</aside>
+</main>
+
+<section class="cuidados marco">
+  <h2>🌸 Cuidar a Lulú</h2>
+
+  <div class="botones-cuidado">
+    <button class="accion" data-cuidado="agua">
+      💧 Regar
+    </button>
+    <button class="accion" data-cuidado="luz">
+      ☀️ Dar luz
+    </button>
+    <button class="accion" data-cuidado="carino">
+      💜 Dar cariño
+    </button>
+  </div>
+
+  <p style="text-align:center;font-size:13px;color:#d8b5eb">
+    Cada cuidado aporta experiencia.
+    Lulú nunca pierde niveles ni muere.
+  </p>
+</section>
+
+<nav class="navegacion">
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
+
+  <button class="boton" id="encontrar" type="button">
+    📍 Ver a Lulú
+  </button>
+
+  <button class="boton" id="diario" type="button">
+    📖 Mi diario
+  </button>
+</nav>
+
+<footer class="pie">
+  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const CLAVE="casaLumi.lulu.patio.v1";
+
+function cargar(){
+  try{
+    const guardado=JSON.parse(
+      localStorage.getItem(CLAVE)
+    );
+    if(guardado && typeof guardado==="object"){
+      return guardado;
+    }
+  }catch(error){}
+  return null;
+}
+
+const inicial={
+  nivel:1,
+  xp:0,
+  agua:60,
+  luz:60,
+  carino:60,
+  ultimoCuidado:{}
+};
+
+const estado={
+  ...inicial,
+  ...(cargar()||{})
+};
+
+if(!estado.ultimoCuidado){
+  estado.ultimoCuidado={};
+}
+
+function guardar(){
+  try{
+    localStorage.setItem(
+      CLAVE,
+      JSON.stringify(estado)
+    );
+  }catch(error){
+    console.warn("No se pudo guardar",error);
+  }
+}
+
+function actualizarReloj(){
+  const ahora=new Date();
+
+  document.getElementById("hora").textContent=
+    ahora.toLocaleTimeString("es-CL",{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  document.getElementById("fecha").textContent=
+    ahora.toLocaleDateString("es-CL",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+}
+
+actualizarReloj();
+setInterval(actualizarReloj,30000);
+
+function etapaLulu(nivel){
+  if(nivel<=10){
+    return {
+      icono:"🫘",
+      nombre:"Semillita mágica",
+      descripcion:"Lulú descansa bajo la tierra y reúne magia para brotar."
+    };
+  }
+  if(nivel<=25){
+    return {
+      icono:"🌱",
+      nombre:"Primer brote",
+      descripcion:"¡Sus primeras hojitas han despertado!"
+    };
+  }
+  if(nivel<=50){
+    return {
+      icono:"🌿",
+      nombre:"Lulú pequeñita",
+      descripcion:"Nuestra pequeña suculenta comienza a crecer."
+    };
+  }
+  if(nivel<=75){
+    return {
+      icono:"🪴",
+      nombre:"Lulú creciendo",
+      descripcion:"Cada día tiene más hojas y energía mágica."
+    };
+  }
+  if(nivel<=100){
+    return {
+      icono:"🌸",
+      nombre:"Lulú floreciente",
+      descripcion:"¡Han aparecido sus primeras flores mágicas!"
+    };
+  }
+
+  const ciclo=Math.floor((nivel-101)/100)+1;
+
+  return {
+    icono:"🌺",
+    nombre:"Lulú mágica · Ciclo "+ciclo,
+    descripcion:"Su magia sigue creciendo. ¡La aventura no tiene final!"
+  };
+}
+
+function actualizarPantalla(){
+  const etapa=etapaLulu(estado.nivel);
+
+  document.getElementById("nivel").textContent=
+    estado.nivel;
+
+  document.getElementById("experiencia").textContent=
+    estado.xp+" / 100";
+
+  document.getElementById("porcentaje").textContent=
+    estado.xp+"%";
+
+  document.getElementById("barra-xp").style.width=
+    estado.xp+"%";
+
+  ["agua","luz","carino"].forEach(tipo=>{
+    const valor=Math.max(
+      0,Math.min(100,estado[tipo])
+    );
+
+    document.getElementById(tipo+"-texto").textContent=
+      valor+"%";
+
+    document.getElementById("barra-"+tipo).style.width=
+      valor+"%";
+  });
+
+  document.getElementById("lulu").textContent=
+    etapa.icono;
+
+  document.getElementById("etapa").textContent=
+    etapa.nombre;
+
+  document.getElementById("descripcion").textContent=
+    etapa.descripcion;
+}
+
+function cuidar(tipo){
+  const ahora=Date.now();
+  const anterior=estado.ultimoCuidado[tipo]||0;
+
+  // Un cuidado de cada tipo cada 5 minutos.
+  const espera=5*60*1000;
+
+  if(ahora-anterior<espera){
+    const minutos=Math.ceil(
+      (espera-(ahora-anterior))/60000
+    );
+
+    document.getElementById("mensaje").textContent=
+      "Lulú ya recibió ese cuidado. Puedes repetirlo en "+
+      minutos+" minuto(s). 💜";
+    return;
+  }
+
+  estado.ultimoCuidado[tipo]=ahora;
+
+  estado[tipo]=Math.min(
+    100,estado[tipo]+15
+  );
+
+  estado.xp+=25;
+
+  let subio=false;
+
+  while(estado.xp>=100){
+    estado.xp-=100;
+    estado.nivel++;
+    subio=true;
+  }
+
+  const mensajes={
+    agua:"¡Lulú recibió agüita fresca! 💧",
+    luz:"¡Lulú disfruta de una luz suave! ☀️",
+    carino:"¡Lulú recibió mucho cariño! 💜"
+  };
+
+  let mensaje=mensajes[tipo];
+
+  if(subio){
+    mensaje+=" ¡Subió al nivel "+
+      estado.nivel+"! ✨";
+  }
+
+  document.getElementById("mensaje").textContent=
+    mensaje;
+
+  guardar();
+  actualizarPantalla();
+
+  const lulu=document.getElementById("lulu");
+  lulu.classList.add("feliz");
+
+  setTimeout(()=>{
+    lulu.classList.remove("feliz");
+  },700);
+}
+
+document.querySelectorAll("[data-cuidado]")
+.forEach(boton=>{
+  boton.addEventListener("click",()=>{
+    cuidar(boton.dataset.cuidado);
+  });
+});
+
+document.getElementById("encontrar")
+.addEventListener("click",()=>{
+  document.getElementById("escenario")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+});
+
+document.getElementById("diario")
+.addEventListener("click",()=>{
+  document.getElementById("diario-panel")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+});
+
+actualizarPantalla();
+</script>
+</body>
+</html>
