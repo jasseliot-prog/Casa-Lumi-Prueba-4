@@ -147,7 +147,6 @@ body::before{
 
 .marco-escena{
   position:relative;
-  min-height:410px;
   padding:11px;
   border:3px double #e0a5ff;
   border-radius:16px;
@@ -162,6 +161,7 @@ body::before{
   position:absolute;
   inset:0;
   pointer-events:none;
+  z-index:2;
 }
 
 .esquinas span{
@@ -185,36 +185,29 @@ body::before{
   font-size:24px;
 }
 
+/* FONDOS OFICIALES DEL BAÑO */
 .escena-interior{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  min-height:330px;
-  padding:20px;
-  text-align:center;
+  position:relative;
+  width:100%;
+  min-height:250px;
+  overflow:hidden;
   border-radius:12px;
-  background:
-    radial-gradient(circle at center,#8b54ad65,transparent 70%),
-    linear-gradient(160deg,#301547,#1b0c2b);
+  background:#1b0c2b;
 }
 
-.escena-interior .icono{
-  font-size:68px;
-  filter:drop-shadow(0 0 18px #b86aff);
+.fondo-bano{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
 }
 
-.escena-interior h2{
-  font-size:25px;
+.error-imagen{
+  display:none;
+  padding:50px 15px;
+  text-align:center;
   color:#f2d4ff;
-  margin:14px 0 8px;
-}
-
-.escena-interior p{
-  font-size:14px;
   line-height:1.7;
-  color:#dfc1f1;
-  max-width:330px;
 }
 
 .pie-escena{
@@ -335,19 +328,13 @@ body::before{
 
   .titulo{margin:15px 0}
   .escenario{padding:8px}
+  .marco-escena{padding:8px}
 
-  .marco-escena{
-    min-height:330px;
-    padding:8px;
+  .lateral{
+    display:grid;
+    grid-template-columns:1fr;
   }
 
-  .escena-interior{
-    min-height:270px;
-    padding:15px;
-  }
-
-  .escena-interior .icono{font-size:54px}
-  .lateral{display:grid;grid-template-columns:1fr}
   .panel{padding:16px}
 
   .navegacion{
@@ -378,149 +365,206 @@ body::before{
 <body>
 <div class="casa">
 
-  <!-- ENCABEZADO -->
-  <header class="cabecera marco">
-    <div class="marca">
-      ☾ Casa-Lumi 💜
-      <small>Mi pequeño universo mágico</small>
-    </div>
-
-    <div class="reloj">
-      <div id="hora">--:--</div>
-      <small id="fecha">Cargando...</small>
-    </div>
-  </header>
-
-  <!-- TÍTULO -->
-  <div class="titulo">
-    <div class="corona">🫧 🎀 🫧</div>
-    <h1>Mi Baño</h1>
-    <p>✧ Un rinconcito de cuidado y magia ✧</p>
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>Mi pequeño universo mágico</small>
   </div>
 
-  <!-- CONTENIDO -->
-  <main class="contenido">
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
 
-    <!-- ESCENARIO -->
-    <section class="escenario marco">
+<div class="titulo">
+  <div class="corona">🫧 🎀 🫧</div>
+  <h1>Mi Baño</h1>
+  <p>✧ Un rinconcito de cuidado y magia ✧</p>
+</div>
 
-      <div class="lazos">
-        <span>🌹</span>
-        <span>🫧 🎀 🫧</span>
-        <span>🌹</span>
+<main class="contenido">
+
+  <section class="escenario marco">
+
+    <div class="lazos">
+      <span>🌹</span>
+      <span>🫧 🎀 🫧</span>
+      <span>🌹</span>
+    </div>
+
+    <div class="marco-escena">
+
+      <div class="esquinas">
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
       </div>
 
-      <div class="marco-escena">
+      <div class="escena-interior" id="escenario">
 
-        <div class="esquinas">
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
+        <img
+          id="imagen-bano"
+          class="fondo-bano"
+          src="../assets/bano/bano-vacio-dia.png"
+          alt="Baño oficial de Casa-Lumi"
+        >
+
+        <div class="error-imagen" id="error-imagen">
+          🫧 No se pudo cargar el fondo del baño.
+          Revisa los nombres de las imágenes
+          en assets/bano.
         </div>
 
-        <div class="escena-interior" id="escenario">
-          <div class="icono">🛁 🫧</div>
+      </div>
 
-          <h2>El baño de Lumi</h2>
+    </div>
 
-          <p>
-            Aquí aparecerán las ilustraciones
-            oficiales de Lumi lavándose,
-            peinándose y realizando
-            sus rutinas de aseo.
-          </p>
+    <div class="pie-escena">
+      🌹 ✧ 🫧 ✧ 🌹
+    </div>
 
-          <div class="adorno">✧ ✦ ✧</div>
+  </section>
+
+  <aside class="lateral">
+
+    <section class="panel marco">
+      <h2>🎀 Mi estado actual</h2>
+
+      <div class="estado">
+
+        <div class="estado-fila">
+          <span>💜 Emoción</span>
+          <span class="valor" id="emocion">
+            Tranquila
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>👗 Vestuario</span>
+          <span class="valor" id="vestuario">
+            Pendiente de conectar
+          </span>
+        </div>
+
+        <div class="estado-fila">
+          <span>🫧 Actividad</span>
+          <span class="valor" id="actividad">
+            Habitación vacía
+          </span>
         </div>
 
       </div>
-
-      <div class="pie-escena">
-        🌹 ✧ 🫧 ✧ 🌹
-      </div>
-
     </section>
 
-    <!-- ESTADO Y DIARIO -->
-    <aside class="lateral">
+    <section class="diario marco" id="diario-panel">
+      <h2>💌 Mi pequeño diario</h2>
 
-      <section class="panel marco">
-        <h2>🎀 Mi estado actual</h2>
+      <div class="burbuja">
+        <p id="mensaje-lumi">
+          Mi baño está preparado.
+          Pronto podré realizar mis rutinas
+          de cuidado personal aquí. 💜
+        </p>
+      </div>
 
-        <div class="estado">
+      <div class="adorno">✧ 🫧 ✧</div>
+    </section>
 
-          <div class="estado-fila">
-            <span>💜 Emoción</span>
-            <span class="valor" id="emocion">
-              Tranquila
-            </span>
-          </div>
+  </aside>
 
-          <div class="estado-fila">
-            <span>👗 Vestuario</span>
-            <span class="valor" id="vestuario">
-              Ropa del día
-            </span>
-          </div>
+</main>
 
-          <div class="estado-fila">
-            <span>🫧 Actividad</span>
-            <span class="valor" id="actividad">
-              Aseo personal
-            </span>
-          </div>
+<nav class="navegacion">
 
-        </div>
-      </section>
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
 
-      <section class="diario marco" id="diario-panel">
-        <h2>💌 Mi pequeño diario</h2>
+  <button class="boton" id="encontrar" type="button">
+    📍 Encontrar a Lumi
+  </button>
 
-        <div class="burbuja">
-          <p id="mensaje-lumi">
-            Un poquito de cuidado,
-            burbujas y magia para comenzar
-            un día bonito. 💜
-          </p>
-        </div>
+  <button class="boton" id="actividades" type="button">
+    ✨ Actividades
+  </button>
 
-        <div class="adorno">✧ 🫧 ✧</div>
-      </section>
+  <button class="boton" id="diario" type="button">
+    📖 Mi diario
+  </button>
 
-    </aside>
+</nav>
 
-  </main>
-
-  <!-- NAVEGACIÓN -->
-  <nav class="navegacion">
-
-    <a class="boton" href="../index.html">
-      🏠 Volver a casa
-    </a>
-
-    <button class="boton" id="encontrar" type="button">
-      📍 Encontrar a Lumi
-    </button>
-
-    <button class="boton" id="actividades" type="button">
-      ✨ Actividades
-    </button>
-
-    <button class="boton" id="diario" type="button">
-      📖 Mi diario
-    </button>
-
-  </nav>
-
-  <footer class="pie">
-    ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
-  </footer>
+<footer class="pie">
+  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+</footer>
 
 </div>
 
 <script>
 "use strict";
+
+/* =====================================
+   CASA-LUMI 4 · BAÑO
+   Cambio automático de fondos
+   ===================================== */
+
+const imagenBano =
+  document.getElementById("imagen-bano");
+
+const errorImagen =
+  document.getElementById("error-imagen");
+
+// RUTAS DE LOS FONDOS DEL BAÑO
+const fondos = {
+  dia: "../assets/bano/bano-vacio-dia.png",
+  tarde: "../assets/bano/bano-vacio-tarde.png",
+  noche: "../assets/bano/bano-vacio-noche.png"
+};
+
+// HORARIOS
+// Día:   07:00 a 17:59
+// Tarde: 18:00 a 20:59
+// Noche: 21:00 a 06:59
+
+function obtenerMomento(hora){
+  if(hora>=7 && hora<18){
+    return "dia";
+  }
+
+  if(hora>=18 && hora<21){
+    return "tarde";
+  }
+
+  return "noche";
+}
+
+// CAMBIO AUTOMÁTICO DE FONDO
+function actualizarBano(){
+  const ahora=new Date();
+  const momento=obtenerMomento(ahora.getHours());
+  const archivo=fondos[momento];
+
+  if(imagenBano.getAttribute("src")!==archivo){
+    imagenBano.src=archivo;
+  }
+
+  imagenBano.alt=
+    "Baño de Casa-Lumi en horario de "+momento;
+}
+
+// SI FALLA UNA IMAGEN
+imagenBano.addEventListener("error",()=>{
+  imagenBano.style.display="none";
+  errorImagen.style.display="block";
+});
+
+// SI CARGA CORRECTAMENTE
+imagenBano.addEventListener("load",()=>{
+  imagenBano.style.display="block";
+  errorImagen.style.display="none";
+});
 
 // RELOJ
 function actualizarReloj(){
@@ -529,7 +573,8 @@ function actualizarReloj(){
   document.getElementById("hora").textContent=
     ahora.toLocaleTimeString("es-CL",{
       hour:"2-digit",
-      minute:"2-digit"
+      minute:"2-digit",
+      hour12:false
     });
 
   document.getElementById("fecha").textContent=
@@ -540,8 +585,14 @@ function actualizarReloj(){
     });
 }
 
-actualizarReloj();
-setInterval(actualizarReloj,30000);
+// ACTUALIZACIÓN GENERAL
+function actualizarTodo(){
+  actualizarReloj();
+  actualizarBano();
+}
+
+actualizarTodo();
+setInterval(actualizarTodo,30000);
 
 // ENCONTRAR A LUMI
 document.getElementById("encontrar")
@@ -553,7 +604,7 @@ document.getElementById("encontrar")
     });
 
   alert(
-    "Este es el baño. Más adelante conectaremos la ubicación autónoma de Lumi."
+    "El baño está conectado. La ubicación autónoma de Lumi se integrará próximamente."
   );
 });
 
@@ -561,7 +612,7 @@ document.getElementById("encontrar")
 document.getElementById("actividades")
 .addEventListener("click",()=>{
   alert(
-    "Próximamente: rutinas automáticas de aseo, peinado y cuidado personal."
+    "Las rutinas autónomas de aseo, peinado y cuidado personal todavía están pendientes de conexión."
   );
 });
 
