@@ -13,8 +13,10 @@
   --violeta:#b96aff;
   --texto:#f9eaff;
 }
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+
 body{
   margin:0;
   min-height:100vh;
@@ -25,22 +27,24 @@ body{
     radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
     var(--fondo);
 }
+
 body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   opacity:.3;
-  background-image:
-    radial-gradient(#e7b4ff 1px,transparent 1px);
+  background-image:radial-gradient(#e7b4ff 1px,transparent 1px);
   background-size:48px 48px;
 }
+
 .casa{
   position:relative;
   width:min(1100px,100%);
   margin:auto;
   padding:12px;
 }
+
 .marco{
   position:relative;
   border:2px solid #ad66e3;
@@ -51,6 +55,7 @@ body::before{
     0 0 17px #ad56ef70,
     inset 0 0 20px #a54edc25;
 }
+
 .marco::before{
   content:"";
   position:absolute;
@@ -59,6 +64,7 @@ body::before{
   border-radius:16px;
   pointer-events:none;
 }
+
 .cabecera{
   display:flex;
   align-items:center;
@@ -66,11 +72,13 @@ body::before{
   gap:10px;
   padding:13px 17px;
 }
+
 .marca{
   font-size:20px;
   font-weight:bold;
   color:#f4d5ff;
 }
+
 .marca small,.reloj small{
   display:block;
   margin-top:4px;
@@ -78,37 +86,45 @@ body::before{
   font-weight:normal;
   color:#dcb5ef;
 }
+
 .reloj{
   text-align:right;
   font-size:21px;
   color:#f5d8ff;
 }
+
 .titulo{
   text-align:center;
   margin:20px 0;
 }
+
 .titulo h1{
   margin:5px 0;
   font-size:clamp(29px,6vw,43px);
   color:#f4d6ff;
   text-shadow:0 0 17px #d27aff;
 }
+
 .titulo p{
   font-size:13px;
   color:#d8b5eb;
 }
+
 .contenido{
   display:grid;
   grid-template-columns:minmax(0,2fr) minmax(240px,1fr);
   gap:16px;
 }
+
 .escenario{padding:11px}
+
 .lazos{
   display:flex;
   justify-content:space-between;
   padding:0 30px;
   font-size:24px;
 }
+
 .marco-escena{
   position:relative;
   padding:12px;
@@ -117,34 +133,32 @@ body::before{
   background:radial-gradient(circle,#704193,#2c123f 75%);
   box-shadow:inset 0 0 35px #17051d;
 }
+
+/* FONDOS DEL ESCRITORIO */
 .escena-interior{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  min-height:330px;
-  padding:20px;
-  text-align:center;
+  position:relative;
+  width:100%;
+  min-height:250px;
+  overflow:hidden;
   border-radius:12px;
-  background:
-    radial-gradient(circle,#8b54ad65,transparent 70%),
-    linear-gradient(160deg,#301547,#1b0c2b);
+  background:#1b0c2b;
 }
-.icono-escena{
-  font-size:65px;
-  filter:drop-shadow(0 0 18px #b86aff);
+
+.fondo-escritorio{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:12px;
 }
-.escena-interior h2{
-  font-size:25px;
+
+.error-imagen{
+  display:none;
+  padding:45px 15px;
+  text-align:center;
   color:#f2d4ff;
-  margin:14px 0 8px;
-}
-.escena-interior p{
-  font-size:14px;
   line-height:1.7;
-  color:#dfc1f1;
-  max-width:340px;
 }
+
 .adorno,.pie-escena{
   text-align:center;
   color:#f0c7ff;
@@ -152,23 +166,28 @@ body::before{
   letter-spacing:5px;
   padding:12px;
 }
+
 .lateral{
   display:flex;
   flex-direction:column;
   gap:16px;
 }
+
 .panel,.diario{padding:20px 17px}
+
 .panel h2,.diario h2{
   margin:0 0 18px;
   text-align:center;
   font-size:21px;
   color:#f0ccff;
 }
+
 .estado{
   display:flex;
   flex-direction:column;
   gap:13px;
 }
+
 .estado-fila{
   display:flex;
   justify-content:space-between;
@@ -176,6 +195,7 @@ body::before{
   gap:8px;
   font-size:14px;
 }
+
 .valor{
   padding:8px 12px;
   border:1px solid #b779eb;
@@ -185,10 +205,12 @@ body::before{
   text-align:center;
   font-size:13px;
 }
+
 .diario{
   flex:1;
   text-align:center;
 }
+
 .burbuja{
   padding:20px 14px;
   border:1px solid #b977eb;
@@ -197,21 +219,25 @@ body::before{
   line-height:1.7;
   font-size:16px;
 }
+
 .actividades{
   margin-top:16px;
   padding:20px;
 }
+
 .actividades h2{
   margin:0 0 15px;
   text-align:center;
   color:#f0ccff;
   font-size:21px;
 }
+
 .lista-actividades{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:10px;
 }
+
 .accion{
   min-height:47px;
   padding:10px;
@@ -223,10 +249,12 @@ body::before{
   font-size:13px;
   cursor:pointer;
 }
+
 .accion:hover,.accion.activa{
   background:#80509c;
   box-shadow:0 0 12px #b96aff77;
 }
+
 .navegacion{
   display:flex;
   flex-wrap:wrap;
@@ -234,6 +262,7 @@ body::before{
   gap:12px;
   margin:22px 0 14px;
 }
+
 .boton{
   display:inline-flex;
   align-items:center;
@@ -250,24 +279,34 @@ body::before{
   box-shadow:0 0 12px #b96aff66;
   cursor:pointer;
 }
+
+.boton:hover{
+  background:#78469b;
+  box-shadow:0 0 19px #ca80ff;
+}
+
 .pie{
   padding:12px;
   text-align:center;
   color:#cba4dd;
   font-size:12px;
 }
+
 @media(max-width:760px){
   .marca{font-size:17px}
   .reloj{font-size:18px}
   .contenido{grid-template-columns:1fr}
-  .escena-interior{min-height:270px}
-  .icono-escena{font-size:54px}
+
   .navegacion{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:9px;
   }
-  .boton{font-size:12px;padding:10px 7px}
+
+  .boton{
+    font-size:12px;
+    padding:10px 7px;
+  }
 }
 </style>
 </head>
@@ -280,6 +319,7 @@ body::before{
     ☾ Casa-Lumi 💜
     <small>Mi pequeño universo mágico</small>
   </div>
+
   <div class="reloj">
     <div id="hora">--:--</div>
     <small id="fecha">Cargando...</small>
@@ -295,6 +335,7 @@ body::before{
 <main class="contenido">
 
 <section class="escenario marco">
+
   <div class="lazos">
     <span>🌹</span>
     <span>🎀 ✦ 🎀</span>
@@ -302,22 +343,29 @@ body::before{
   </div>
 
   <div class="marco-escena">
+
     <div class="escena-interior" id="escenario">
-      <div class="icono-escena" id="icono-escena">
-        💻 ✨
+
+      <img
+        id="imagen-escritorio"
+        class="fondo-escritorio"
+        src="../assets/escritorio/escritorio-vacio-dia.png"
+        alt="Escritorio oficial de Casa-Lumi"
+      >
+
+      <div class="error-imagen" id="error-imagen">
+        🖥️ No se pudo cargar la imagen del escritorio.
+        Revisa los archivos en assets/escritorio.
       </div>
-      <h2 id="titulo-escena">
-        Lumi usa su notebook
-      </h2>
-      <p id="descripcion-escena">
-        Estoy trabajando tranquilamente
-        en mi rincón creativo.
-      </p>
-      <div class="adorno">✧ ✦ ✧</div>
+
     </div>
+
   </div>
 
-  <div class="pie-escena">🌹 ✧ 🖥️ ✧ 🌹</div>
+  <div class="pie-escena">
+    🌹 ✧ 🖥️ ✧ 🌹
+  </div>
+
 </section>
 
 <aside class="lateral">
@@ -326,20 +374,28 @@ body::before{
     <h2>🎀 Mi estado actual</h2>
 
     <div class="estado">
+
       <div class="estado-fila">
         <span>💜 Emoción</span>
-        <span class="valor" id="emocion">Inspirada</span>
+        <span class="valor" id="emocion">
+          Tranquila
+        </span>
       </div>
 
       <div class="estado-fila">
         <span>👗 Vestuario</span>
-        <span class="valor" id="vestuario">Ropa del día</span>
+        <span class="valor" id="vestuario">
+          Pendiente de conectar
+        </span>
       </div>
 
       <div class="estado-fila">
         <span>🖥️ Actividad</span>
-        <span class="valor" id="actividad">Usar notebook</span>
+        <span class="valor" id="actividad">
+          Habitación vacía
+        </span>
       </div>
+
     </div>
   </section>
 
@@ -348,7 +404,9 @@ body::before{
 
     <div class="burbuja">
       <p id="mensaje-lumi">
-        Hoy tengo muchas ideas bonitas para crear. 💜
+        Mi escritorio está preparado.
+        Pronto podré escribir, dibujar
+        y trabajar en mis proyectos aquí. 💜
       </p>
     </div>
 
@@ -359,31 +417,40 @@ body::before{
 </main>
 
 <section class="actividades marco" id="panel-actividades">
+
   <h2>🎀 Mis actividades en el escritorio</h2>
 
   <div class="lista-actividades">
+
     <button class="accion" data-id="notebook">
       💻 Usar notebook
     </button>
+
     <button class="accion" data-id="escribir">
       ✍️ Escribir
     </button>
+
     <button class="accion" data-id="dibujar">
       🎨 Dibujar
     </button>
+
     <button class="accion" data-id="estudiar">
       📚 Estudiar
     </button>
+
     <button class="accion" data-id="organizar">
       📒 Organizar ideas
     </button>
+
     <button class="accion" data-id="descansar">
       ☕ Descansar
     </button>
+
   </div>
 </section>
 
 <nav class="navegacion">
+
   <a class="boton" href="../index.html">
     🏠 Volver a casa
   </a>
@@ -399,6 +466,7 @@ body::before{
   <button class="boton" id="diario" type="button">
     📖 Mi diario
   </button>
+
 </nav>
 
 <footer class="pie">
@@ -410,13 +478,66 @@ body::before{
 <script>
 "use strict";
 
+/* =====================================
+   CASA-LUMI 4 · ESCRITORIO
+   Fondos automáticos y actividades
+   ===================================== */
+
+const imagenEscritorio =
+  document.getElementById("imagen-escritorio");
+
+const errorImagen =
+  document.getElementById("error-imagen");
+
+// NOMBRES ESPERADOS DE LAS IMÁGENES
+const fondos = {
+  dia: "../assets/escritorio/escritorio-vacio-dia.png",
+  tarde: "../assets/escritorio/escritorio-vacio-tarde.png",
+  noche: "../assets/escritorio/escritorio-vacio-noche.png"
+};
+
+function obtenerMomento(hora){
+  if(hora>=7 && hora<18){
+    return "dia";
+  }
+
+  if(hora>=18 && hora<21){
+    return "tarde";
+  }
+
+  return "noche";
+}
+
+function actualizarEscritorio(){
+  const momento=obtenerMomento(new Date().getHours());
+  const archivo=fondos[momento];
+
+  if(imagenEscritorio.getAttribute("src")!==archivo){
+    imagenEscritorio.src=archivo;
+  }
+
+  imagenEscritorio.alt=
+    "Escritorio de Casa-Lumi en horario de "+momento;
+}
+
+imagenEscritorio.addEventListener("error",()=>{
+  imagenEscritorio.style.display="none";
+  errorImagen.style.display="block";
+});
+
+imagenEscritorio.addEventListener("load",()=>{
+  imagenEscritorio.style.display="block";
+  errorImagen.style.display="none";
+});
+
 function actualizarReloj(){
   const ahora=new Date();
 
   document.getElementById("hora").textContent=
     ahora.toLocaleTimeString("es-CL",{
       hour:"2-digit",
-      minute:"2-digit"
+      minute:"2-digit",
+      hour12:false
     });
 
   document.getElementById("fecha").textContent=
@@ -427,50 +548,39 @@ function actualizarReloj(){
     });
 }
 
-actualizarReloj();
-setInterval(actualizarReloj,30000);
+function actualizarTodo(){
+  actualizarReloj();
+  actualizarEscritorio();
+}
+
+actualizarTodo();
+setInterval(actualizarTodo,30000);
+
+/* ACTIVIDADES DEL ESCRITORIO */
 
 const actividades={
   notebook:{
     nombre:"Usar notebook",
-    icono:"💻 ✨",
-    titulo:"Lumi usa su notebook",
-    descripcion:"Estoy trabajando tranquilamente en mi rincón creativo.",
     mensaje:"Hoy tengo muchas ideas bonitas para crear. 💜"
   },
   escribir:{
     nombre:"Escribir",
-    icono:"✍️ 📓",
-    titulo:"Lumi está escribiendo",
-    descripcion:"Anoto historias y pensamientos en mi cuaderno.",
     mensaje:"¡Tengo tantas cositas que escribir! 💜"
   },
   dibujar:{
     nombre:"Dibujar",
-    icono:"🎨 ✏️",
-    titulo:"Lumi está dibujando",
-    descripcion:"Mi imaginación se llena de colores y estrellas.",
     mensaje:"¡Hoy quiero crear un dibujo mágico! ✨"
   },
   estudiar:{
     nombre:"Estudiar",
-    icono:"📚 🌙",
-    titulo:"Lumi está estudiando",
-    descripcion:"Aprendo cosas nuevas con calma y curiosidad.",
     mensaje:"Cada día puedo descubrir algo interesante. 💜"
   },
   organizar:{
     nombre:"Organizar ideas",
-    icono:"📒 🎀",
-    titulo:"Lumi organiza sus ideas",
-    descripcion:"Ordeno mis notas y proyectos pendientes.",
     mensaje:"¡Mis ideas ya tienen su propio lugar! ✨"
   },
   descansar:{
     nombre:"Descansar",
-    icono:"☕ 🌸",
-    titulo:"Lumi toma un descanso",
-    descripcion:"Un pequeño momento de tranquilidad.",
     mensaje:"Un descansito también ayuda a crear. 💜"
   }
 };
@@ -479,11 +589,11 @@ function mostrarActividad(id){
   const datos=actividades[id];
   if(!datos)return;
 
-  document.getElementById("actividad").textContent=datos.nombre;
-  document.getElementById("icono-escena").textContent=datos.icono;
-  document.getElementById("titulo-escena").textContent=datos.titulo;
-  document.getElementById("descripcion-escena").textContent=datos.descripcion;
-  document.getElementById("mensaje-lumi").textContent=datos.mensaje;
+  document.getElementById("actividad").textContent=
+    datos.nombre;
+
+  document.getElementById("mensaje-lumi").textContent=
+    datos.mensaje;
 
   document.querySelectorAll("[data-id]").forEach(boton=>{
     boton.classList.toggle(
@@ -505,7 +615,8 @@ document.querySelectorAll("[data-id]").forEach(boton=>{
   });
 });
 
-mostrarActividad("notebook");
+// El escritorio comienza vacío.
+// La autonomía se conectará después.
 
 document.getElementById("encontrar")
 .addEventListener("click",()=>{
@@ -534,5 +645,6 @@ document.getElementById("diario")
     });
 });
 </script>
+
 </body>
 </html>
