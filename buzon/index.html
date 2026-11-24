@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Buzón Mágico | Casa-Lumi</title>
+
+<style>
+:root{
+ --fondo:#100719;
+ --panel:#2c123f;
+ --violeta:#b96aff;
+ --rosa:#f1b8ff;
+ --texto:#f9eaff;
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ min-height:100vh;
+ color:var(--texto);
+ font-family:Georgia,serif;
+ background:
+ radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
+ radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
+ var(--fondo);
+}
+
+body::before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ opacity:.3;
+ background-image:radial-gradient(#e7b4ff 1px,transparent 1px);
+ background-size:48px 48px;
+}
+
+main{
+ position:relative;
+ max-width:680px;
+ margin:auto;
+ padding:20px;
+}
+
+h1,h2{
+ text-align:center;
+ color:var(--rosa);
+ text-shadow:0 0 12px #b96aff88;
+}
+
+p{line-height:1.6}
+a{color:var(--rosa)}
+
+.volver{
+ display:inline-block;
+ margin:12px 0 20px;
+ padding:12px 18px;
+ border:1px solid var(--violeta);
+ border-radius:15px;
+ background:#241034;
+ text-decoration:none;
+}
+
+.cabecera{text-align:center}
+
+.corazon{
+ font-size:65px;
+ filter:drop-shadow(0 0 15px #b96aff);
+ animation:flotar 3s infinite;
+}
+
+@keyframes flotar{
+ 50%{transform:translateY(-8px)}
+}
+
+.panel{
+ background:linear-gradient(145deg,#321747,#1d0c2b);
+ border:1px solid var(--violeta);
+ border-radius:24px;
+ padding:20px;
+ margin:18px 0;
+ box-shadow:0 0 22px #b36aff33;
+}
+
+input,textarea,select{
+ width:100%;
+ padding:13px;
+ margin:8px 0;
+ border:1px solid #ad80d0;
+ border-radius:12px;
+ background:#180b25;
+ color:white;
+ font:inherit;
+}
+
+textarea{
+ min-height:100px;
+ resize:vertical;
+}
+
+button{
+ padding:12px 16px;
+ margin:5px;
+ border:1px solid #bc83ec;
+ border-radius:14px;
+ background:linear-gradient(135deg,#7540a5,#4c226e);
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+button:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+button:hover:not(:disabled){
+ background:#a46bd2;
+}
+
+.acciones{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+}
+
+.carta{
+ background:#39204e;
+ border:1px solid #9562bb;
+ padding:17px;
+ border-radius:17px;
+ margin:14px 0;
+ overflow-wrap:anywhere;
+}
+
+.carta h3{
+ margin-top:0;
+ color:#f0d5ff;
+}
+
+.respuesta{
+ background:#21102f;
+ border-left:3px solid #c795ed;
+ padding:12px;
+ margin:10px 0;
+ border-radius:9px;
+}
+
+.contenido{white-space:pre-wrap}
+
+.fecha,.nota{
+ font-size:12px;
+ color:#d7c3e5;
+}
+
+.aviso{
+ text-align:center;
+ color:#f1d1ff;
+ font-weight:bold;
+}
+
+.oculto{display:none!important}
+
+.estado{
+ background:#39204e;
+ border:1px solid #9562bb;
+ padding:10px;
+ border-radius:12px;
+ text-align:center;
+}
+
+.pendiente{
+ display:inline-block;
+ background:#74419b;
+ padding:7px 12px;
+ border-radius:20px;
+ font-size:13px;
+}
+
+button.activo{
+ background:#bb83e7;
+ color:#20122e;
+}
+
+@media(prefers-reduced-motion:reduce){
+ .corazon{animation:none}
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<a href="../index.html" class="volver">
+ ← Volver a Casa-Lumi
+</a>
+
+<header class="cabecera">
+ <div class="corazon">💌</div>
+ <h1>☾ Buzón Mágico ✦</h1>
+ <p>Las cartas de Cony y Yarin 💜</p>
+ <p id="aviso" class="aviso" aria-live="polite"></p>
+</header>
+
+<section id="acceso" class="panel">
+ <h2>🔐 Entrada privada</h2>
+
+ <form id="login">
+  <input id="correo" type="email"
+   placeholder="Correo electrónico"
+   autocomplete="username" required>
+
+  <input id="clave" type="password"
+   placeholder="Contraseña"
+   autocomplete="current-password" required>
+
+  <button type="submit">Entrar al buzón</button>
+ </form>
+</section>
+
+<div id="privado" class="oculto">
+
+<section class="panel">
+ <p id="usuario"></p>
+ <button id="salir" type="button">
+  Cerrar sesión
+ </button>
+</section>
+
+<section class="panel">
+ <h2>✦ Escribir una carta</h2>
+
+ <form id="nueva-carta">
+
+  <select id="destinatario" required>
+   <option value="">¿Para quién es?</option>
+   <option value="Cony">Cony</option>
+   <option value="Yarin">Yarin</option>
+  </select>
+
+  <input id="titulo" maxlength="100"
+   placeholder="Título de la carta" required>
+
+  <textarea id="mensaje" maxlength="5000"
+   placeholder="Escribe tu mensaje..." required></textarea>
+
+  <button type="submit">💌 Enviar carta</button>
+
+ </form>
+</section>
+
+<section class="panel">
+ <h2>📬 Nuestras cartas</h2>
+
+ <p id="contador" class="aviso"></p>
+
+ <div class="acciones">
+
+  <button id="ver-pendientes" type="button">
+   Pendientes
+  </button>
+
+  <button id="ver-todas" type="button">
+   Todas
+  </button>
+
+  <button id="ver-archivo" type="button">
+   Respondidas
+  </button>
+
+ </div>
+
+ <div id="cartas"></div>
+</section>
+
+<section class="panel">
+ <h2>🔔 Notificaciones</h2>
+
+ <p>
+  Las cartas permanecerán pendientes aunque
+  las leas. El contador se actualizará
+  cuando respondas.
+ </p>
+
+ <button id="activar-notificaciones" type="button">
+  🔔 Activar avisos
+ </button>
+
+ <p id="estado-notificaciones"
+    class="nota"
+    aria-live="polite"></p>
+</section>
+
+</div>
+
+<p id="estado" class="estado" role="status">
+ Conectando...
+</p>
+
+<p class="nota">
+ Las cartas se guardan en Cloud Firestore.
+ Los avisos con el buzón cerrado requieren
+ configurar el envío automático desde Firebase.
+</p>
+
+</main>
+
+<script type="module">
+
+import {
+ app,
+ auth,
+ db
+} from "../firebase-config.js";
+
+import {
+ signInWithEmailAndPassword,
+ signOut,
+ onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+import {
+ collection,
+ addDoc,
+ doc,
+ setDoc,
+ deleteDoc,
+ serverTimestamp,
+ onSnapshot,
+ query,
+ orderBy,
+ runTransaction
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+import {
+ getMessaging,
+ getToken,
+ isSupported,
+ onMessage,
+ deleteToken
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging.js";
+
+// CUENTAS OFICIALES DEL BUZÓN
+
+const USUARIOS = {
+ "V8sDSqTd6RNzpTtysN4Qo3rvOdI3":"Cony",
+ "dXP90jsZJOQswVSqhctV3fuyQm42":"Yarin"
+};
+
+// CLAVE PÚBLICA VAPID
+
+const VAPID_KEY =
+ "BH8-XuQqUbOrrnj18z-MhJEQ59Lih84cuoghiJFjPvI0TnoN-DuCQK6pjaJ0i7L0JxfYH_tOboB4j1dZBx83WZM";
+
+const $=id=>document.getElementById(id);
+const cartasRef=collection(db,"cartas");
+
+let persona=null;
+let cartas=[];
+let filtro="pendientes";
+let cancelarEscucha=null;
+
+let messaging=null;
+let registroSW=null;
+let tokenActual=null;
+let cancelarMensajes=null;
+
+// RUTAS AUTOMÁTICAS DE CASA-LUMI
+
+const RAIZ=new URL("../",location.href);
+
+const RUTA_SW=new URL(
+ "firebase-messaging-sw.js",
+ RAIZ
+).href;
+
+function informar(texto){
+ $("estado").textContent=texto;
+}
+
+function informarNotificaciones(texto){
+ $("estado-notificaciones").textContent=texto;
+}
+
+function fecha(valor){
+ if(!valor || !valor.toDate)
+  return "Enviando...";
+
+ return valor.toDate().toLocaleString("es-CL",{
+  dateStyle:"medium",
+  timeStyle:"short"
+ });
+}
+
+function crear(tag,contenido,clase){
+ const elemento=document.createElement(tag);
+
+ if(contenido!==undefined)
+  elemento.textContent=contenido;
+
+ if(clase)
+  elemento.className=clase;
+
+ return elemento;
+}
+
+function boton(texto,accion){
+ const b=crear("button",texto);
+ b.type="button";
+ b.addEventListener("click",accion);
+ return b;
+}
+
+function estadoCarta(c){
+ return (c.respuestas||[]).length
+  ? "respondida"
+  : "pendiente";
+}
+
+function actualizarFiltros(){
+
+ const botones={
+  pendientes:$("ver-pendientes"),
+  todas:$("ver-todas"),
+  archivo:$("ver-archivo")
+ };
+
+ Object.entries(botones).forEach(([nombre,b])=>{
+  const activo=nombre===filtro;
+
+  b.classList.toggle("activo",activo);
+  b.setAttribute("aria-pressed",String(activo));
+ });
+}
+
+function mostrar(){
+
+ const contenedor=$("cartas");
+ contenedor.replaceChildren();
+
+ actualizarFiltros();
+
+ const pendientes=cartas.filter(c=>
+  c.destinatario===persona &&
+  estadoCarta(c)==="pendiente"
+ ).length;
+
+ $("aviso").textContent=pendientes
+  ? `💌 Tienes ${pendientes} carta(s) pendiente(s) de responder`
+  : "✨ No tienes cartas pendientes";
+
+ $("contador").textContent=pendientes
+  ? `🔔 ${pendientes} pendiente(s)`
+  : "💜 Todo respondido";
+
+ document.title=pendientes
+  ? `(${pendientes}) Buzón Mágico | Casa-Lumi`
+  : "Buzón Mágico | Casa-Lumi";
+
+ // Indicador en el icono de la aplicación,
+ // cuando el navegador lo permite.
+
+ if(pendientes && navigator.setAppBadge){
+  navigator.setAppBadge(pendientes).catch(()=>{});
+ }else if(!pendientes && navigator.clearAppBadge){
+  navigator.clearAppBadge().catch(()=>{});
+ }
+
+ const visibles=cartas.filter(c=>{
+
+  if(filtro==="todas")return true;
+
+  return estadoCarta(c)===
+   (filtro==="archivo"
+    ? "respondida"
+    : "pendiente");
+ });
+
+ if(!visibles.length){
+
+  contenedor.append(
+   crear("p","No hay cartas en esta sección. ✨")
+  );
+
+  return;
+ }
+
+ visibles.forEach(c=>{
+
+  const caja=crear("article",undefined,"carta");
+
+  caja.append(
+   crear("h3","💜 "+(c.titulo||"Sin título"))
+  );
+
+  caja.append(
+   crear("strong",`${c.autor} → ${c.destinatario}`)
+  );
+
+  caja.append(
+   crear("p",fecha(c.creado),"fecha")
+  );
+
+  caja.append(
+   crear("p",c.mensaje||"","contenido")
+  );
+
+  const respuestas=Array.isArray(c.respuestas)
+   ? c.respuestas
+   : [];
+
+  respuestas.forEach(r=>{
+
+   const bloque=crear("div",undefined,"respuesta");
+
+   bloque.append(crear("strong",r.autor));
+   bloque.append(crear("p",r.mensaje,"contenido"));
+   bloque.append(crear("small",r.fecha,"fecha"));
+
+   caja.append(bloque);
+  });
+
+  caja.append(
+   crear("p",
+    estadoCarta(c)==="pendiente"
+     ? "⏳ Pendiente de respuesta"
+     : "💜 Carta respondida"
+   )
+  );
+
+  if(c.destinatario===persona &&
+     !respuestas.length){
+
+   const campo=document.createElement("textarea");
+
+   campo.placeholder="Escribe tu respuesta...";
+   campo.maxLength=5000;
+
+   caja.append(campo);
+
+   const responder=boton("💌 Responder",async()=>{
+
+    const mensaje=campo.value.trim();
+
+    if(!mensaje){
+     informar("Escribe una respuesta primero.");
+     return;
+    }
+
+    responder.disabled=true;
+
+    try{
+
+     const referencia=doc(db,"cartas",c.id);
+
+     await runTransaction(db,async transaccion=>{
+
+      const actual=await transaccion.get(referencia);
+
+      if(!actual.exists()){
+       throw new Error("La carta ya no existe.");
+      }
+
+      const datos=actual.data();
+
+      if(datos.destinatario!==persona){
+       throw new Error("Esta carta no es para ti.");
+      }
+
+      if((datos.respuestas||[]).length){
+       throw new Error("Esta carta ya fue respondida.");
+      }
+
+      transaccion.update(referencia,{
+       respuestas:[{
+        autor:persona,
+        mensaje,
+        fecha:new Date().toLocaleString("es-CL")
+       }],
+       estado:"respondida"
+      });
+
+     });
+
+     informar("💜 Respuesta enviada correctamente.");
+
+    }catch(error){
+
+     informar(
+      "No se pudo responder: "+error.message
+     );
+
+     responder.disabled=false;
+    }
+
+   });
+
+   caja.append(responder);
+  }
+
+  contenedor.append(caja);
+ });
+}
+
+// ====================================
+// FIREBASE CLOUD MESSAGING
+// ====================================
+
+async function prepararMessaging(){
+
+ if(!("serviceWorker" in navigator)){
+  throw new Error(
+   "Este navegador no admite Service Workers."
+  );
+ }
+
+ if(!("Notification" in window)){
+  throw new Error(
+   "Este navegador no admite notificaciones."
+  );
+ }
+
+ if(!(await isSupported())){
+  throw new Error(
+   "Firebase Messaging no es compatible."
+  );
+ }
+
+ if(!registroSW){
+
+  registroSW=await navigator.serviceWorker.register(
+   RUTA_SW,
+   {scope:RAIZ.pathname}
+  );
+
+ }
+
+ if(!messaging){
+  messaging=getMessaging(app);
+ }
+
+ if(!cancelarMensajes){
+
+  cancelarMensajes=onMessage(messaging,payload=>{
+
+   const titulo=payload.notification?.title
+    ||"💌 Buzón Mágico";
+
+   const cuerpo=payload.notification?.body
+    ||"Tienes una nueva carta en Casa-Lumi.";
+
+   informarNotificaciones(
+    `${titulo}: ${cuerpo}`
+   );
+
+   informar("💌 Ha llegado una notificación.");
+
+  });
+ }
+
+ return messaging;
+}
+
+function idDispositivo(){
+
+ const clave="casa-lumi-4-id-dispositivo";
+
+ let id=localStorage.getItem(clave);
+
+ if(!id){
+
+  id=crypto.randomUUID();
+
+  localStorage.setItem(clave,id);
+ }
+
+ return id;
+}
+
+async function activarAvisos(){
+
+ if(!persona || !auth.currentUser){
+
+  informarNotificaciones(
+   "Primero inicia sesión en el buzón."
+  );
+
+  return;
+ }
+
+ const botonAvisos=$("activar-notificaciones");
+
+ botonAvisos.disabled=true;
+
+ try{
+
+  if(!("Notification" in window)){
+   throw new Error(
+    "Este navegador no admite notificaciones."
+   );
+  }
+
+  informarNotificaciones(
+   "Conectando este celular con Firebase..."
+  );
+
+  const permiso=await Notification.requestPermission();
+
+  if(permiso!=="granted"){
+
+   informarNotificaciones(
+    "Las notificaciones no están autorizadas."
+   );
+
+   return;
+  }
+
+  const servicio=await prepararMessaging();
+
+  const token=await getToken(servicio,{
+   vapidKey:VAPID_KEY,
+   serviceWorkerRegistration:registroSW
+  });
+
+  if(!token){
+   throw new Error(
+    "Firebase no entregó un token."
+   );
+  }
+
+  tokenActual=token;
+
+  const uid=auth.currentUser.uid;
+  const dispositivo=idDispositivo();
+
+  const referencia=doc(
+   db,
+   "usuarios",
+   uid,
+   "dispositivos",
+   dispositivo
+  );
+
+  await setDoc(referencia,{
+   uid,
+   persona,
+   token,
+   actualizado:serverTimestamp()
+  });
+
+  informarNotificaciones(
+   "💜 Celular registrado correctamente. " +
+   "El envío automático requiere configuración del servidor."
+  );
+
+ }catch(error){
+
+  console.error("Error de notificaciones:",error);
+
+  informarNotificaciones(
+   "No se pudo registrar el celular: "+
+   error.message
+  );
+
+ }finally{
+
+  botonAvisos.disabled=false;
+ }
+}
+
+// ====================================
+// INICIO DE SESIÓN
+// ====================================
+
+$("login").addEventListener("submit",async e=>{
+
+ e.preventDefault();
+
+ const enviar=e.submitter;
+
+ if(enviar)enviar.disabled=true;
+
+ try{
+
+  await signInWithEmailAndPassword(
+   auth,
+   $("correo").value.trim(),
+   $("clave").value
+  );
+
+  $("clave").value="";
+
+  informar("Sesión iniciada. 💜");
+
+ }catch(error){
+
+  informar(
+   "No se pudo iniciar sesión. Revisa tus datos."
+  );
+
+ }finally{
+
+  if(enviar)enviar.disabled=false;
+ }
+
+});
+
+$("salir").addEventListener("click",async()=>{
+
+ try{
+
+  if(auth.currentUser){
+
+   try{
+
+    await deleteDoc(doc(
+     db,
+     "usuarios",
+     auth.currentUser.uid,
+     "dispositivos",
+     idDispositivo()
+    ));
+
+    if(messaging && tokenActual){
+     await deleteToken(messaging);
+    }
+
+    tokenActual=null;
+
+   }catch(error){
+
+    console.warn(
+     "No se pudo quitar el registro de avisos.",
+     error
+    );
+   }
+  }
+
+  if(cancelarMensajes){
+   cancelarMensajes();
+   cancelarMensajes=null;
+  }
+
+  await signOut(auth);
+
+  cartas=[];
+
+  $("aviso").textContent="";
+  $("contador").textContent="";
+
+  informarNotificaciones("");
+
+  document.title="Buzón Mágico | Casa-Lumi";
+
+  if(navigator.clearAppBadge){
+   navigator.clearAppBadge().catch(()=>{});
+  }
+
+ }catch(error){
+
+  informar("No se pudo cerrar sesión.");
+ }
+
+});
+
+// ====================================
+// ENVÍO DE CARTAS
+// ====================================
+
+$("nueva-carta").addEventListener("submit",async e=>{
+
+ e.preventDefault();
+
+ if(!auth.currentUser || !persona){
+
+  informar("Debes iniciar sesión.");
+  return;
+ }
+
+ const destinatario=$("destinatario").value;
+ const titulo=$("titulo").value.trim();
+ const mensaje=$("mensaje").value.trim();
+
+ if(!destinatario || !titulo || !mensaje)return;
+
+ if(destinatario===persona){
+
+  informar("Selecciona a la otra persona.");
+  return;
+ }
+
+ const enviar=e.submitter;
+
+ if(enviar)enviar.disabled=true;
+
+ try{
+
+  await addDoc(cartasRef,{
+   autor:persona,
+   autorUid:auth.currentUser.uid,
+   destinatario,
+   titulo,
+   mensaje,
+   respuestas:[],
+   estado:"pendiente",
+   creado:serverTimestamp()
+  });
+
+  $("nueva-carta").reset();
+
+  informar("💌 Carta enviada correctamente.");
+
+ }catch(error){
+
+  informar("Error al enviar: "+error.message);
+
+ }finally{
+
+  if(enviar)enviar.disabled=false;
+ }
+
+});
+
+$("ver-pendientes").onclick=()=>{
+ filtro="pendientes";
+ mostrar();
+};
+
+$("ver-todas").onclick=()=>{
+ filtro="todas";
+ mostrar();
+};
+
+$("ver-archivo").onclick=()=>{
+ filtro="archivo";
+ mostrar();
+};
+
+$("activar-notificaciones").onclick=activarAvisos;
+
+// ====================================
+// SESIÓN Y SINCRONIZACIÓN
+// ====================================
+
+onAuthStateChanged(auth,usuario=>{
+
+ if(cancelarEscucha){
+
+  cancelarEscucha();
+  cancelarEscucha=null;
+ }
+
+ persona=usuario
+  ? USUARIOS[usuario.uid]||null
+  : null;
+
+ $("acceso").classList.toggle("oculto",!!persona);
+ $("privado").classList.toggle("oculto",!persona);
+
+ if(!persona){
+
+  cartas=[];
+  tokenActual=null;
+
+  $("aviso").textContent="";
+  $("contador").textContent="";
+  $("cartas").replaceChildren();
+
+  document.title="Buzón Mágico | Casa-Lumi";
+
+  if(navigator.clearAppBadge){
+   navigator.clearAppBadge().catch(()=>{});
+  }
+
+  informar(usuario
+   ? "Esta cuenta no está autorizada."
+   : "Inicia sesión para leer tus cartas.");
+
+  return;
+ }
+
+ $("usuario").textContent="🌙 Sesión de "+persona;
+
+ const opciones=$("destinatario").options;
+
+ for(const opcion of opciones){
+
+  opcion.disabled=opcion.value===persona;
+ }
+
+ informar("Buzón conectado 💜");
+
+ if("Notification" in window &&
+    Notification.permission==="granted"){
+
+  informarNotificaciones(
+   "🔔 Permiso concedido. Pulsa Activar avisos " +
+   "para registrar este celular."
+  );
+
+ }
+
+ const consulta=query(
+  cartasRef,
+  orderBy("creado","desc")
+ );
+
+ cancelarEscucha=onSnapshot(
+  consulta,
+  resultado=>{
+
+   cartas=resultado.docs.map(d=>({
+    id:d.id,
+    ...d.data()
+   }));
+
+   mostrar();
+
+   informar("Buzón actualizado 💜");
+
+  },
+  error=>{
+
+   informar(
+    "Error al leer cartas: "+error.message
+   );
+
+  }
+ );
+
+});
+
+</script>
+</body>
+</html>
