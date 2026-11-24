@@ -1,350 +1,270 @@
-
-"use strict";
-
 /* ==========================================
-   CASA-LUMI 4 💜
-   INICIO + VESTUARIO AUTOMÁTICO
+   CASA-LUMI 4
+   CONTROLADOR CENTRAL DE AUTONOMÍA
    ========================================== */
 
 (() => {
-  const $ = (id) => document.getElementById(id);
+  const CLAVE = "casaLumi4.autonomia";
 
-  const hora = $("hora");
-  const fecha = $("fecha");
-  const emocion = $("emocion");
-  const vestuario = $("vestuario");
-  const actividad = $("actividad");
-  const mensaje = $("mensaje-lumi");
+  const habitaciones = {
+    dormitorio: [
+      "Dormir",
+      "Descansar",
+      "Cambiarse de ropa"
+    ],
 
-  const dias = [
-    "domingo", "lunes", "martes", "miércoles",
-    "jueves", "viernes", "sábado"
-  ];
+    sala: [
+      "Leer un libro",
+      "Usar notebook",
+      "Descansar en sillón",
+      "Tomar once",
+      "Ver película",
+      "Escuchar música",
+      "Tejer",
+      "Escribir en escritorio",
+      "Dibujar en escritorio",
+      "Organizar sus cosas"
+    ],
 
-  const meses = [
-    "enero", "febrero", "marzo", "abril",
-    "mayo", "junio", "julio", "agosto",
-    "septiembre", "octubre", "noviembre",
-    "diciembre"
-  ];
+    cocina: [
+      "Preparar desayuno",
+      "Preparar almuerzo",
+      "Preparar comida",
+      "Ordenar la cocina"
+    ],
 
-  const trajes = {
-    "ano-nuevo": "✨ Año Nuevo",
-    "cocinera": "👩‍🍳 Cocinera",
-    "fiestas-patrias": "🇨🇱 Fiestas Patrias",
-    "halloween": "🎃 Halloween",
-    "invierno": "❄️ Invierno",
-    "navidad": "🎄 Navidad",
-    "otono": "🍂 Otoño",
-    "pijama-invierno": "🌙 Pijama invierno",
-    "pijama-verano": "🌙 Pijama verano",
-    "primavera": "🌸 Primavera",
-    "san-valentin": "💕 San Valentín",
-    "verano": "☀️ Verano"
+    bano: [
+      "Lavarse la cara",
+      "Cepillarse los dientes",
+      "Peinarse"
+    ],
+
+    lavanderia: [
+      "Lavar ropa",
+      "Doblar ropa",
+      "Ordenar ropa"
+    ],
+
+    patio: [
+      "Regar las plantas",
+      "Cuidar a Lulú",
+      "Disfrutar del jardín"
+    ],
+
+    escritorio: [
+      "Escribir",
+      "Dibujar",
+      "Organizar tareas",
+      "Usar notebook"
+    ]
   };
 
-  const CLAVE_ROPA = "casaLumi4.vestuario";
-  const CLAVE_CLIMA = "casaLumi4.temperatura";
+  let estado = null;
 
-  let temperaturaActual = null;
-
-  try {
-    const guardada = JSON.parse(
-      localStorage.getItem(CLAVE_CLIMA)
-    );
-
-    if (
-      guardada &&
-      Number.isFinite(guardada.grados) &&
-      Date.now() - guardada.fecha < 3600000
-    ) {
-      temperaturaActual = guardada.grados;
-    }
-  } catch (error) {
-    console.warn("Clima guardado no disponible");
-  }
-
-  function actualizarReloj() {
-    const ahora = new Date();
-
-    if (hora) {
-      hora.textContent = ahora.toLocaleTimeString(
-        "es-CL",
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false
-        }
+  function recuperarEstado() {
+    try {
+      return JSON.parse(
+        localStorage.getItem(CLAVE)
       );
-    }
-
-    if (fecha) {
-      fecha.textContent =
-        `${dias[ahora.getDay()]} ${ahora.getDate()} ` +
-        `de ${meses[ahora.getMonth()]}`;
+    } catch {
+      return null;
     }
   }
 
-  function actualizarBienvenida() {
-    const horas = new Date().getHours();
-
-    if (horas >= 6 && horas < 12) {
-      if (emocion) emocion.textContent = "Feliz";
-      if (actividad) {
-        actividad.textContent = "Comenzando mi día";
-      }
-      if (mensaje) {
-        mensaje.textContent =
-          "¡Buenos días! ☀️ Hoy quiero llenar mi hogar de magia.";
-      }
-    } else if (horas >= 12 && horas < 20) {
-      if (emocion) emocion.textContent = "Tranquila";
-      if (actividad) {
-        actividad.textContent = "Disfrutando mi tarde";
-      }
-      if (mensaje) {
-        mensaje.textContent =
-          "¡Qué bonita tarde! 💜 Hay muchas cosas por descubrir.";
-      }
-    } else {
-      if (emocion) emocion.textContent = "Relajada";
-      if (actividad) {
-        actividad.textContent = "Disfrutando la noche";
-      }
-      if (mensaje) {
-        mensaje.textContent =
-          "La noche llegó a Casa-Lumi. 🌙 ¡Mira cuántas estrellas!";
-      }
-    }
-  }
-
-  /* ==========================================
-     SELECCIÓN AUTÓNOMA DE ROPA
-     ========================================== */
-
-  function elegirRopa(grados, ahora = new Date()) {
-    const mes = ahora.getMonth() + 1;
-    const dia = ahora.getDate();
-    const horas = ahora.getHours();
-
-    // Celebraciones especiales
-    if (mes === 12 && (dia === 24 || dia === 25)) {
-      return "navidad";
-    }
-
-    if (
-      (mes === 12 && dia === 31) ||
-      (mes === 1 && dia === 1)
-    ) {
-      return "ano-nuevo";
-    }
-
-    if (mes === 2 && dia === 14) {
-      return "san-valentin";
-    }
-
-    if (mes === 9 && (dia === 18 || dia === 19)) {
-      return "fiestas-patrias";
-    }
-
-    if (mes === 10 && dia === 31) {
-      return "halloween";
-    }
-
-    // Pijamas nocturnos
-    if (horas >= 21 || horas < 7) {
-      return grados === null
-        ? (mes >= 4 && mes <= 9
-            ? "pijama-invierno"
-            : "pijama-verano")
-        : (grados < 18
-            ? "pijama-invierno"
-            : "pijama-verano");
-    }
-
-    // Temperatura real
-    if (grados !== null) {
-      if (grados <= 14) return "invierno";
-      if (grados >= 27) return "verano";
-    }
-
-    // Estaciones de Chile
-    if (mes >= 3 && mes <= 5) return "otono";
-    if (mes >= 6 && mes <= 8) return "invierno";
-    if (mes >= 9 && mes <= 11) return "primavera";
-
-    return "verano";
-  }
-
-  function actualizarVestuario() {
-    const ropa = elegirRopa(temperaturaActual);
-
-    const estado = {
-      traje: ropa,
-      nombre: trajes[ropa],
-      imagen: "assets/ropa/" + ropa + ".png",
-      temperatura: temperaturaActual,
-      actualizado: Date.now()
-    };
-
+  function guardarEstado() {
     try {
       localStorage.setItem(
-        CLAVE_ROPA,
+        CLAVE,
         JSON.stringify(estado)
       );
-    } catch (error) {
-      console.warn("No se pudo guardar vestuario");
+    } catch {
+      console.warn("No se pudo guardar el estado");
     }
-
-    if (vestuario) {
-      vestuario.textContent = estado.nombre;
-    }
-
-    // Permite que otras funciones reaccionen.
-    window.dispatchEvent(
-      new CustomEvent(
-        "casaLumi:vestuario",
-        { detail: estado }
-      )
-    );
-
-    return estado;
   }
 
-  /* ==========================================
-     CONSULTAR CLIMA REAL
-     ========================================== */
+  function elegir(lista) {
+    return lista[
+      Math.floor(Math.random() * lista.length)
+    ];
+  }
 
-  async function consultarClima() {
+  function obtenerAmbiente() {
+    const hora = new Date().getHours();
+
+    if (hora >= 6 && hora < 12) {
+      return "dia";
+    }
+
+    if (hora >= 12 && hora < 20) {
+      return "tarde";
+    }
+
+    return "noche";
+  }
+
+  function crearActividad() {
+    const hora = new Date().getHours();
+
+    let habitacion;
+    let actividad;
+    let emocion;
+
+    if (hora >= 23 || hora < 7) {
+      habitacion = "dormitorio";
+      actividad = "Dormir";
+      emocion = "Soñolienta";
+
+    } else if (hora >= 7 && hora < 8) {
+      habitacion = "bano";
+      actividad = elegir(habitaciones.bano);
+      emocion = "Tranquila";
+
+    } else if (hora >= 8 && hora < 9) {
+      habitacion = "cocina";
+      actividad = "Preparar desayuno";
+      emocion = "Feliz";
+
+    } else if (hora >= 12 && hora < 14) {
+      habitacion = "cocina";
+      actividad = "Preparar almuerzo";
+      emocion = "Feliz";
+
+    } else if (hora >= 21) {
+      habitacion = elegir([
+        "dormitorio",
+        "sala",
+        "bano"
+      ]);
+
+      actividad = elegir(
+        habitaciones[habitacion].filter(
+          a => a !== "Dormir"
+        )
+      );
+
+      emocion = "Relajada";
+
+    } else {
+      habitacion = elegir([
+        "sala",
+        "cocina",
+        "lavanderia",
+        "patio",
+        "escritorio"
+      ]);
+
+      actividad = elegir(
+        habitaciones[habitacion]
+      );
+
+      emocion = elegir([
+        "Feliz",
+        "Tranquila",
+        "Pensativa",
+        "Emocionada"
+      ]);
+    }
+
+    const ropa =
+      window.CasaLumiVestuario?.obtener();
+
+    return {
+      habitacion,
+      actividad,
+      emocion,
+      ambiente: obtenerAmbiente(),
+      vestuario: ropa?.traje || "primavera",
+      nombreVestuario: ropa?.nombre || "Primavera",
+      diario: `Ahora estoy disfrutando de mi actividad: ${actividad.toLowerCase()}. 💜`,
+      actualizado: Date.now(),
+      siguienteCambio:
+        Date.now() + 15 * 60 * 1000
+    };
+  }
+
+  function actualizar() {
+    const guardado = recuperarEstado();
+    const hora = new Date().getHours();
+    const dormir = hora >= 23 || hora < 7;
+
+    estado = guardado || estado;
+
     if (
-      !navigator.geolocation ||
-      !navigator.geolocation.getCurrentPosition
+      !estado ||
+      !habitaciones[estado.habitacion] ||
+      !Number.isFinite(estado.siguienteCambio) ||
+      Date.now() >= estado.siguienteCambio ||
+      (dormir && estado.actividad !== "Dormir") ||
+      (!dormir && estado.actividad === "Dormir")
     ) {
-      actualizarVestuario();
-      return;
+      estado = crearActividad();
     }
 
-    try {
-      const posicion = await new Promise(
-        (resolver, rechazar) => {
-          navigator.geolocation.getCurrentPosition(
-            resolver,
-            rechazar,
-            {
-              timeout: 12000,
-              enableHighAccuracy: false
-            }
-          );
-        }
-      );
+    estado.ambiente = obtenerAmbiente();
 
-      const lat = posicion.coords.latitude;
-      const lon = posicion.coords.longitude;
+    const ropa =
+      window.CasaLumiVestuario?.obtener();
 
-      const url = new URL(
-        "https://api.open-meteo.com/v1/forecast"
-      );
-
-      url.search = new URLSearchParams({
-        latitude: lat.toFixed(2),
-        longitude: lon.toFixed(2),
-        current: "temperature_2m",
-        temperature_unit: "celsius"
-      });
-
-      const controlador = new AbortController();
-      const limite = setTimeout(
-        () => controlador.abort(),
-        10000
-      );
-
-      let respuesta;
-
-      try {
-        respuesta = await fetch(url, {
-          signal: controlador.signal
-        });
-      } finally {
-        clearTimeout(limite);
-      }
-
-      if (!respuesta.ok) {
-        throw new Error("Clima no disponible");
-      }
-
-      const datos = await respuesta.json();
-      const grados = datos.current?.temperature_2m;
-
-      if (!Number.isFinite(grados)) {
-        throw new Error("Temperatura inválida");
-      }
-
-      temperaturaActual = grados;
-
-      try {
-        localStorage.setItem(
-          CLAVE_CLIMA,
-          JSON.stringify({
-            grados,
-            fecha: Date.now()
-          })
-        );
-      } catch (error) {
-        console.warn("No se pudo guardar clima");
-      }
-
-      actualizarVestuario();
-
-    } catch (error) {
-      console.warn(
-        "Usando estación o temperatura guardada:",
-        error.message
-      );
-      actualizarVestuario();
+    if (ropa) {
+      estado.vestuario = ropa.traje;
+      estado.nombreVestuario = ropa.nombre;
     }
+
+    guardarEstado();
+    publicarEstado();
+
+    return { ...estado };
   }
 
-  /* ==========================================
-     INICIO Y ACTUALIZACIONES
-     ========================================== */
+  function publicarEstado() {
+    if (!estado) return;
 
-  function actualizarTodo() {
-    actualizarReloj();
-    actualizarBienvenida();
-    actualizarVestuario();
+    window.dispatchEvent(
+      new CustomEvent("casaLumi:estado", {
+        detail: { ...estado }
+      })
+    );
   }
 
-  actualizarTodo();
-  consultarClima();
+  window.CasaLumi = {
+    obtenerEstado() {
+      return actualizar();
+    },
 
-  // Reloj y cambios de horario
-  setInterval(actualizarTodo, 60000);
+    estaEn(habitacion) {
+      return actualizar().habitacion === habitacion;
+    },
 
-  // Actualización meteorológica cada 30 minutos
-  // mientras la página permanezca abierta.
-  setInterval(consultarClima, 1800000);
+    obtenerAmbiente,
+
+    obtenerActividades(habitacion) {
+      return [...(habitaciones[habitacion] || [])];
+    }
+  };
+
+  actualizar();
+
+  setInterval(actualizar, 30000);
+
+  window.addEventListener(
+    "casaLumi:vestuario",
+    actualizar
+  );
+
+  window.addEventListener("storage", (evento) => {
+    if (evento.key === CLAVE) {
+      estado = recuperarEstado();
+      publicarEstado();
+    }
+  });
 
   document.addEventListener(
     "visibilitychange",
     () => {
-      if (document.visibilityState === "visible") {
-        actualizarTodo();
+      if (!document.hidden) {
+        actualizar();
       }
     }
   );
 
-  // Acceso compartido para futuras habitaciones
-  window.CasaLumiVestuario = {
-    elegir: elegirRopa,
-    actualizar: actualizarVestuario,
-    obtener: () => {
-      try {
-        return JSON.parse(
-          localStorage.getItem(CLAVE_ROPA)
-        );
-      } catch {
-        return null;
-      }
-    }
-  };
 })();
