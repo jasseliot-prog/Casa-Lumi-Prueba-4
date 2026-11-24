@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Calendario Mágico | Casa-Lumi</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ min-height:100vh;
+ color:#f9eaff;
+ font-family:Arial,sans-serif;
+ background:radial-gradient(circle at top,#44245f,#160b25 75%);
+}
+main{max-width:760px;margin:auto;padding:20px 12px 50px}
+h1,h2{text-align:center;color:#edcaff}
+a{color:#ead0ff}
+.panel{
+ background:#29183d;
+ border:2px solid #8154a6;
+ border-radius:22px;
+ padding:14px;
+ margin:18px 0;
+ box-shadow:0 0 20px #a865ee35;
+}
+.calendario{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ border-color:#d19aff;
+ background:#251334;
+}
+.calendario::before{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-2;
+ background-image:var(--fondo,none);
+ background-size:cover;
+ background-position:center;
+}
+.calendario::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ pointer-events:none;
+ background:
+ radial-gradient(circle,#f5caff 1px,transparent 2px) 0 0/43px 43px,
+ linear-gradient(145deg,#170b2966,#29133d88);
+}
+.cabecera,.acciones{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+}
+.acciones{flex-wrap:wrap}
+.cabecera h2{
+ font-size:clamp(16px,4vw,24px);
+ text-shadow:0 0 12px #c77dff;
+}
+button,input,textarea,select{
+ font:inherit;
+ padding:11px;
+ color:#fff;
+ background:#3c2454;
+ border:1px solid #b88ad9;
+ border-radius:12px;
+}
+button{cursor:pointer;background:#69378c}
+button:hover{background:#8451aa}
+input,textarea,select{
+ width:100%;
+ margin:6px 0 12px;
+ color-scheme:dark;
+}
+label{display:block;color:#ead0ff}
+.semana,.dias{
+ display:grid;
+ grid-template-columns:repeat(7,minmax(0,1fr));
+ gap:4px;
+}
+.semana{
+ text-align:center;
+ font-size:12px;
+ padding:12px 0;
+ background:#251334bb;
+ border-radius:12px;
+ margin:12px 0;
+}
+.dia{
+ position:relative;
+ min-height:76px;
+ padding:6px;
+ text-align:left;
+ border:1px solid #d5a1ff99;
+ border-radius:12px;
+ background:linear-gradient(145deg,#a56bd044,#28143c99);
+ backdrop-filter:blur(1px);
+}
+.dia::after{
+ content:"✧";
+ position:absolute;
+ top:4px;
+ right:5px;
+ font-size:10px;
+ color:#edcaff;
+}
+.dia.hoy{
+ border:2px solid #f5c4ff;
+ box-shadow:0 0 12px #d99aff99;
+}
+.dia.hoy::after{content:"♡"}
+.dia.seleccionado{
+ background:#9a5cc6bb;
+ border:2px solid #f2caff;
+}
+.numero{font-weight:bold;text-shadow:0 0 6px #d4a0ff}
+.marcas{font-size:11px;margin-top:7px;color:#ffc8f5}
+.evento{
+ padding:12px;
+ margin:10px 0;
+ background:#3c2454;
+ border-left:3px solid #cf9eff;
+ border-radius:12px;
+ overflow-wrap:anywhere;
+}
+.aviso{font-size:13px;line-height:1.5;color:#e7d3f7}
+.oculto{display:none!important}
+.escena{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:#12081de8;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+}
+.escena-contenido{
+ width:min(100%,460px);
+ max-height:90vh;
+ overflow:auto;
+ padding:20px;
+ text-align:center;
+ background:linear-gradient(145deg,#46245f,#251334);
+ border:3px solid #c58bea;
+ border-radius:26px;
+ box-shadow:0 0 40px #b65dff70;
+}
+#imagenLumi{
+ width:100%;
+ max-height:55vh;
+ object-fit:contain;
+ border-radius:18px;
+}
+#mensaje{color:#c2f5d4}
+@media(max-width:480px){
+ .dia{min-height:65px;padding:4px}
+ .panel{padding:10px}
+ .marcas{font-size:10px}
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<a href="../index.html">← Volver a Casa-Lumi</a>
+
+<h1>📅 Calendario Mágico ✨</h1>
+
+<section class="panel calendario" id="panelCalendario">
+
+ <div class="cabecera">
+  <button id="anterior">❮</button>
+  <h2 id="mes"></h2>
+  <button id="siguiente">❯</button>
+ </div>
+
+ <button id="hoy">Ir a hoy</button>
+ <p id="seleccion"></p>
+
+ <div class="semana">
+  <span>Lun</span>
+  <span>Mar</span>
+  <span>Mié</span>
+  <span>Jue</span>
+  <span>Vie</span>
+  <span>Sáb</span>
+  <span>Dom</span>
+ </div>
+
+ <div class="dias" id="dias"></div>
+
+ <p class="aviso">
+  💜 Evento · 🔔 Recordatorio · ✨ Celebración
+ </p>
+
+</section>
+
+<section class="panel">
+ <h2>🔎 Buscar eventos</h2>
+ <input id="buscar" type="search" placeholder="Buscar...">
+ <div id="resultados"></div>
+</section>
+
+<section class="panel">
+ <h2>✏️ Crear o editar evento</h2>
+
+ <form id="formulario">
+  <input id="idEvento" type="hidden">
+
+  <label>Nombre del evento</label>
+  <input id="titulo" required maxlength="100">
+
+  <label>Fecha</label>
+  <input id="fecha" type="date" required>
+
+  <label>Hora</label>
+  <input id="hora" type="time">
+
+  <label>Descripción</label>
+  <textarea id="descripcion" rows="3"></textarea>
+
+  <label>Recordatorio</label>
+  <select id="recordatorio">
+   <option value="0">Sin recordatorio</option>
+   <option value="10">10 minutos antes</option>
+   <option value="60">1 hora antes</option>
+   <option value="1440">1 día antes</option>
+  </select>
+
+  <div class="acciones">
+   <button type="submit" id="guardar">💜 Guardar evento</button>
+   <button type="button" id="cancelar">Cancelar</button>
+  </div>
+ </form>
+
+ <p id="mensaje" role="status"></p>
+</section>
+
+<section class="panel">
+ <h2>✨ Eventos del día</h2>
+ <div id="eventosDia"></div>
+</section>
+
+<section class="panel">
+ <h2>🔔 Recordatorios</h2>
+ <div id="pendientes"></div>
+ <p class="aviso">
+  Los avisos funcionan mientras Casa-Lumi está abierta.
+ </p>
+</section>
+
+<section class="panel">
+ <h2>📦 Copias de seguridad</h2>
+ <div class="acciones">
+  <button id="exportar">Exportar eventos</button>
+  <button id="importar">Importar eventos</button>
+ </div>
+ <input id="archivo" type="file" accept=".json" class="oculto">
+</section>
+
+</main>
+
+<div id="escenaLumi" class="escena oculto">
+ <div class="escena-contenido">
+  <h2>💜 ¡Evento guardado!</h2>
+  <img id="imagenLumi" class="oculto" alt="Escritorio de Lumi">
+  <p id="estadoLumi"></p>
+  <p>Tu evento quedó guardado correctamente.</p>
+  <button id="cerrarEscena">Continuar</button>
+ </div>
+</div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const CLAVE = "casa-lumi-calendario-v1";
+
+const FONDOS = {
+ dia:"../assets/escritorio/escritorio-vacio-dia.png",
+ tarde:"../assets/escritorio/escritorio-vacio-tarde.png",
+ noche:"../assets/escritorio/escritorio-vacio-noche.png"
+};
+
+const ROPAS = [
+ "ano-nuevo",
+ "cocinera",
+ "fiestas-patrias",
+ "halloween",
+ "invierno",
+ "navidad",
+ "otono",
+ "pijama-invierno",
+ "pijama-verano",
+ "primavera",
+ "san-valentin",
+ "verano"
+];
+
+const AMBIENTES = ["dia","tarde","noche"];
+const IMAGENES = {};
+
+ROPAS.forEach(ropa=>{
+ IMAGENES[ropa]={};
+ AMBIENTES.forEach(ambiente=>{
+  IMAGENES[ropa][ambiente]=
+   "../assets/escritorio/organizando-"+
+   ropa+"-"+ambiente+".png";
+ });
+});
+
+function obtenerAmbiente(){
+ const h=new Date().getHours();
+ if(h>=6 && h<13)return "dia";
+ if(h>=13 && h<20)return "tarde";
+ return "noche";
+}
+
+function obtenerVestuario(){
+ try{
+  const estado=JSON.parse(
+   localStorage.getItem("casaLumi.v1")||"{}"
+  );
+  const ropa=String(estado.outfit||"")
+   .toLowerCase()
+   .normalize("NFD")
+   .replace(/[\u0300-\u036f]/g,"")
+   .trim()
+   .replace(/[\s_]+/g,"-");
+  return ROPAS.includes(ropa)?ropa:null;
+ }catch{
+  return null;
+ }
+}
+
+let ultimoAmbiente=null;
+
+function actualizarFondo(){
+ const ambiente=obtenerAmbiente();
+ if(ambiente===ultimoAmbiente)return;
+ ultimoAmbiente=ambiente;
+ $("panelCalendario").style.setProperty(
+  "--fondo",`url("${FONDOS[ambiente]}")`
+ );
+}
+
+let ultimaEscena=null;
+
+function actualizarEscena(){
+ const ambiente=obtenerAmbiente();
+ const ropa=obtenerVestuario();
+ const clave=ropa+"-"+ambiente;
+
+ if(clave===ultimaEscena)return;
+ ultimaEscena=clave;
+
+ const img=$("imagenLumi");
+ img.classList.add("oculto");
+
+ $("estadoLumi").textContent=
+  "Escritorio · "+ambiente+(ropa?" · "+ropa:"");
+
+ const rutas=[];
+ if(ropa)rutas.push(IMAGENES[ropa][ambiente]);
+ rutas.push(FONDOS[ambiente]);
+
+ function intentar(i){
+  if(clave!==ultimaEscena)return;
+  if(i>=rutas.length)return;
+  const prueba=new Image();
+  prueba.onload=()=>{
+   if(clave!==ultimaEscena)return;
+   img.src=rutas[i];
+   img.classList.remove("oculto");
+  };
+  prueba.onerror=()=>intentar(i+1);
+  prueba.src=rutas[i];
+ }
+ intentar(0);
+}
+
+function mostrarEscena(){
+ ultimaEscena=null;
+ $("escenaLumi").classList.remove("oculto");
+ actualizarEscena();
+}
+
+$("cerrarEscena").onclick=()=>{
+ $("escenaLumi").classList.add("oculto");
+ ultimaEscena=null;
+};
+
+actualizarFondo();
+
+setInterval(()=>{
+ actualizarFondo();
+ if(!$("escenaLumi").classList.contains("oculto")){
+  actualizarEscena();
+ }
+},1000);
+
+// FIN PARTE 1
+  
+// INICIO PARTE 2
+
+function fechaLocal(d){
+ return [
+  d.getFullYear(),
+  String(d.getMonth()+1).padStart(2,"0"),
+  String(d.getDate()).padStart(2,"0")
+ ].join("-");
+}
+
+function fechaObjeto(s){
+ const [y,m,d]=s.split("-").map(Number);
+ return new Date(y,m-1,d);
+}
+
+function valido(e){
+ return e &&
+ typeof e.id==="string" &&
+ typeof e.titulo==="string" &&
+ e.titulo.trim() &&
+ typeof e.fecha==="string" &&
+ /^\d{4}-\d{2}-\d{2}$/.test(e.fecha) &&
+ fechaLocal(fechaObjeto(e.fecha))===e.fecha &&
+ typeof e.hora==="string" &&
+ (e.hora===""||/^([01]\d|2[0-3]):[0-5]\d$/.test(e.hora)) &&
+ typeof e.descripcion==="string" &&
+ [0,10,60,1440].includes(Number(e.recordatorio));
+}
+
+let eventos=[];
+
+try{
+ const datos=JSON.parse(localStorage.getItem(CLAVE)||"[]");
+ if(Array.isArray(datos))eventos=datos.filter(valido);
+}catch(error){
+ console.warn(error);
+}
+
+let elegida=fechaLocal(new Date());
+let vista=fechaObjeto(elegida);
+vista.setDate(1);
+
+function guardarDatos(){
+ try{
+  localStorage.setItem(CLAVE,JSON.stringify(eventos));
+  return true;
+ }catch{
+  $("mensaje").textContent="No se pudieron guardar los eventos.";
+  return false;
+ }
+}
+
+function celebracion(fecha){
+ const fechas={
+  "01-01":"🎆 Año Nuevo",
+  "02-14":"💗 San Valentín",
+  "09-18":"🇨🇱 Fiestas Patrias",
+  "09-19":"🇨🇱 Glorias del Ejército",
+  "10-31":"🎃 Halloween",
+  "12-25":"🎄 Navidad"
+ };
+ return fechas[fecha.slice(5)]||"";
+}
+
+function render(){
+ const y=vista.getFullYear();
+ const m=vista.getMonth();
+
+ $("mes").textContent="☾ "+vista.toLocaleDateString(
+  "es-CL",{month:"long",year:"numeric"}
+ )+" ✧";
+
+ $("seleccion").textContent=
+  fechaObjeto(elegida).toLocaleDateString("es-CL",{
+   weekday:"long",
+   day:"numeric",
+   month:"long",
+   year:"numeric"
+  });
+
+ const cont=$("dias");
+ cont.replaceChildren();
+
+ const inicio=(new Date(y,m,1).getDay()+6)%7;
+ const total=new Date(y,m+1,0).getDate();
+
+ for(let i=0;i<inicio;i++){
+  cont.appendChild(document.createElement("div"));
+ }
+
+ for(let d=1;d<=total;d++){
+  const fecha=fechaLocal(new Date(y,m,d));
+  const b=document.createElement("button");
+  b.className="dia";
+
+  if(fecha===fechaLocal(new Date())){
+   b.classList.add("hoy");
+  }
+
+  if(fecha===elegida){
+   b.classList.add("seleccionado");
+  }
+
+  const numero=document.createElement("div");
+  numero.className="numero";
+  numero.textContent=d;
+
+  const marcas=document.createElement("div");
+  marcas.className="marcas";
+
+  const lista=eventos.filter(e=>e.fecha===fecha);
+
+  marcas.textContent=
+   (lista.length?"💜 "+lista.length+" ":"")+
+   (lista.some(e=>e.hora&&e.recordatorio)?"🔔 ":"")+
+   (celebracion(fecha)?"✨":"");
+
+  b.append(numero,marcas);
+
+  b.onclick=()=>{
+   elegida=fecha;
+   $("fecha").value=fecha;
+   render();
+  };
+
+  cont.appendChild(b);
+ }
+
+ renderEventos();
+ renderPendientes();
+ renderBusqueda();
+}
+
+function parrafo(contenedor,texto){
+ const p=document.createElement("p");
+ p.textContent=texto;
+ contenedor.appendChild(p);
+}
+
+function boton(texto,accion){
+ const b=document.createElement("button");
+ b.type="button";
+ b.textContent=texto;
+ b.onclick=accion;
+ return b;
+}
+
+function renderEventos(){
+ const cont=$("eventosDia");
+ cont.replaceChildren();
+
+ const especial=celebracion(elegida);
+
+ if(especial)parrafo(cont,especial);
+
+ const lista=eventos.filter(e=>e.fecha===elegida)
+ .sort((a,b)=>a.hora.localeCompare(b.hora));
+
+ if(!lista.length&&!especial){
+  parrafo(cont,"No hay eventos para este día.");
+ }
+
+ lista.forEach(e=>{
+  const div=document.createElement("div");
+  div.className="evento";
+
+  parrafo(div,"💜 "+e.titulo);
+
+  if(e.hora)parrafo(div,"🕒 "+e.hora);
+  if(e.descripcion)parrafo(div,e.descripcion);
+  if(e.recordatorio)parrafo(div,"🔔 Recordatorio activado");
+
+  const acciones=document.createElement("div");
+  acciones.className="acciones";
+
+  acciones.append(
+   boton("✏️ Editar",()=>{
+    $("idEvento").value=e.id;
+    $("titulo").value=e.titulo;
+    $("fecha").value=e.fecha;
+    $("hora").value=e.hora;
+    $("descripcion").value=e.descripcion;
+    $("recordatorio").value=e.recordatorio;
+    $("guardar").textContent="Actualizar evento";
+    $("formulario").scrollIntoView({behavior:"smooth"});
+   }),
+   boton("🗑️ Eliminar",()=>{
+    if(!confirm("¿Eliminar evento?"))return;
+    const anteriores=eventos.slice();
+    eventos=eventos.filter(x=>x.id!==e.id);
+    if(!guardarDatos())eventos=anteriores;
+    if($("idEvento").value===e.id)limpiar();
+    render();
+   }),
+   boton("📱 Google Calendar",()=>abrirGoogle(e)),
+   boton("📥 ICS",()=>descargarICS(e))
+  );
+
+  div.appendChild(acciones);
+  cont.appendChild(div);
+ });
+}
+
+function limpiar(){
+ $("formulario").reset();
+ $("idEvento").value="";
+ $("fecha").value=elegida;
+ $("guardar").textContent="💜 Guardar evento";
+}
+
+$("formulario").onsubmit=ev=>{
+ ev.preventDefault();
+
+ const nuevo={
+  id:$("idEvento").value||
+   (crypto.randomUUID?crypto.randomUUID():String(Date.now())),
+  titulo:$("titulo").value.trim(),
+  fecha:$("fecha").value,
+  hora:$("hora").value,
+  descripcion:$("descripcion").value.trim(),
+  recordatorio:Number($("recordatorio").value)
+ };
+
+ if(!valido(nuevo)){
+  $("mensaje").textContent="Revisa los datos del evento.";
+  return;
+ }
+
+ if(nuevo.recordatorio&&!nuevo.hora){
+  $("mensaje").textContent="Indica una hora para el recordatorio.";
+  return;
+ }
+
+ const anteriores=eventos.slice();
+ const i=eventos.findIndex(e=>e.id===nuevo.id);
+
+ if(i>=0)eventos[i]=nuevo;
+ else eventos.push(nuevo);
+
+ if(!guardarDatos()){
+  eventos=anteriores;
+  return;
+ }
+
+ elegida=nuevo.fecha;
+ vista=fechaObjeto(elegida);
+ vista.setDate(1);
+
+ limpiar();
+ render();
+
+ $("mensaje").textContent="💜 Evento guardado correctamente.";
+
+ mostrarEscena();
+};
+
+$("cancelar").onclick=limpiar;
+
+$("anterior").onclick=()=>{
+ vista.setMonth(vista.getMonth()-1);
+ render();
+};
+
+$("siguiente").onclick=()=>{
+ vista.setMonth(vista.getMonth()+1);
+ render();
+};
+
+$("hoy").onclick=()=>{
+ elegida=fechaLocal(new Date());
+ vista=fechaObjeto(elegida);
+ vista.setDate(1);
+ $("fecha").value=elegida;
+ render();
+};
+
+$("fecha").onchange=()=>{
+ if(!$("fecha").value)return;
+ elegida=$("fecha").value;
+ vista=fechaObjeto(elegida);
+ vista.setDate(1);
+ render();
+};
+
+function renderBusqueda(){
+ const q=$("buscar").value.trim().toLowerCase();
+ const cont=$("resultados");
+ cont.replaceChildren();
+
+ if(!q)return;
+
+ const lista=eventos.filter(e=>
+  (e.titulo+" "+e.descripcion).toLowerCase().includes(q)
+ );
+
+ if(!lista.length){
+  parrafo(cont,"No se encontraron eventos.");
+ }
+
+ lista.forEach(e=>{
+  const div=document.createElement("div");
+  div.className="evento";
+
+  parrafo(div,e.titulo+" · "+e.fecha);
+
+  div.appendChild(boton("Ver evento",()=>{
+   elegida=e.fecha;
+   vista=fechaObjeto(elegida);
+   vista.setDate(1);
+   $("fecha").value=elegida;
+   render();
+   $("eventosDia").scrollIntoView({behavior:"smooth"});
+  }));
+
+  cont.appendChild(div);
+ });
+}
+
+$("buscar").oninput=renderBusqueda;
+
+function renderPendientes(){
+ const cont=$("pendientes");
+ cont.replaceChildren();
+
+ const ahora=Date.now();
+ let cantidad=0;
+
+ eventos.forEach(e=>{
+  if(!e.hora||!e.recordatorio)return;
+
+  const momento=new Date(e.fecha+"T"+e.hora+":00").getTime();
+
+  if(ahora>=momento-e.recordatorio*60000&&ahora<momento){
+   parrafo(cont,"🔔 "+e.titulo+" · "+e.hora);
+   cantidad++;
+  }
+ });
+
+ if(!cantidad){
+  parrafo(cont,"No hay recordatorios pendientes ahora.");
+ }
+}
+
+function formatoUTC(d){
+ return d.toISOString()
+ .replace(/[-:]/g,"")
+ .replace(/\.\d{3}/,"");
+}
+
+function fechasEvento(e){
+ if(e.hora){
+  const inicio=new Date(e.fecha+"T"+e.hora+":00");
+  const fin=new Date(inicio.getTime()+3600000);
+  return [formatoUTC(inicio),formatoUTC(fin)];
+ }
+
+ const fin=fechaObjeto(e.fecha);
+ fin.setDate(fin.getDate()+1);
+
+ return [
+  e.fecha.replace(/-/g,""),
+  fechaLocal(fin).replace(/-/g,"")
+ ];
+}
+
+function abrirGoogle(e){
+ const fechas=fechasEvento(e);
+
+ const parametros=new URLSearchParams({
+  action:"TEMPLATE",
+  text:e.titulo,
+  dates:fechas.join("/"),
+  details:e.descripcion
+ });
+
+ window.open(
+  "https://calendar.google.com/calendar/render?"+
+  parametros.toString(),
+  "_blank",
+  "noopener,noreferrer"
+ );
+}
+
+function descargar(contenido,tipo,nombre){
+ const blob=new Blob([contenido],{type:tipo});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+
+ a.href=url;
+ a.download=nombre;
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+
+ setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+function escaparICS(s){
+ return String(s)
+ .replace(/\\/g,"\\\\")
+ .replace(/\r\n|\r|\n/g,"\\n")
+ .replace(/,/g,"\\,")
+ .replace(/;/g,"\\;");
+}
+
+function descargarICS(e){
+ const fechas=fechasEvento(e);
+ const tipo=e.hora?"":";VALUE=DATE";
+
+ const lineas=[
+  "BEGIN:VCALENDAR",
+  "VERSION:2.0",
+  "PRODID:-//Casa-Lumi//Calendario//ES",
+  "BEGIN:VEVENT",
+  "UID:"+escaparICS(e.id)+"@casa-lumi",
+  "DTSTAMP:"+formatoUTC(new Date()),
+  "DTSTART"+tipo+":"+fechas[0],
+  "DTEND"+tipo+":"+fechas[1],
+  "SUMMARY:"+escaparICS(e.titulo),
+  "DESCRIPTION:"+escaparICS(e.descripcion)
+ ];
+
+ if(e.recordatorio&&e.hora){
+  lineas.push(
+   "BEGIN:VALARM",
+   "TRIGGER:-PT"+e.recordatorio+"M",
+   "ACTION:DISPLAY",
+   "DESCRIPTION:"+escaparICS(e.titulo),
+   "END:VALARM"
+  );
+ }
+
+ lineas.push("END:VEVENT","END:VCALENDAR");
+
+ descargar(
+  lineas.join("\r\n")+"\r\n",
+  "text/calendar;charset=utf-8",
+  "Casa-Lumi-"+e.fecha+".ics"
+ );
+}
+
+$("exportar").onclick=()=>{
+ descargar(
+  JSON.stringify({
+   aplicacion:"Casa-Lumi",
+   version:1,
+   eventos
+  },null,2),
+  "application/json",
+  "Casa-Lumi-Eventos.json"
+ );
+};
+
+$("importar").onclick=()=>$("archivo").click();
+
+$("archivo").onchange=async()=>{
+ try{
+  const archivo=$("archivo").files[0];
+  if(!archivo)return;
+
+  const datos=JSON.parse(await archivo.text());
+
+  if(datos.aplicacion!=="Casa-Lumi"||
+   !Array.isArray(datos.eventos)||
+   !datos.eventos.every(valido)){
+   throw Error("Copia de seguridad inválida.");
+  }
+
+  if(!confirm("¿Importar y conservar los eventos actuales?"))return;
+
+  const anteriores=eventos.slice();
+  const mapa=new Map(eventos.map(e=>[e.id,e]));
+
+  datos.eventos.forEach(e=>mapa.set(e.id,e));
+  eventos=[...mapa.values()];
+
+  if(!guardarDatos()){
+   eventos=anteriores;
+   throw Error("No se pudieron guardar los eventos.");
+  }
+
+  render();
+  alert("Eventos importados correctamente.");
+
+ }catch(error){
+  alert(error.message);
+ }finally{
+  $("archivo").value="";
+ }
+};
+
+$("fecha").value=elegida;
+
+render();
+
+setInterval(renderPendientes,30000);
+
+// FIN PARTE 2
+</script>
+</body>
+</html>
