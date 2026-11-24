@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -6,592 +5,92 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#160b25">
 <title>Mi Sala de Estar | Casa-Lumi</title>
-
 <style>
-:root{
-  --fondo:#100719;
-  --panel:#2c123f;
-  --violeta:#b96aff;
-  --rosa:#f1b8ff;
-  --texto:#f9eaff;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  min-height:100vh;
-  color:var(--texto);
-  font-family:Georgia,serif;
-  background:
-    radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),
-    radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),
-    var(--fondo);
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.35;
-  background-image:
-    radial-gradient(#e7b4ff 1px,transparent 1px),
-    radial-gradient(#b66aff 1px,transparent 1px);
-  background-size:48px 48px,79px 79px;
-  background-position:0 0,20px 30px;
-}
-.casa{
-  position:relative;
-  width:min(1100px,100%);
-  margin:auto;
-  padding:12px;
-}
-.marco{
-  position:relative;
-  isolation:isolate;
-  border:2px solid #ad66e3;
-  border-radius:22px;
-  background:linear-gradient(145deg,#34174b,#1b0b2a);
-  box-shadow:
-    0 0 0 3px #36174d,
-    0 0 17px #ad56ef70,
-    inset 0 0 20px #a54edc25;
-}
-.marco::before{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border:1px solid #df9eff55;
-  border-radius:16px;
-  pointer-events:none;
-}
-.adorno{
-  color:#f0c7ff;
-  text-shadow:0 0 12px #d17aff;
-  text-align:center;
-  letter-spacing:5px;
-}
-.cabecera{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:13px 17px;
-  margin-bottom:14px;
-}
-.marca{
-  font-size:20px;
-  font-weight:bold;
-  color:#f4d5ff;
-}
-.marca small{
-  display:block;
-  margin-top:4px;
-  font-size:11px;
-  font-weight:normal;
-  color:#dcb5ef;
-}
-.reloj{
-  text-align:right;
-  font-size:21px;
-  color:#f5d8ff;
-}
-.reloj small{
-  display:block;
-  font-size:11px;
-  margin-top:4px;
-}
-.titulo{
-  text-align:center;
-  margin:16px 0 20px;
-}
-.titulo .corona{font-size:25px}
-.titulo h1{
-  margin:3px 0;
-  font-size:clamp(29px,6vw,43px);
-  color:#f4d6ff;
-  text-shadow:0 0 17px #d27aff;
-}
-.titulo p{
-  margin:8px 0 0;
-  font-size:13px;
-  color:#d8b5eb;
-}
-.contenido{
-  display:grid;
-  grid-template-columns:minmax(0,2fr) minmax(240px,1fr);
-  gap:16px;
-}
-.escenario{padding:11px}
-.lazos{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 30px;
-  margin-bottom:5px;
-  font-size:24px;
-}
-.marco-escena{
-  position:relative;
-  min-height:410px;
-  padding:11px;
-  border:3px double #e0a5ff;
-  border-radius:16px;
-  background:radial-gradient(circle at center,#704193,#2c123f 75%);
-  box-shadow:
-    inset 0 0 35px #17051d,
-    0 0 12px #c47aff55;
-}
-.esquinas{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-.esquinas span{
-  position:absolute;
-  font-size:25px;
-  color:#f5caff;
-  text-shadow:0 0 12px #d78bff;
-}
-.esquinas span:nth-child(1){top:4px;left:8px}
-.esquinas span:nth-child(2){top:4px;right:8px}
-.esquinas span:nth-child(3){bottom:4px;left:8px}
-.esquinas span:nth-child(4){bottom:4px;right:8px}
-.escena-interior{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  min-height:330px;
-  padding:20px;
-  text-align:center;
-  border-radius:12px;
-  background:
-    radial-gradient(circle at center,#8b54ad65,transparent 70%),
-    linear-gradient(160deg,#301547,#1b0c2b);
-}
-.icono-escena{
-  font-size:65px;
-  filter:drop-shadow(0 0 18px #b86aff);
-}
-.escena-interior h2{
-  font-size:25px;
-  color:#f2d4ff;
-  margin:14px 0 8px;
-}
-.escena-interior p{
-  font-size:14px;
-  line-height:1.7;
-  color:#dfc1f1;
-  max-width:340px;
-}
-.pie-escena{
-  text-align:center;
-  padding:13px 0 3px;
-  font-size:20px;
-  color:#edbfff;
-}
-.lateral{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-.panel{padding:20px 17px}
-.panel h2,.diario h2{
-  margin:0 0 18px;
-  text-align:center;
-  font-size:21px;
-  color:#f0ccff;
-}
-.estado{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-}
-.estado-fila{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  font-size:14px;
-}
-.valor{
-  padding:8px 12px;
-  border:1px solid #b779eb;
-  border-radius:20px;
-  background:linear-gradient(145deg,#663582,#3e1c57);
-  color:#ffeaff;
-  text-align:center;
-  font-size:13px;
-}
-.diario{
-  padding:20px;
-  flex:1;
-  text-align:center;
-}
-.burbuja{
-  padding:20px 14px;
-  border:1px solid #b977eb;
-  border-radius:18px;
-  background:#4c286477;
-  line-height:1.7;
-  font-size:16px;
-}
-.actividades{
-  margin-top:16px;
-  padding:20px;
-}
-.actividades h2{
-  margin:0 0 15px;
-  text-align:center;
-  color:#f0ccff;
-  font-size:21px;
-}
-.lista-actividades{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-}
-.accion{
-  min-height:47px;
-  padding:10px;
-  border:1px solid #b779eb;
-  border-radius:15px;
-  background:linear-gradient(145deg,#63357c,#38184f);
-  color:#ffeaff;
-  font:inherit;
-  font-size:13px;
-  cursor:pointer;
-}
-.accion:hover,.accion.activa{
-  background:#80509c;
-  box-shadow:0 0 12px #b96aff77;
-}
-.navegacion{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:12px;
-  margin:22px 0 14px;
-}
-.boton{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  min-height:45px;
-  padding:11px 18px;
-  border:2px solid #bd79ef;
-  border-radius:28px;
-  background:linear-gradient(145deg,#61347c,#311542);
-  color:#f9eaff;
-  text-decoration:none;
-  font:inherit;
-  font-size:14px;
-  box-shadow:0 0 12px #b96aff66;
-  cursor:pointer;
-}
-.pie{
-  padding:12px;
-  text-align:center;
-  color:#cba4dd;
-  font-size:12px;
-}
-@media(max-width:760px){
-  .casa{padding:10px}
-  .cabecera{padding:12px}
-  .marca{font-size:17px}
-  .reloj{font-size:18px}
-  .contenido{grid-template-columns:1fr;gap:14px}
-  .titulo{margin:15px 0}
-  .escenario{padding:8px}
-  .marco-escena{min-height:330px;padding:8px}
-  .escena-interior{min-height:270px;padding:15px}
-  .icono-escena{font-size:54px}
-  .panel{padding:16px}
-  .navegacion{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-  }
-  .boton{font-size:12px;padding:10px 7px}
-}
-@media(prefers-reduced-motion:no-preference){
-  .titulo .corona{
-    animation:flotar 4s ease-in-out infinite;
-  }
-  @keyframes flotar{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-5px)}
-  }
-}
+:root{--fondo:#100719;--panel:#2c123f;--violeta:#b96aff;--rosa:#f1b8ff;--texto:#f9eaff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--texto);font-family:Georgia,serif;background:radial-gradient(ellipse at 50% 0%,#622b82,transparent 55%),radial-gradient(ellipse at 100% 85%,#40155a,transparent 55%),var(--fondo)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:radial-gradient(#e7b4ff 1px,transparent 1px),radial-gradient(#b66aff 1px,transparent 1px);background-size:48px 48px,79px 79px;background-position:0 0,20px 30px}
+.casa{position:relative;width:min(1100px,100%);margin:auto;padding:12px}
+.marco{position:relative;isolation:isolate;border:2px solid #ad66e3;border-radius:22px;background:linear-gradient(145deg,#34174b,#1b0b2a);box-shadow:0 0 0 3px #36174d,0 0 17px #ad56ef70,inset 0 0 20px #a54edc25}
+.marco::before{content:"";position:absolute;inset:5px;border:1px solid #df9eff55;border-radius:16px;pointer-events:none}
+.adorno{color:#f0c7ff;text-shadow:0 0 12px #d17aff;text-align:center;letter-spacing:5px}
+.cabecera{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 17px;margin-bottom:14px}
+.marca{font-size:20px;font-weight:bold;color:#f4d5ff}.marca small{display:block;margin-top:4px;font-size:11px;font-weight:normal;color:#dcb5ef}
+.reloj{text-align:right;font-size:21px;color:#f5d8ff}.reloj small{display:block;font-size:11px;margin-top:4px}
+.titulo{text-align:center;margin:16px 0 20px}.titulo .corona{font-size:25px}.titulo h1{margin:3px 0;font-size:clamp(29px,6vw,43px);color:#f4d6ff;text-shadow:0 0 17px #d27aff}.titulo p{margin:8px 0 0;font-size:13px;color:#d8b5eb}
+.contenido{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:16px}
+.escenario{padding:11px}.lazos{display:flex;justify-content:space-between;align-items:center;padding:0 30px;margin-bottom:5px;font-size:24px}
+.marco-escena{position:relative;min-height:410px;padding:11px;border:3px double #e0a5ff;border-radius:16px;background:radial-gradient(circle at center,#704193,#2c123f 75%);box-shadow:inset 0 0 35px #17051d,0 0 12px #c47aff55}
+.esquinas{position:absolute;inset:0;pointer-events:none}.esquinas span{position:absolute;font-size:25px;color:#f5caff;text-shadow:0 0 12px #d78bff}.esquinas span:nth-child(1){top:4px;left:8px}.esquinas span:nth-child(2){top:4px;right:8px}.esquinas span:nth-child(3){bottom:4px;left:8px}.esquinas span:nth-child(4){bottom:4px;right:8px}
+.escena-interior{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:330px;padding:20px;text-align:center;border-radius:12px;overflow:hidden;background:radial-gradient(circle at center,#8b54ad65,transparent 70%),linear-gradient(160deg,#301547,#1b0c2b)}
+.escena-imagen{position:relative;width:100%;aspect-ratio:4/3;max-height:470px;border-radius:12px;overflow:hidden;background:#24132f}
+.escena-imagen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.escena-imagen #lumi-escena{object-fit:contain;pointer-events:none}
+.escena-texto{position:relative;z-index:1;max-width:350px;padding:16px;border-radius:15px;background:#23112fe8}
+.icono-escena{font-size:55px;filter:drop-shadow(0 0 18px #b86aff)}.escena-texto h2{font-size:23px;color:#f2d4ff;margin:12px 0 8px}.escena-texto p{font-size:14px;line-height:1.6;color:#dfc1f1}
+.escena-detalles{margin-top:12px;text-align:center}.escena-detalles h2{font-size:19px;margin:8px 0;color:#f2d4ff}.escena-detalles p{font-size:13px;color:#dfc1f1}
+.pie-escena{text-align:center;padding:13px 0 3px;font-size:20px;color:#edbfff}
+.lateral{display:flex;flex-direction:column;gap:16px}.panel{padding:20px 17px}.panel h2,.diario h2{margin:0 0 18px;text-align:center;font-size:21px;color:#f0ccff}
+.estado{display:flex;flex-direction:column;gap:13px}.estado-fila{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}.valor{padding:8px 12px;border:1px solid #b779eb;border-radius:20px;background:linear-gradient(145deg,#663582,#3e1c57);color:#ffeaff;text-align:center;font-size:13px}
+.diario{padding:20px;flex:1;text-align:center}.burbuja{padding:20px 14px;border:1px solid #b977eb;border-radius:18px;background:#4c286477;line-height:1.7;font-size:16px}
+.actividades{margin-top:16px;padding:20px}.actividades h2{margin:0 0 15px;text-align:center;color:#f0ccff;font-size:21px}.lista-actividades{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.accion{min-height:47px;padding:10px;border:1px solid #b779eb;border-radius:15px;background:linear-gradient(145deg,#63357c,#38184f);color:#ffeaff;font:inherit;font-size:13px;cursor:pointer}.accion:hover,.accion.activa{background:#80509c;box-shadow:0 0 12px #b96aff77}
+.navegacion{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:22px 0 14px}.boton{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:45px;padding:11px 18px;border:2px solid #bd79ef;border-radius:28px;background:linear-gradient(145deg,#61347c,#311542);color:#f9eaff;text-decoration:none;font:inherit;font-size:14px;box-shadow:0 0 12px #b96aff66;cursor:pointer}
+.boton-musica{margin-top:10px}.pie{padding:12px;text-align:center;color:#cba4dd;font-size:12px}
+@media(max-width:760px){.casa{padding:10px}.cabecera{padding:12px}.marca{font-size:17px}.reloj{font-size:18px}.contenido{grid-template-columns:1fr;gap:14px}.titulo{margin:15px 0}.escenario{padding:8px}.marco-escena{min-height:330px;padding:8px}.escena-interior{min-height:270px;padding:12px}.panel{padding:16px}.navegacion{display:grid;grid-template-columns:1fr 1fr;gap:9px}.boton{font-size:12px;padding:10px 7px}}
+@media(prefers-reduced-motion:no-preference){.titulo .corona{animation:flotar 4s ease-in-out infinite}@keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}}
 </style>
 </head>
-
-<body>
-<div class="casa">
-
-<header class="cabecera marco">
-  <div class="marca">
-    ☾ Casa-Lumi 💜
-    <small>Mi pequeño universo mágico</small>
-  </div>
-  <div class="reloj">
-    <div id="hora">--:--</div>
-    <small id="fecha">Cargando...</small>
-  </div>
-</header>
-
-<div class="titulo">
-  <div class="corona">🌹 🎀 🛋️ 🎀 🌹</div>
-  <h1>Mi Sala de Estar</h1>
-  <p>✧ Un rincón de calma, creatividad y magia ✧</p>
-</div>
-
+<body><div class="casa">
+<header class="cabecera marco"><div class="marca">☾ Casa-Lumi 💜<small>Mi pequeño universo mágico</small></div><div class="reloj"><div id="hora">--:--</div><small id="fecha">Cargando...</small></div></header>
+<div class="titulo"><div class="corona">🌹 🎀 🛋️ 🎀 🌹</div><h1>Mi Sala de Estar</h1><p>✧ Un rincón de calma, creatividad y magia ✧</p></div>
 <main class="contenido">
-
-  <section class="escenario marco">
-    <div class="lazos">
-      <span>🌹</span>
-      <span>🎀 ✦ 🎀</span>
-      <span>🌹</span>
-    </div>
-
-    <div class="marco-escena">
-      <div class="esquinas">
-        <span>✦</span><span>✦</span>
-        <span>✦</span><span>✦</span>
-      </div>
-
-      <div class="escena-interior" id="escenario">
-        <div class="icono-escena" id="icono-escena">📖 🛋️</div>
-        <h2 id="titulo-escena">Lumi está leyendo</h2>
-        <p id="descripcion-escena">
-          Un libro, un sillón cómodo y un momento
-          tranquilo en mi sala mágica.
-        </p>
-        <div class="adorno">✧ ✦ ✧</div>
-      </div>
-    </div>
-
-    <div class="pie-escena">🌹 ✧ 🛋️ ✧ 🌹</div>
-  </section>
-
-  <aside class="lateral">
-    <section class="panel marco">
-      <h2>🎀 Mi estado actual</h2>
-      <div class="estado">
-        <div class="estado-fila">
-          <span>💜 Emoción</span>
-          <span class="valor" id="emocion">Tranquila</span>
-        </div>
-        <div class="estado-fila">
-          <span>👗 Vestuario</span>
-          <span class="valor" id="vestuario">Ropa del día</span>
-        </div>
-        <div class="estado-fila">
-          <span>🛋️ Actividad</span>
-          <span class="valor" id="actividad">Leer un libro</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="diario marco" id="diario-panel">
-      <h2>💌 Mi pequeño diario</h2>
-      <div class="burbuja">
-        <p id="mensaje-lumi">
-          Hoy quiero disfrutar de una buena lectura. 💜
-        </p>
-      </div>
-      <div class="adorno">✧ 🌙 ✧</div>
-    </section>
-  </aside>
-
+<section class="escenario marco"><div class="lazos"><span>🌹</span><span>🎀 ✦ 🎀</span><span>🌹</span></div>
+<div class="marco-escena"><div class="esquinas"><span>✦</span><span>✦</span><span>✦</span><span>✦</span></div>
+<div class="escena-interior" id="escenario">
+<div class="escena-imagen" id="escena-imagen" hidden><img id="fondo-sala" alt="Sala de estar" hidden><img id="lumi-escena" alt="Lumi realizando su actividad" hidden></div>
+<div class="escena-texto" id="escena-texto"><div class="icono-escena" id="icono-escena">📖 🛋️</div><h2 id="titulo-escena">Lumi está leyendo</h2><p id="descripcion-escena">Un libro, un sillón cómodo y un momento tranquilo en mi sala mágica.</p><div class="adorno">✧ ✦ ✧</div></div>
+</div><div class="escena-detalles" id="escena-detalles" hidden><h2 id="titulo-imagen"></h2><p id="descripcion-imagen"></p></div></div>
+<div class="pie-escena">🌹 ✧ 🛋️ ✧ 🌹</div></section>
+<aside class="lateral"><section class="panel marco"><h2>🎀 Mi estado actual</h2><div class="estado"><div class="estado-fila"><span>💜 Emoción</span><span class="valor" id="emocion">Tranquila</span></div><div class="estado-fila"><span>👗 Vestuario</span><span class="valor" id="vestuario">Ropa del día</span></div><div class="estado-fila"><span>🛋️ Actividad</span><span class="valor" id="actividad">Leer un libro</span></div></div></section>
+<section class="diario marco" id="diario-panel"><h2>💌 Mi pequeño diario</h2><div class="burbuja"><p id="mensaje-lumi">Hoy quiero disfrutar de una buena lectura. 💜</p></div><div class="adorno">✧ 🌙 ✧</div></section></aside>
 </main>
-
-<section class="actividades marco" id="panel-actividades">
-  <h2>🎀 Mis actividades en la sala</h2>
-
-  <div class="lista-actividades" id="lista-actividades">
-    <button class="accion" data-id="leer">📖 Leer un libro</button>
-    <button class="accion" data-id="notebook">💻 Usar notebook</button>
-    <button class="accion" data-id="descansar">🛋️ Descansar en sillón</button>
-    <button class="accion" data-id="once">🫖 Tomar once</button>
-    <button class="accion" data-id="pelicula">🎬 Ver película</button>
-    <button class="accion" data-id="musica">🎵 Escuchar música</button>
-    <button class="accion" data-id="tejer">🧶 Tejer</button>
-    <button class="accion" data-id="escribir">✍️ Escribir en escritorio</button>
-    <button class="accion" data-id="dibujar">🎨 Dibujar en escritorio</button>
-    <button class="accion" data-id="organizar">📦 Organizar sus cosas</button>
-  </div>
-</section>
-
-<nav class="navegacion">
-  <!-- CORREGIDO: REGRESA A LA PORTADA PRINCIPAL -->
-  <a class="boton" href="../index.html">🏠 Volver a casa</a>
-
-  <button class="boton" id="encontrar" type="button">
-    📍 Encontrar a Lumi
-  </button>
-  <button class="boton" id="ver-actividades" type="button">
-    ✨ Actividades
-  </button>
-  <button class="boton" id="diario" type="button">
-    📖 Mi diario
-  </button>
-</nav>
-
-<footer class="pie">
-  ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
-</footer>
-
-</div>
-
+<section class="actividades marco" id="panel-actividades"><h2>🎀 Mis actividades en la sala</h2><div class="lista-actividades" id="lista-actividades">
+<button class="accion" data-id="leer">📖 Leer un libro</button><button class="accion" data-id="notebook">💻 Usar notebook</button><button class="accion" data-id="descansar">🛋️ Descansar en sillón</button><button class="accion" data-id="once">🫖 Tomar once</button><button class="accion" data-id="pelicula">🎬 Ver película</button><button class="accion" data-id="musica">🎵 Escuchar música</button><button class="accion" data-id="tejer">🧶 Tejer</button><button class="accion" data-id="escribir">✍️ Escribir en escritorio</button><button class="accion" data-id="dibujar">🎨 Dibujar en escritorio</button><button class="accion" data-id="organizar">📦 Organizar sus cosas</button>
+</div><div style="text-align:center"><a class="boton boton-musica" id="abrir-musica" href="../musica/index.html" hidden>🎧 Abrir mi reproductor musical</a></div></section>
+<nav class="navegacion"><a class="boton" href="../index.html">🏠 Volver a casa</a><button class="boton" id="encontrar" type="button">📍 Encontrar a Lumi</button><button class="boton" id="ver-actividades" type="button">✨ Actividades</button><button class="boton" id="diario" type="button">📖 Mi diario</button></nav>
+<footer class="pie">☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦</footer></div>
 <script>
 "use strict";
-
-function actualizarReloj(){
-  const ahora=new Date();
-
-  document.getElementById("hora").textContent=
-    ahora.toLocaleTimeString("es-CL",{
-      hour:"2-digit",
-      minute:"2-digit"
-    });
-
-  document.getElementById("fecha").textContent=
-    ahora.toLocaleDateString("es-CL",{
-      weekday:"long",
-      day:"numeric",
-      month:"long"
-    });
-}
-
-actualizarReloj();
-setInterval(actualizarReloj,30000);
-
+const $=id=>document.getElementById(id);
 const actividades={
-  leer:{
-    nombre:"Leer un libro",
-    icono:"📖 🛋️",
-    titulo:"Lumi está leyendo",
-    descripcion:"Un libro, un sillón cómodo y un momento tranquilo en mi sala mágica.",
-    mensaje:"Hoy quiero disfrutar de una buena lectura. 💜"
-  },
-  notebook:{
-    nombre:"Usar notebook",
-    icono:"💻 ✨",
-    titulo:"Lumi usa su notebook",
-    descripcion:"Un momento para explorar ideas desde mi rincón favorito.",
-    mensaje:"¡Tengo algunas ideas nuevas para Casa-Lumi! 💜"
-  },
-  descansar:{
-    nombre:"Descansar en sillón",
-    icono:"🛋️ 🌙",
-    titulo:"Lumi descansa en el sillón",
-    descripcion:"Un ratito de descanso entre cojines y estrellas.",
-    mensaje:"Hoy quiero hacer todo con calma. 💜"
-  },
-  once:{
-    nombre:"Tomar once",
-    icono:"🫖 🥐",
-    titulo:"Lumi está tomando once",
-    descripcion:"Una bebida calentita y algo rico para acompañar.",
-    mensaje:"¡Qué agradable es disfrutar de mi once! 💜"
-  },
-  pelicula:{
-    nombre:"Ver película",
-    icono:"🎬 🍿",
-    titulo:"Lumi está viendo una película",
-    descripcion:"Una película entretenida en mi sala acogedora.",
-    mensaje:"¡Hoy toca disfrutar de una buena película! ✨"
-  },
-  musica:{
-    nombre:"Escuchar música",
-    icono:"🎧 🎵",
-    titulo:"Lumi escucha música",
-    descripcion:"Mis canciones favoritas acompañan este momento.",
-    mensaje:"La música hace que mi casita sea aún más mágica. 💜"
-  },
-  tejer:{
-    nombre:"Tejer",
-    icono:"🧶 🎀",
-    titulo:"Lumi está tejiendo",
-    descripcion:"Con paciencia voy creando algo bonito.",
-    mensaje:"Puntada por puntada, mis ideas toman forma. 💜"
-  },
-  escribir:{
-    nombre:"Escribir en escritorio",
-    icono:"✍️ 📓",
-    titulo:"Lumi está escribiendo",
-    descripcion:"Anoto mis pensamientos y pequeñas aventuras.",
-    mensaje:"Tengo muchas cositas que escribir en mi diario. 💜"
-  },
-  dibujar:{
-    nombre:"Dibujar en escritorio",
-    icono:"🎨 ✏️",
-    titulo:"Lumi está dibujando",
-    descripcion:"Colores, imaginación y un poquito de magia.",
-    mensaje:"¡Hoy mi imaginación está llena de colores! ✨"
-  },
-  organizar:{
-    nombre:"Organizar sus cosas",
-    icono:"📦 🌸",
-    titulo:"Lumi organiza sus cosas",
-    descripcion:"Cada objeto vuelve a su rincón especial.",
-    mensaje:"Me gusta dejar mi sala bonita y ordenada. 💜"
-  }
+leer:{nombre:"Leer un libro",icono:"📖 🛋️",titulo:"Lumi está leyendo",descripcion:"Un libro, un sillón cómodo y un momento tranquilo en mi sala mágica.",mensaje:"Hoy quiero disfrutar de una buena lectura. 💜"},
+notebook:{nombre:"Usar notebook",icono:"💻 ✨",titulo:"Lumi usa su notebook",descripcion:"Un momento para explorar ideas desde mi rincón favorito.",mensaje:"¡Tengo algunas ideas nuevas para Casa-Lumi! 💜"},
+descansar:{nombre:"Descansar en sillón",icono:"🛋️ 🌙",titulo:"Lumi descansa en el sillón",descripcion:"Un ratito de descanso entre cojines y estrellas.",mensaje:"Hoy quiero hacer todo con calma. 💜"},
+once:{nombre:"Tomar once",icono:"🫖 🥐",titulo:"Lumi está tomando once",descripcion:"Una bebida calentita y algo rico para acompañar.",mensaje:"¡Qué agradable es disfrutar de mi once! 💜"},
+pelicula:{nombre:"Ver película",icono:"🎬 🍿",titulo:"Lumi está viendo una película",descripcion:"Una película entretenida en mi sala acogedora.",mensaje:"¡Hoy toca disfrutar de una buena película! ✨"},
+musica:{nombre:"Escuchar música",icono:"🎧 🎵",titulo:"Lumi escucha música",descripcion:"Mis canciones favoritas acompañan este momento.",mensaje:"La música hace que mi casita sea aún más mágica. 💜"},
+tejer:{nombre:"Tejer",icono:"🧶 🎀",titulo:"Lumi está tejiendo",descripcion:"Con paciencia voy creando algo bonito.",mensaje:"Puntada por puntada, mis ideas toman forma. 💜"},
+escribir:{nombre:"Escribir en escritorio",icono:"✍️ 📓",titulo:"Lumi está escribiendo",descripcion:"Anoto mis pensamientos y pequeñas aventuras.",mensaje:"Tengo muchas cositas que escribir en mi diario. 💜"},
+dibujar:{nombre:"Dibujar en escritorio",icono:"🎨 ✏️",titulo:"Lumi está dibujando",descripcion:"Colores, imaginación y un poquito de magia.",mensaje:"¡Hoy mi imaginación está llena de colores! ✨"},
+organizar:{nombre:"Organizar sus cosas",icono:"📦 🌸",titulo:"Lumi organiza sus cosas",descripcion:"Cada objeto vuelve a su rincón especial.",mensaje:"Me gusta dejar mi sala bonita y ordenada. 💜"}
 };
-
-function mostrarActividad(id){
-  const datos=actividades[id];
-  if(!datos)return;
-
-  document.getElementById("actividad").textContent=datos.nombre;
-  document.getElementById("icono-escena").textContent=datos.icono;
-  document.getElementById("titulo-escena").textContent=datos.titulo;
-  document.getElementById("descripcion-escena").textContent=datos.descripcion;
-  document.getElementById("mensaje-lumi").textContent=datos.mensaje;
-
-  document.querySelectorAll("[data-id]").forEach(boton=>{
-    boton.classList.toggle("activa",boton.dataset.id===id);
-  });
-}
-
-document.querySelectorAll("[data-id]").forEach(boton=>{
-  boton.addEventListener("click",()=>{
-    mostrarActividad(boton.dataset.id);
-    document.getElementById("escenario").scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-  });
-});
-
-mostrarActividad("leer");
-
-document.getElementById("encontrar")
-.addEventListener("click",()=>{
-  document.getElementById("escenario").scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
-});
-
-document.getElementById("ver-actividades")
-.addEventListener("click",()=>{
-  document.getElementById("panel-actividades").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-});
-
-document.getElementById("diario")
-.addEventListener("click",()=>{
-  document.getElementById("diario-panel").scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
-});
-</script>
-</body>
-</html>
+const CONFIG={
+  // Se ajustan estos nombres a los archivos reales cuando confirmemos la carpeta assets.
+  fondos:{dia:"../assets/sala/sala-vacia-dia.png",tarde:"../assets/sala/sala-vacia-tarde.png",noche:"../assets/sala/sala-vacia-noche.png"},
+  // Se espera un PNG transparente con Lumi; no se mostrará si todavía no existe.
+  imagenLumi:(actividad,ropa,ambiente)=>`../assets/sala/${actividad}-${ropa}-${ambiente}.png`
+};
+let actividadActual="leer",ultimoAmbiente="";
+function actualizarReloj(){const ahora=new Date();$("hora").textContent=ahora.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"});$("fecha").textContent=ahora.toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"});const ambiente=obtenerAmbiente();if(ambiente!==ultimoAmbiente){ultimoAmbiente=ambiente;actualizarImagenes();}}
+function obtenerAmbiente(){const h=new Date().getHours();return h>=7&&h<13?"dia":h>=13&&h<20?"tarde":"noche";}
+function obtenerVestuario(){try{const casa=JSON.parse(localStorage.getItem("casaLumi.v1")||"{}");const alias={spring:"primavera",summer:"verano",autumn:"otono",winter:"invierno",everyday:"cotidiano",sleep:"pijama"};const valor=casa.outfit||"cotidiano";return alias[valor]||valor;}catch{return "cotidiano";}}
+function nombreRopa(ropa){return ropa.replaceAll("-"," ").replace(/^./,c=>c.toUpperCase());}
+function actualizarImagenes(){const ambiente=obtenerAmbiente(),ropa=obtenerVestuario();$("vestuario").textContent=nombreRopa(ropa);const fondo=$("fondo-sala"),lumi=$("lumi-escena");const url=CONFIG.fondos[ambiente];fondo.onload=()=>{fondo.hidden=false;$("escena-imagen").hidden=false;$("escena-texto").hidden=true;$("escena-detalles").hidden=false;};fondo.onerror=()=>{fondo.hidden=true;$("escena-imagen").hidden=true;$("escena-texto").hidden=false;$("escena-detalles").hidden=true;};fondo.src=url;lumi.onload=()=>{lumi.hidden=false;};lumi.onerror=()=>{lumi.hidden=true;};lumi.hidden=true;lumi.src=CONFIG.imagenLumi(actividadActual,ropa,ambiente);}
+function mostrarActividad(id){const datos=actividades[id];if(!datos)return;actividadActual=id;$("actividad").textContent=datos.nombre;$("icono-escena").textContent=datos.icono;$("titulo-escena").textContent=datos.titulo;$("descripcion-escena").textContent=datos.descripcion;$("titulo-imagen").textContent=datos.titulo;$("descripcion-imagen").textContent=datos.descripcion;$("mensaje-lumi").textContent=datos.mensaje;$("abrir-musica").hidden=id!=="musica";document.querySelectorAll("[data-id]").forEach(b=>b.classList.toggle("activa",b.dataset.id===id));actualizarImagenes();}
+document.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>{mostrarActividad(b.dataset.id);$("escenario").scrollIntoView({behavior:"smooth",block:"center"});}));
+$("encontrar").addEventListener("click",()=>$("escenario").scrollIntoView({behavior:"smooth",block:"center"}));
+$("ver-actividades").addEventListener("click",()=>$("panel-actividades").scrollIntoView({behavior:"smooth",block:"start"}));
+$("diario").addEventListener("click",()=>$("diario-panel").scrollIntoView({behavior:"smooth",block:"center"}));
+mostrarActividad("leer");actualizarReloj();setInterval(actualizarReloj,30000);
+</script></body></html>
