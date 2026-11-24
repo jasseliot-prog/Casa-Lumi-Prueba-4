@@ -1,0 +1,540 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#160b25">
+<title>Mi Sala de Música | Casa-Lumi</title>
+<style>
+:root{
+  --fondo:#12091e;
+  --panel:#281638;
+  --violeta:#c990ff;
+  --texto:#f9eeff;
+  --borde:#8654b1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#4b2468,var(--fondo) 65%);
+  color:var(--texto);
+  font-family:Arial,sans-serif;
+}
+main{max-width:950px;margin:auto;padding:20px 14px 60px}
+h1,h2{text-align:center;font-family:Georgia,serif}
+p{line-height:1.5}
+a{color:#e9caff}
+.volver{display:inline-block;margin-bottom:15px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--borde);
+  border-radius:20px;
+  padding:18px;
+  margin:16px 0;
+  box-shadow:0 8px 28px #0005;
+}
+.escena{
+  height:280px;
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  background:linear-gradient(135deg,#51316a,#20132d);
+  display:grid;
+  place-items:center;
+}
+.escena img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+#lumiImagen{
+  width:auto;
+  height:auto;
+  max-height:85%;
+  max-width:55%;
+  inset:auto auto 0 50%;
+  transform:translateX(-50%);
+  object-fit:contain;
+}
+#fondoAviso{text-align:center;padding:20px}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+label{display:block;margin:12px 0}
+input,select{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin-top:7px;
+  background:#150b20;
+  color:white;
+  border:1px solid #9368b5;
+  border-radius:12px;
+}
+button{
+  padding:11px 14px;
+  margin:5px 4px 5px 0;
+  background:#54316d;
+  border:1px solid #bb8cde;
+  border-radius:12px;
+  color:white;
+  cursor:pointer;
+}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:3px solid #efbfff;
+}
+iframe{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:12px;
+}
+.estado{color:#e5c2ff;min-height:24px}
+.favorito{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:8px 0;
+}
+.nota{font-size:12px;color:#d4bde1}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .escena{height:230px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<a class="volver" href="../index.html">
+  ← Volver a Casa-Lumi
+</a>
+
+<h1>🌙 Mi Sala de Música 🎶</h1>
+<p style="text-align:center">
+  Un rincón mágico para compartir canciones.
+</p>
+
+<section class="panel">
+  <h2>🎧 Lumi escuchando música</h2>
+
+  <div class="escena">
+    <img id="fondoSala" alt="Sala de estar" hidden>
+    <div id="fondoAviso">
+      🌙 Sala de estar
+      <p>Pronto agregaremos las imágenes 💜</p>
+    </div>
+    <img id="lumiImagen" alt="Lumi escuchando música" hidden>
+  </div>
+
+  <p id="estadoLumi" class="estado">
+    Lumi está descansando.
+  </p>
+
+  <label>Ambiente
+    <select id="ambiente">
+      <option value="auto">Automático</option>
+      <option value="dia">Día</option>
+      <option value="tarde">Tarde</option>
+      <option value="noche">Noche</option>
+    </select>
+  </label>
+
+  <label>Vestuario
+    <select id="ropa">
+      <option value="auto">Elegido por Lumi</option>
+      <option value="primavera">Primavera</option>
+      <option value="verano">Verano</option>
+      <option value="otono">Otoño</option>
+      <option value="invierno">Invierno</option>
+      <option value="pijama">Pijama</option>
+      <option value="navidad">Navidad</option>
+      <option value="ano-nuevo">Año Nuevo</option>
+      <option value="san-valentin">San Valentín</option>
+      <option value="fiestas-patrias">Fiestas Patrias</option>
+      <option value="halloween">Halloween</option>
+      <option value="cotidiano">Cotidiano</option>
+      <option value="especial">Especial</option>
+    </select>
+  </label>
+
+  <button id="escucharLumi">
+    🎧 Lumi: escuchar música
+  </button>
+</section>
+
+<div class="grid">
+
+<section class="panel">
+  <h2>💜 Tu reproductor</h2>
+
+  <label>Plataforma
+    <select id="servicio">
+      <option value="youtube">YouTube</option>
+      <option value="spotify">Spotify</option>
+    </select>
+  </label>
+
+  <label>Enlace de canción o lista
+    <input id="enlace" type="url"
+      placeholder="Pega tu enlace aquí">
+  </label>
+
+  <button id="cargar">▶ Cargar música</button>
+  <button id="guardar">♡ Favorito</button>
+  <button id="detener">■ Detener</button>
+
+  <p id="mensaje" class="estado" aria-live="polite"></p>
+  <div id="reproductor">
+    Tu reproductor aparecerá aquí.
+  </div>
+
+  <h3>♡ Mis favoritos</h3>
+  <div id="favoritos"></div>
+</section>
+
+<section class="panel">
+  <h2>🌙 Música de Lumi</h2>
+
+  <p>
+    Lumi puede elegir un ambiente musical
+    según su actividad.
+  </p>
+
+  <label>Actividad
+    <select id="actividad">
+      <option value="leer">📖 Leer</option>
+      <option value="descansar">🌙 Descansar</option>
+      <option value="dibujar">🎨 Dibujar</option>
+      <option value="escuchar">🎧 Escuchar música</option>
+    </select>
+  </label>
+
+  <button id="elegir">
+    ✧ Elegir ambiente musical
+  </button>
+
+  <p id="eleccionLumi" class="estado">
+    Lumi todavía no ha elegido música.
+  </p>
+
+  <p class="nota">
+    Lumi puede sugerir música. Para reproducir
+    canciones concretas necesitaremos añadir
+    listas o enlaces compatibles.
+  </p>
+</section>
+
+</div>
+
+<p class="nota">
+  Spotify y YouTube utilizan sus reproductores
+  web oficiales. Algunas funciones dependen
+  de los permisos de cada plataforma.
+</p>
+
+</main>
+
+<script>
+"use strict";
+
+(() => {
+  const $ = id => document.getElementById(id);
+  const CLAVE = "casaLumi.musica.v1";
+
+  let datos = {
+    favoritos: [],
+    escuchando: false,
+    actividad: "leer"
+  };
+
+  try {
+    const guardado = JSON.parse(
+      localStorage.getItem(CLAVE) || "{}"
+    );
+    datos = {...datos, ...guardado};
+  } catch (_) {}
+
+  if (!Array.isArray(datos.favoritos)) {
+    datos.favoritos = [];
+  }
+
+  function guardarDatos() {
+    try {
+      localStorage.setItem(CLAVE, JSON.stringify(datos));
+    } catch (_) {}
+  }
+
+  function obtenerMedio(valor) {
+    let url;
+    try {
+      url = new URL(valor);
+      if (url.protocol !== "https:") return null;
+    } catch (_) {
+      return null;
+    }
+
+    const host = url.hostname.toLowerCase();
+    const esHost = dominio =>
+      host === dominio || host.endsWith("." + dominio);
+
+    if (
+      esHost("youtube.com") ||
+      host === "youtu.be" ||
+      esHost("youtube-nocookie.com")
+    ) {
+      const partes = url.pathname.split("/").filter(Boolean);
+      const video = host === "youtu.be"
+        ? partes[0]
+        : url.searchParams.get("v") ||
+          (["shorts","embed","live"].includes(partes[0])
+            ? partes[1] : null);
+
+      const lista = url.searchParams.get("list");
+
+      if (video && /^[\w-]{11}$/.test(video)) {
+        return {
+          servicio: "youtube",
+          src: "https://www.youtube-nocookie.com/embed/" + video
+        };
+      }
+
+      if (lista && /^[\w-]{8,80}$/.test(lista)) {
+        return {
+          servicio: "youtube",
+          src: "https://www.youtube-nocookie.com/embed/videoseries?list=" +
+            encodeURIComponent(lista)
+        };
+      }
+    }
+
+    if (esHost("spotify.com")) {
+      const partes = url.pathname.split("/").filter(Boolean);
+      const i = partes[0]?.startsWith("intl-") ? 1 : 0;
+      const tipo = partes[i];
+      const id = partes[i + 1];
+
+      if (
+        ["track","playlist","album","episode","show"].includes(tipo) &&
+        /^[A-Za-z0-9]{10,40}$/.test(id || "")
+      ) {
+        return {
+          servicio: "spotify",
+          src: "https://open.spotify.com/embed/" + tipo + "/" + id
+        };
+      }
+    }
+
+    return null;
+  }
+
+  function reproducir(enlace) {
+    const medio = obtenerMedio(enlace);
+
+    if (!medio) {
+      $("mensaje").textContent =
+        "Introduce un enlace compatible de Spotify o YouTube.";
+      return;
+    }
+
+    const iframe = document.createElement("iframe");
+    iframe.src = medio.src;
+    iframe.title = "Reproductor musical";
+    iframe.loading = "lazy";
+    iframe.allow =
+      "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    iframe.allowFullscreen = true;
+
+    $("reproductor").replaceChildren(iframe);
+    $("mensaje").textContent =
+      "Presiona ▶ dentro del reproductor para escuchar.";
+
+    $("servicio").value = medio.servicio;
+    datos.ultimoEnlace = enlace;
+    guardarDatos();
+  }
+
+  function mostrarFavoritos() {
+    const contenedor = $("favoritos");
+    contenedor.replaceChildren();
+
+    if (!datos.favoritos.length) {
+      contenedor.textContent = "Aún no tienes favoritos.";
+      return;
+    }
+
+    datos.favoritos.forEach((enlace, indice) => {
+      const fila = document.createElement("div");
+      fila.className = "favorito";
+
+      const abrir = document.createElement("button");
+      abrir.textContent = "▶ Favorito " + (indice + 1);
+      abrir.onclick = () => {
+        $("enlace").value = enlace;
+        reproducir(enlace);
+      };
+
+      const borrar = document.createElement("button");
+      borrar.textContent = "Eliminar";
+      borrar.onclick = () => {
+        datos.favoritos.splice(indice, 1);
+        guardarDatos();
+        mostrarFavoritos();
+      };
+
+      fila.append(abrir, borrar);
+      contenedor.appendChild(fila);
+    });
+  }
+
+  function momentoDia() {
+    const hora = new Date().getHours();
+    if (hora >= 7 && hora < 13) return "dia";
+    if (hora >= 13 && hora < 20) return "tarde";
+    return "noche";
+  }
+
+  function ropaActual() {
+    if ($("ropa").value !== "auto") {
+      return $("ropa").value;
+    }
+
+    try {
+      const casa = JSON.parse(
+        localStorage.getItem("casaLumi.v1") || "{}"
+      );
+
+      const nombres = {
+        spring:"primavera",
+        summer:"verano",
+        autumn:"otono",
+        winter:"invierno",
+        sleep:"pijama",
+        christmas:"navidad",
+        newyear:"ano-nuevo",
+        valentine:"san-valentin",
+        patrias:"fiestas-patrias"
+      };
+
+      return nombres[casa.outfit] ||
+        casa.outfit || "cotidiano";
+    } catch (_) {
+      return "cotidiano";
+    }
+  }
+
+  function actualizarEscena() {
+    const ambiente = $("ambiente").value === "auto"
+      ? momentoDia()
+      : $("ambiente").value;
+
+    const ropa = ropaActual();
+
+    const fondo = $("fondoSala");
+    fondo.onload = () => {
+      fondo.hidden = false;
+      $("fondoAviso").hidden = true;
+    };
+    fondo.onerror = () => {
+      fondo.hidden = true;
+      $("fondoAviso").hidden = false;
+    };
+    fondo.src =
+      "../assets/sala/sala-vacia-" + ambiente + ".png";
+
+    const lumi = $("lumiImagen");
+
+    if (datos.escuchando) {
+      lumi.onload = () => lumi.hidden = false;
+      lumi.onerror = () => lumi.hidden = true;
+      lumi.src =
+        "../assets/sala/escuchando-musica-" +
+        ropa + "-" + ambiente + ".png";
+    } else {
+      lumi.hidden = true;
+      lumi.removeAttribute("src");
+    }
+
+    $("estadoLumi").textContent = datos.escuchando
+      ? "Lumi está escuchando música 🎧"
+      : "Lumi está descansando en la sala.";
+
+    $("escucharLumi").textContent = datos.escuchando
+      ? "🎧 Lumi: dejar de escuchar"
+      : "🎧 Lumi: escuchar música";
+  }
+
+  $("cargar").onclick = () => {
+    reproducir($("enlace").value.trim());
+  };
+
+  $("detener").onclick = () => {
+    $("reproductor").replaceChildren();
+    $("reproductor").textContent = "Reproductor detenido.";
+    $("mensaje").textContent = "Música detenida.";
+  };
+
+  $("guardar").onclick = () => {
+    const enlace = $("enlace").value.trim();
+
+    if (!obtenerMedio(enlace)) {
+      $("mensaje").textContent = "Enlace no compatible.";
+      return;
+    }
+
+    if (!datos.favoritos.includes(enlace)) {
+      datos.favoritos.push(enlace);
+    }
+
+    guardarDatos();
+    mostrarFavoritos();
+    $("mensaje").textContent = "Favorito guardado 💜";
+  };
+
+  $("escucharLumi").onclick = () => {
+    datos.escuchando = !datos.escuchando;
+    guardarDatos();
+    actualizarEscena();
+  };
+
+  $("elegir").onclick = () => {
+    const opciones = {
+      leer:"Música instrumental suave",
+      descansar:"Música tranquila",
+      dibujar:"Música creativa",
+      escuchar:"Una lista favorita"
+    };
+
+    datos.actividad = $("actividad").value;
+    $("eleccionLumi").textContent =
+      "Lumi eligió: " + opciones[datos.actividad] +
+      ". Selecciona una canción para escuchar.";
+    guardarDatos();
+  };
+
+  $("ambiente").onchange = actualizarEscena;
+  $("ropa").onchange = actualizarEscena;
+
+  if (datos.ultimoEnlace) {
+    $("enlace").value = datos.ultimoEnlace;
+  }
+
+  if (datos.actividad) {
+    $("actividad").value = datos.actividad;
+  }
+
+  mostrarFavoritos();
+  actualizarEscena();
+})();
+</script>
+
+</body>
+</html>
