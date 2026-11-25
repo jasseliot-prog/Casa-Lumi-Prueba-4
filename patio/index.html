@@ -135,6 +135,7 @@ body::before{
 }
 
 /* FONDO DEL PATIO */
+
 .jardin{
   position:relative;
   min-height:260px;
@@ -158,7 +159,8 @@ body::before{
   line-height:1.7;
 }
 
-/* LULÚ: PANEL INDEPENDIENTE DEL FONDO */
+/* ESPACIO DE LULÚ */
+
 .zona-lulu{
   padding:20px 10px 12px;
   text-align:center;
@@ -206,7 +208,9 @@ body::before{
   gap:16px;
 }
 
-.panel,.diario{padding:20px 17px}
+.panel,.diario{
+  padding:20px 17px;
+}
 
 .panel h2,.diario h2{
   margin:0 0 18px;
@@ -349,6 +353,7 @@ body::before{
 }
 
 @media(max-width:760px){
+
   .marca{font-size:17px}
   .reloj{font-size:18px}
   .contenido{grid-template-columns:1fr}
@@ -372,6 +377,7 @@ body::before{
 }
 
 @media(prefers-reduced-motion:no-preference){
+
   .lulu{
     animation:flotar 4s ease-in-out infinite;
   }
@@ -385,9 +391,11 @@ body::before{
 </head>
 
 <body>
+
 <div class="casa">
 
 <header class="cabecera marco">
+
   <div class="marca">
     ☾ Casa-Lumi 💜
     <small>Mi pequeño universo mágico</small>
@@ -397,6 +405,7 @@ body::before{
     <div id="hora">--:--</div>
     <small id="fecha">Cargando...</small>
   </div>
+
 </header>
 
 <div class="titulo">
@@ -439,19 +448,30 @@ body::before{
     🌹 ✧ 🌱 ✧ 🌹
   </div>
 
+  <!-- LULÚ ANIMADA -->
+
   <div class="zona-lulu">
-    <div class="adorno">☾ ✦ ✧ ✦ ☾</div>
+
+    <div class="adorno">
+      ☾ ✦ ✧ ✦ ☾
+    </div>
 
     <div class="lulu" id="lulu">🫘</div>
+
     <div class="maceta">🪴</div>
 
-    <h2 id="etapa">Semillita mágica</h2>
+    <h2 id="etapa">
+      Semillita mágica
+    </h2>
 
     <p id="descripcion">
       Lulú está comenzando su aventura.
     </p>
 
-    <div class="adorno">✧ 🌱 ✧</div>
+    <div class="adorno">
+      ✧ 🌱 ✧
+    </div>
+
   </div>
 
 </section>
@@ -459,6 +479,7 @@ body::before{
 <aside class="lateral">
 
   <section class="panel marco">
+
     <h2>🎀 Mi pequeña Lulú</h2>
 
     <div class="estado">
@@ -470,7 +491,9 @@ body::before{
 
       <div class="estado-fila">
         <span>✨ Experiencia</span>
-        <span class="valor" id="experiencia">0 / 100</span>
+        <span class="valor" id="experiencia">
+          0 / 100
+        </span>
       </div>
 
     </div>
@@ -514,6 +537,7 @@ body::before{
   </section>
 
   <section class="diario marco" id="diario-panel">
+
     <h2>💌 Diario del jardín</h2>
 
     <div class="burbuja">
@@ -523,13 +547,18 @@ body::before{
       </p>
     </div>
 
-    <div class="adorno">✧ 🌙 ✧</div>
+    <div class="adorno">
+      ✧ 🌙 ✧
+    </div>
+
   </section>
 
 </aside>
+
 </main>
 
 <section class="cuidados marco">
+
   <h2>🌸 Cuidar a Lulú</h2>
 
   <div class="botones-cuidado">
@@ -552,6 +581,7 @@ body::before{
     Cada cuidado aporta experiencia.
     Lulú nunca pierde niveles ni muere.
   </p>
+
 </section>
 
 <nav class="navegacion">
@@ -581,10 +611,11 @@ body::before{
 
 /* =====================================
    CASA-LUMI 4 · PATIO JARDÍN
-   Fondos automáticos + Lulú
+   Fondos automáticos + Lulú animada
    ===================================== */
 
 // FONDOS DEL PATIO
+
 const imagenPatio =
   document.getElementById("imagen-patio");
 
@@ -598,6 +629,7 @@ const fondos = {
 };
 
 function obtenerMomento(hora){
+
   if(hora>=7 && hora<18){
     return "dia";
   }
@@ -610,7 +642,11 @@ function obtenerMomento(hora){
 }
 
 function actualizarPatio(){
-  const momento=obtenerMomento(new Date().getHours());
+
+  const momento=obtenerMomento(
+    new Date().getHours()
+  );
+
   const archivo=fondos[momento];
 
   if(imagenPatio.getAttribute("src")!==archivo){
@@ -632,10 +668,13 @@ imagenPatio.addEventListener("load",()=>{
 });
 
 // GUARDADO ORIGINAL DE LULÚ
+
 const CLAVE="casaLumi.lulu.patio.v1";
 
 function cargar(){
+
   try{
+
     const guardado=JSON.parse(
       localStorage.getItem(CLAVE)
     );
@@ -643,6 +682,7 @@ function cargar(){
     if(guardado && typeof guardado==="object"){
       return guardado;
     }
+
   }catch(error){}
 
   return null;
@@ -667,18 +707,25 @@ if(!estado.ultimoCuidado){
 }
 
 function guardar(){
+
   try{
+
     localStorage.setItem(
       CLAVE,
       JSON.stringify(estado)
     );
+
   }catch(error){
+
     console.warn("No se pudo guardar",error);
+
   }
 }
 
 // RELOJ
+
 function actualizarReloj(){
+
   const ahora=new Date();
 
   document.getElementById("hora").textContent=
@@ -697,53 +744,69 @@ function actualizarReloj(){
 }
 
 function actualizarTodo(){
+
   actualizarReloj();
   actualizarPatio();
+
+  window.LuluVisual?.actualizar?.();
 }
 
 actualizarTodo();
+
 setInterval(actualizarTodo,30000);
 
 // ETAPAS DE CRECIMIENTO
+
 function etapaLulu(nivel){
+
   if(nivel<=10){
+
     return {
       icono:"🫘",
       nombre:"Semillita mágica",
-      descripcion:"Lulú descansa bajo la tierra y reúne magia para brotar."
+      descripcion:"Lulú reúne magia para comenzar su aventura."
     };
+
   }
 
   if(nivel<=25){
+
     return {
       icono:"🌱",
       nombre:"Primer brote",
       descripcion:"¡Sus primeras hojitas han despertado!"
     };
+
   }
 
   if(nivel<=50){
+
     return {
       icono:"🌿",
       nombre:"Lulú pequeñita",
-      descripcion:"Nuestra pequeña suculenta comienza a crecer."
+      descripcion:"Nuestra pequeña plantita fantasma comienza a crecer."
     };
+
   }
 
   if(nivel<=75){
+
     return {
       icono:"🪴",
       nombre:"Lulú creciendo",
-      descripcion:"Cada día tiene más hojas y energía mágica."
+      descripcion:"Cada día tiene más energía mágica."
     };
+
   }
 
   if(nivel<=100){
+
     return {
       icono:"🌸",
       nombre:"Lulú floreciente",
-      descripcion:"¡Han aparecido sus primeras flores mágicas!"
+      descripcion:"¡Su magia está floreciendo!"
     };
+
   }
 
   const ciclo=Math.floor((nivel-101)/100)+1;
@@ -756,7 +819,9 @@ function etapaLulu(nivel){
 }
 
 // ACTUALIZAR INDICADORES
+
 function actualizarPantalla(){
+
   const etapa=etapaLulu(estado.nivel);
 
   document.getElementById("nivel").textContent=
@@ -772,6 +837,7 @@ function actualizarPantalla(){
     estado.xp+"%";
 
   ["agua","luz","carino"].forEach(tipo=>{
+
     const valor=Math.max(
       0,Math.min(100,estado[tipo])
     );
@@ -781,26 +847,40 @@ function actualizarPantalla(){
 
     document.getElementById("barra-"+tipo).style.width=
       valor+"%";
+
   });
 
-  document.getElementById("lulu").textContent=
-    etapa.icono;
+  // PROTEGER EL SVG DE LULÚ
+
+  if(!document.getElementById("lulu-vectorial")){
+
+    document.getElementById("lulu").textContent=
+      etapa.icono;
+
+  }
 
   document.getElementById("etapa").textContent=
     etapa.nombre;
 
   document.getElementById("descripcion").textContent=
     etapa.descripcion;
+
+  window.LuluVisual?.actualizar?.();
 }
 
 // CUIDADOS
+
 function cuidar(tipo){
+
   const ahora=Date.now();
-  const anterior=estado.ultimoCuidado[tipo]||0;
+
+  const anterior=
+    estado.ultimoCuidado[tipo]||0;
 
   const espera=5*60*1000;
 
   if(ahora-anterior<espera){
+
     const minutos=Math.ceil(
       (espera-(ahora-anterior))/60000
     );
@@ -823,66 +903,121 @@ function cuidar(tipo){
   let subio=false;
 
   while(estado.xp>=100){
+
     estado.xp-=100;
     estado.nivel++;
     subio=true;
+
   }
 
   const mensajes={
+
     agua:"¡Lulú recibió agüita fresca! 💧",
+
     luz:"¡Lulú disfruta de una luz suave! ☀️",
+
     carino:"¡Lulú recibió mucho cariño! 💜"
+
   };
 
   let mensaje=mensajes[tipo];
 
   if(subio){
+
     mensaje+=" ¡Subió al nivel "+
       estado.nivel+"! ✨";
+
   }
 
   document.getElementById("mensaje").textContent=
     mensaje;
 
   guardar();
+
   actualizarPantalla();
 
-  const lulu=document.getElementById("lulu");
-  lulu.classList.add("feliz");
+  // REACCIONES DE LA NUEVA LULÚ
 
-  setTimeout(()=>{
-    lulu.classList.remove("feliz");
-  },700);
+  if(
+    window.LuluVisual &&
+    document.getElementById("lulu-vectorial")
+  ){
+
+    if(tipo==="agua"){
+      window.LuluVisual.regar?.();
+    }
+
+    if(tipo==="luz"){
+      window.LuluVisual.iluminar?.();
+    }
+
+    if(tipo==="carino"){
+      window.LuluVisual.acariciar?.();
+    }
+
+  }else{
+
+    // ANIMACIÓN DE RESPALDO
+
+    const lulu=document.getElementById("lulu");
+
+    lulu.classList.add("feliz");
+
+    setTimeout(()=>{
+
+      lulu.classList.remove("feliz");
+
+    },700);
+
+  }
 }
+
+// BOTONES DE CUIDADO
 
 document.querySelectorAll("[data-cuidado]")
 .forEach(boton=>{
+
   boton.addEventListener("click",()=>{
+
     cuidar(boton.dataset.cuidado);
+
   });
+
 });
 
 // NAVEGACIÓN
+
 document.getElementById("encontrar")
 .addEventListener("click",()=>{
-  document.getElementById("escenario")
+
+  document.getElementById("lulu")
     .scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
+
 });
 
 document.getElementById("diario")
 .addEventListener("click",()=>{
+
   document.getElementById("diario-panel")
     .scrollIntoView({
       behavior:"smooth",
       block:"center"
     });
+
 });
 
+// INICIAR PATIO
+
 actualizarPantalla();
+
 </script>
+
+<!-- CONEXIÓN CON LULÚ ANIMADA -->
+
+<script src="../lulu.js" defer></script>
 
 </body>
 </html>
