@@ -1256,4 +1256,57 @@ async function consultarSP(){
 
   if(sp!==t)return;
 
-  c.re
+   c.replaceChildren();
+
+  for(const i of items){
+
+   if(!i)continue;
+
+   const url=i.external_urls?.spotify;
+
+   if(url){
+    lista(c,i.name,url);
+   }
+
+  }
+
+  if(!items.length){
+   c.textContent='No encontramos listas.';
+  }
+
+ }catch(e){
+
+  if(sp!==t)return;
+
+  if(e.message==='401'){
+   sp=null;
+   estado('SP',false,'Sesión vencida. Reconecta.');
+  }
+
+  c.textContent='No se pudieron cargar las listas de Spotify.';
+
+ }
+
+}
+
+$('listasSP').onclick=consultarSP;
+
+$('salirSP').onclick=()=>{
+
+ sp=null;
+
+ $('resultadoSP').replaceChildren();
+
+ estado('SP',false);
+
+ stop();
+
+};
+
+recibirSP();
+
+})();
+</script>
+
+</body>
+</html>
