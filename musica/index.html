@@ -1303,8 +1303,230 @@ $('salirSP').onclick=()=>{
 
 };
 
-recibirSP();
+/* =================================
+   BUSCADOR DE SPOTIFY
+================================= */
 
+const buscadorSP = document.createElement('div');
+
+buscadorSP.innerHTML = `
+<label>Buscar canciones o artistas
+<input id="buscarTextoSP" type="search"
+placeholder="Nombre de canción o artista">
+</label>
+
+<button id="buscarSP">
+🔎 Buscar música
+</button>
+
+<div id="busquedaSP" class="listas"
+aria-live="polite"></div>
+`;
+
+$('resultadoSP').before(buscadorSP);
+
+let numeroBusquedaSP = 0;
+
+async function buscarMusicaSP(){
+
+ const t = sp;
+ const texto = $('buscarTextoSP').value.trim();
+ const c = $('busquedaSP');
+ const q = ++numeroBusquedaSP;
+
+ if(!t){
+  c.textContent = 'Primero conecta tu Spotify.';
+  return;
+ }
+
+ if(!texto){
+  c.textContent = 'Escribe una canción o artista.';
+  return;
+ }
+
+ c.textContent = 'Buscando música…';
+
+ try{
+
+  const u = new URL(
+   'https://api.spotify.com/v1/search'
+  );
+
+  u.search = new URLSearchParams({
+   q: texto,
+   type: 'track,artist',
+   limit: '10'
+  });
+
+  const r = await fetch(u,{
+   headers:{
+    Authorization: 'Bearer '+t
+   }
+  });
+
+  if(!r.ok)throw Error(r.status);
+
+  const j = await r.json();
+
+  if(sp !== t || q !== numeroBusquedaSP)return;
+
+  c.replaceChildren();
+
+  const artistas = j.artists?.items || [];
+  const canciones = j.tracks?.items || [];
+
+  if(artistas.length){
+
+   const h = document.createElement('h3');
+   h.textContent = '♡ Artistas';
+   c.append(h);
+
+   for(const a of artistas){
+
+    if(!a)continue;
+
+    c.append(btn('🎤 '+a.name,()=>{
+
+     $('buscarTextoSP').value =
+      'artist:"'+a.name.replace(/"/g,'')+'"';
+
+     buscarMusicaSP();
+
+    }));
+
+   }
+
+  }
+
+  if(canciones.length){
+
+   const h = document.createElement('h3');
+   h.textContent = '♫ Canciones';
+   c.append(h);
+
+   for(const i of canciones){
+
+    if(!i?.external_urls?.spotify)continue;
+
+    const nombre = i.name+' — '+
+     (i.artists || []).map(a=>a.name).join(', ');
+
+    c.append(btn('▶ '+nombre,()=>{
+
+     play(i.external_urls.spotify);
+
+     $('reproductor').scrollIntoView({
+      behavior:'smooth',
+      block:'center'
+     });
+
+    }));
+
+   }
+
+  }
+
+  if(!artistas.length && !canciones.length){
+   c.textContent = 'No encontramos resultados.';
+  }
+
+ }catch(e){
+
+  if(sp !== t || q !== numeroBusquedaSP)return;
+
+  if(e.message === '401'){
+
+   sp = null;
+
+   estado('SP',false,
+    'Sesión vencida. Reconecta Spotify.');
+
+   c.textContent = 'Vuelve a conectar tu cuenta.';
+
+  }else if(e.message === '403'){
+
+   c.textContent =
+    'Spotify no autorizó la búsqueda. Revisa los permisos.';
+
+  }else if(e.message === '429'){
+
+   c.textContent =
+    'Demasiadas consultas. Intenta más tarde.';
+
+  }else{
+
+   c.textContent =
+    'No se pudo realizar la búsqueda.';
+
+  }
+
+ }
+
+}
+
+$('buscarSP').onclick = buscarMusicaSP;
+
+$('buscarTextoSP').addEventListener('keydown',e=>{
+ if(e.key === 'Enter')buscarMusicaSP();
+});
+
+$('salirSP').addEventListener('click',()=>{
+ numeroBusquedaSP++;
+ $('busquedaSP').replaceChildren();
+ $('buscarTextoSP').value = '';
+});
+
+/* SELECCIÓN AUTOMÁTICA DE PLATAFORMA */
+
+function actualizarPlataforma(){
+
+ const m = medio($('enlace').value.trim());
+
+ if(m){
+  $('servicio').value = m[0];
+ }
+
+}
+
+$('enlace').addEventListener(
+ 'input',actualizarPlataforma
+);
+
+actualizarPlataforma();
+
+/* IDENTIDAD MULTIMEDIA CASA-LUMI */
+
+if('mediaSession' in navigator &&
+   'MediaMetadata' in window){
+
+ try{
+
+  navigator.mediaSession.metadata =
+   new MediaMetadata({
+
+    title:'Mi Sala de Música',
+
+    artist:'Casa-Lumi',
+
+    album:'Mi pequeño universo mágico',
+
+    artwork:[{
+     src:new URL(
+      '../logo-casa-lumi.png',
+      location.href
+     ).href,
+     type:'image/png'
+    }]
+
+   });
+
+ }catch{}
+
+}
+
+/* RESTAURAR CONEXIÓN */
+
+recibirSP();
 })();
 </script>
 
