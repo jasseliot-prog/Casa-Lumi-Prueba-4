@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +9,35 @@
 
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
+
+  <style>
+    .enlaces-legales{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:12px;
+      font-size:12px;
+    }
+
+    .enlaces-legales a{
+      color:#d9b5ef;
+      text-decoration:none;
+    }
+
+    .enlaces-legales a:hover{
+      color:#ffffff;
+      text-decoration:underline;
+    }
+
+    .estado-desarrollo{
+      font-size:11px;
+      color:#c6a3dc;
+      margin-top:10px;
+      opacity:.8;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -254,8 +282,32 @@
     </main>
 
     <!-- PIE DE PÁGINA -->
-    <footer>
+    <footer style="text-align:center;">
+
       ☾ Casa-Lumi · Un hogar hecho con magia y cariño ✦
+
+      <!-- ENLACES LEGALES -->
+      <nav
+        class="enlaces-legales"
+        aria-label="Información legal"
+      >
+
+        <a href="privacidad.html">
+          Política de privacidad
+        </a>
+
+        <span aria-hidden="true">✦</span>
+
+        <a href="terminos.html">
+          Condiciones del servicio
+        </a>
+
+      </nav>
+
+      <p class="estado-desarrollo">
+        Casa-Lumi · Aplicación en desarrollo
+      </p>
+
     </footer>
 
   </div>
