@@ -1,0 +1,21 @@
+{
+  "id": "/Casa-Lumi-Prueba-4/",
+  "name": "Casa-Lumi",
+  "short_name": "Casa-Lumi",
+  "description": "Mi pequeño universo mágico",
+  "lang": "es-CL",
+  "start_url": "/Casa-Lumi-Prueba-4/index.html",
+  "scope": "/Casa-Lumi-Prueba-4/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#100719",
+  "theme_color": "#160b25",
+  "icons": [
+    {
+      "src": "assets/portadas/casa-lumi-media.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
