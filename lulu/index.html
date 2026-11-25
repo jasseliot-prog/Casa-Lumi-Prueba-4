@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100719">
+<title>Mi Lulú | Casa-Lumi</title>
+
+<style>
+:root{
+  --fondo:#09060f;
+  --violeta:#b980e7;
+  --texto:#f9eaff;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--texto);
+  font-family:Georgia,serif;
+  background:
+    radial-gradient(ellipse at top,#351342,transparent 60%),
+    radial-gradient(ellipse at bottom right,#291239,transparent 65%),
+    var(--fondo);
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.25;
+  background-image:radial-gradient(#e7b4ff 1px,transparent 1px);
+  background-size:38px 38px;
+}
+
+.casa{
+  position:relative;
+  width:min(1000px,100%);
+  margin:auto;
+  padding:14px;
+}
+
+.marco{
+  position:relative;
+  border:2px solid #a16bc4;
+  border-radius:24px;
+  background:linear-gradient(145deg,#24112f,#100a19);
+  box-shadow:
+    0 0 0 4px #0b0711,
+    0 0 0 5px #573369,
+    0 0 22px #b26aff40;
+}
+
+.marco::before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:2px dotted #a878bd70;
+  border-radius:18px;
+  pointer-events:none;
+}
+
+.cabecera{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px;
+  gap:10px;
+}
+
+.marca{
+  font-size:20px;
+  font-weight:bold;
+  color:#f4d5ff;
+}
+
+.marca small,.reloj small{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  font-weight:normal;
+  color:#dcb5ef;
+}
+
+.reloj{
+  text-align:right;
+  font-size:21px;
+}
+
+.titulo{
+  text-align:center;
+  margin:28px 0;
+}
+
+.titulo h1{
+  margin:8px 0;
+  font-size:clamp(30px,6vw,45px);
+  font-style:italic;
+  color:#f4d9ff;
+  text-shadow:0 0 20px #b35cff;
+}
+
+.titulo p{
+  color:#d8b5eb;
+  font-size:14px;
+}
+
+.adorno{
+  text-align:center;
+  color:#f0c7ff;
+  letter-spacing:5px;
+  padding:12px;
+  text-shadow:0 0 15px #d17aff;
+}
+
+.contenido{
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(240px,1fr);
+  gap:18px;
+}
+
+/* SANTUARIO GÓTICO */
+
+.hogar-lulu{
+  padding:18px;
+  text-align:center;
+  background:
+    radial-gradient(ellipse at center,#462052,#100918 75%);
+}
+
+.encaje{
+  height:18px;
+  margin:0 8px 12px;
+  background:
+    radial-gradient(circle at 50% 0,#08050e 8px,transparent 9px)
+    repeat-x;
+  background-size:18px 18px;
+}
+
+.lazo{
+  font-size:32px;
+  filter:drop-shadow(0 0 9px #c377e9);
+}
+
+.zona-lulu{
+  position:relative;
+  overflow:hidden;
+  padding:35px 12px 18px;
+  min-height:390px;
+  border:4px double #b17ad3;
+  border-radius:48% 48% 24px 24px;
+  background:
+    radial-gradient(ellipse at 50% 45%,#7d3c9b55,transparent 55%),
+    radial-gradient(ellipse at bottom,#391b50,#0b0714 75%);
+  box-shadow:
+    inset 0 0 45px #000,
+    0 0 20px #a15bd744;
+}
+
+.zona-lulu::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:radial-gradient(#e8b6ff 1px,transparent 1px);
+  background-size:32px 32px;
+}
+
+.zona-lulu > *{
+  position:relative;
+}
+
+.luna{
+  font-size:35px;
+  color:#ead1ff;
+  text-shadow:0 0 20px #bc78ff;
+}
+
+.zona-lulu .fantasmita{
+  position:absolute;
+  font-size:25px;
+  opacity:.65;
+  pointer-events:none;
+  animation:fantasma 5s ease-in-out infinite;
+}
+
+.fantasma-uno{
+  top:28%;
+  left:7%;
+}
+
+.fantasma-dos{
+  top:43%;
+  right:7%;
+  animation-delay:2s!important;
+}
+
+@keyframes fantasma{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+.lulu{
+  display:inline-block;
+  font-size:85px;
+  filter:drop-shadow(0 0 18px #ba78ff);
+  transition:transform .3s;
+}
+
+.lulu.feliz{
+  transform:scale(1.12);
+}
+
+.maceta{
+  font-size:48px;
+}
+
+#lulu-vectorial{
+  margin:auto;
+  max-width:310px;
+  filter:drop-shadow(0 0 20px #a34cf788);
+}
+
+#lulu-emocion{
+  background:#160c23;
+  border:1px solid #b57ad5;
+  border-radius:22px;
+  padding:10px;
+  color:#f3cfff;
+}
+
+.zona-lulu h2{
+  color:#efc5ff;
+  margin:15px 0 5px;
+  font-style:italic;
+  text-shadow:0 0 12px #a15be4;
+}
+
+.zona-lulu p{
+  color:#dfc1f1;
+  line-height:1.7;
+  font-size:14px;
+}
+
+/* CRECIMIENTO Y POCIONES */
+
+.lateral{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.panel,.diario{
+  padding:22px 18px;
+}
+
+.panel h2,.diario h2{
+  margin:0 0 20px;
+  text-align:center;
+  color:#f0ccff;
+  font-size:21px;
+  font-style:italic;
+}
+
+.estado-fila{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:13px;
+  font-size:14px;
+}
+
+.valor{
+  padding:8px 12px;
+  border:1px solid #bb85db;
+  border-radius:20px;
+  background:#120a20;
+  color:#ffeaff;
+  font-size:13px;
+}
+
+.medidor{
+  display:flex;
+  justify-content:space-between;
+  margin:13px 0 6px;
+  font-size:13px;
+}
+
+.barra{
+  height:17px;
+  overflow:hidden;
+  border:2px solid #9d6fba;
+  border-radius:20px;
+  background:#09060f;
+}
+
+.relleno{
+  position:relative;
+  height:100%;
+  width:0;
+  border-radius:20px;
+  transition:width .4s;
+}
+
+.relleno::after{
+  content:"";
+  position:absolute;
+  inset:2px 5px auto;
+  height:3px;
+  border-radius:20px;
+  background:#ffffff55;
+}
+
+#barra-agua{
+  background:linear-gradient(90deg,#42358c,#9bdfff);
+}
+
+#barra-luz{
+  background:linear-gradient(90deg,#ad6599,#ffe4a1);
+}
+
+#barra-carino{
+  background:linear-gradient(90deg,#843ca9,#f5a8e7);
+}
+
+#barra-xp{
+  background:linear-gradient(90deg,#56258c,#d9a5ff);
+}
+
+/* GRIMORIO */
+
+.diario{
+  flex:1;
+  text-align:center;
+  background:linear-gradient(90deg,#09060e 4%,#27142f 5%,#160d20 95%);
+}
+
+.burbuja{
+  padding:18px;
+  border:3px double #9b6bb7;
+  border-radius:8px 22px 22px 8px;
+  background:#20112c;
+  line-height:1.7;
+  font-style:italic;
+}
+
+/* CUIDADOS */
+
+.cuidados{
+  margin-top:18px;
+  padding:22px;
+}
+
+.cuidados h2{
+  margin:0 0 18px;
+  text-align:center;
+  color:#f0ccff;
+  font-style:italic;
+}
+
+.botones-cuidado{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.accion{
+  min-height:95px;
+  padding:12px 5px;
+  border:2px solid #a878c9;
+  border-radius:35px 35px 18px 18px;
+  background:radial-gradient(ellipse at top,#57316e,#140b20 80%);
+  box-shadow:0 0 12px #9e5bc844;
+  color:#ffeaff;
+  font:inherit;
+  font-size:14px;
+  cursor:pointer;
+  transition:transform .2s;
+}
+
+.accion::before{
+  content:"🎀";
+  display:block;
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.accion span{
+  display:block;
+  font-size:25px;
+  margin-bottom:5px;
+}
+
+.accion:hover{
+  transform:translateY(-3px);
+  background:#432254;
+  box-shadow:0 0 18px #c487ff88;
+}
+
+.nota{
+  text-align:center;
+  font-size:12px;
+  color:#d8b5eb;
+  line-height:1.7;
+}
+
+.navegacion{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin:24px 0;
+}
+
+.boton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  padding:11px 18px;
+  border:3px double #b583d4;
+  border-radius:28px;
+  background:#160c22;
+  color:#f9eaff;
+  text-decoration:none;
+  font:inherit;
+  font-size:14px;
+  box-shadow:0 0 12px #b96aff66;
+  cursor:pointer;
+}
+
+.boton:hover{
+  background:#432254;
+}
+
+.pie{
+  padding:15px;
+  text-align:center;
+  color:#cba4dd;
+  font-size:12px;
+}
+
+@media(max-width:760px){
+  .contenido{grid-template-columns:1fr}
+  .marca{font-size:17px}
+  .reloj{font-size:18px}
+  .accion{font-size:12px;min-height:85px}
+  .zona-lulu{min-height:340px}
+  .cuidados{padding:18px 12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .zona-lulu .fantasmita,.lulu{
+    animation:none;
+  }
+
+  .accion,.relleno{
+    transition:none;
+  }
+}
+</style>
+</head>
+
+<!-- FIN PARTE 1 -->
+<body>
+
+<div class="casa">
+
+<header class="cabecera marco">
+  <div class="marca">
+    ☾ Casa-Lumi 💜
+    <small>El pequeño universo de Lulú</small>
+  </div>
+
+  <div class="reloj">
+    <div id="hora">--:--</div>
+    <small id="fecha">Cargando...</small>
+  </div>
+</header>
+
+<div class="titulo">
+  <div>🦇 ── ☾ ♡ ☽ ── 🦇</div>
+  <h1>Mi pequeña Lulú</h1>
+  <p>Una dulce criatura de medianoche</p>
+</div>
+
+<main class="contenido">
+
+<section class="hogar-lulu marco">
+
+  <div class="encaje"></div>
+
+  <div class="lazo">🎀</div>
+
+  <div class="adorno">
+    ✧ 🖤 ✧
+  </div>
+
+  <div class="zona-lulu">
+
+    <div class="luna">☾</div>
+
+    <span class="fantasmita fantasma-uno">👻</span>
+    <span class="fantasmita fantasma-dos">👻</span>
+
+    <div class="lulu" id="lulu">🫘</div>
+
+    <div class="maceta">🪴</div>
+
+    <h2 id="etapa">
+      Pequeño espíritu mágico
+    </h2>
+
+    <p id="descripcion">
+      Lulú está despertando su magia.
+    </p>
+
+    <div class="adorno">
+      ☾ ✧ 🖤 ✧ ☽
+    </div>
+
+  </div>
+
+  <div class="adorno">
+    ✧ Pequeñas raíces, magia infinita ✧
+  </div>
+
+  <div class="encaje"></div>
+
+</section>
+
+<aside class="lateral">
+
+<section class="panel marco">
+
+  <h2>🔮 Mi esencia mágica</h2>
+
+  <div class="estado-fila">
+    <span>🌱 Nivel</span>
+    <span class="valor" id="nivel">1</span>
+  </div>
+
+  <div class="estado-fila">
+    <span>✨ Experiencia</span>
+    <span class="valor" id="experiencia">
+      0 / 100
+    </span>
+  </div>
+
+  <div class="medidor">
+    <span>Magia acumulada</span>
+    <span id="porcentaje">0%</span>
+  </div>
+
+  <div class="barra">
+    <div class="relleno" id="barra-xp"></div>
+  </div>
+
+  <div class="medidor">
+    <span>💧 Agüita encantada</span>
+    <span id="agua-texto">60%</span>
+  </div>
+
+  <div class="barra">
+    <div class="relleno" id="barra-agua"></div>
+  </div>
+
+  <div class="medidor">
+    <span>☀️ Luz mágica</span>
+    <span id="luz-texto">60%</span>
+  </div>
+
+  <div class="barra">
+    <div class="relleno" id="barra-luz"></div>
+  </div>
+
+  <div class="medidor">
+    <span>💜 Cariño</span>
+    <span id="carino-texto">60%</span>
+  </div>
+
+  <div class="barra">
+    <div class="relleno" id="barra-carino"></div>
+  </div>
+
+  <div class="adorno">
+    🧪 ✧ 🌙 ✧ 🧪
+  </div>
+
+</section>
+
+<section class="diario marco" id="diario-panel">
+
+  <h2>📖 Mi pequeño grimorio</h2>
+
+  <div class="burbuja">
+
+    <p id="mensaje" aria-live="polite">
+      ¡Buuu! Bienvenida a mi pequeño
+      santuario de medianoche. 👻💜
+    </p>
+
+  </div>
+
+  <div class="adorno">
+    🦇 ✧ ☾ ✧ 🦇
+  </div>
+
+</section>
+
+</aside>
+
+</main>
+
+<section class="cuidados marco">
+
+  <h2>🎀 Mis cuidados mágicos</h2>
+
+  <div class="botones-cuidado">
+
+    <button class="accion" data-cuidado="agua">
+      <span>💧</span>
+      Regar
+    </button>
+
+    <button class="accion" data-cuidado="luz">
+      <span>☀️</span>
+      Dar luz
+    </button>
+
+    <button class="accion" data-cuidado="carino">
+      <span>💜</span>
+      Dar cariño
+    </button>
+
+  </div>
+
+  <p class="nota">
+    Cada cuidado aporta experiencia.
+    Lulú nunca pierde niveles ni muere.
+  </p>
+
+</section>
+
+<nav class="navegacion">
+
+  <a class="boton" href="../index.html">
+    🏠 Volver a casa
+  </a>
+
+  <button class="boton" id="encontrar" type="button">
+    👻 Ver a Lulú
+  </button>
+
+  <button class="boton" id="diario" type="button">
+    📖 Mi grimorio
+  </button>
+
+</nav>
+
+<footer class="pie">
+  🦇 ✦ ♡ ✦ 🦇
+  <p>Casa-Lumi · Un pequeño espíritu mágico</p>
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* =====================================
+   CASA-LUMI 4
+   SANTUARIO INDEPENDIENTE DE LULÚ
+   ===================================== */
+
+// CONSERVAR PROGRESO ORIGINAL
+
+const CLAVE="casaLumi.lulu.patio.v1";
+
+function cargar(){
+
+  try{
+
+    const guardado=JSON.parse(
+      localStorage.getItem(CLAVE)
+    );
+
+    if(guardado && typeof guardado==="object"){
+      return guardado;
+    }
+
+  }catch(error){}
+
+  return null;
+}
+
+const inicial={
+  nivel:1,
+  xp:0,
+  agua:60,
+  luz:60,
+  carino:60,
+  ultimoCuidado:{}
+};
+
+const estado={
+  ...inicial,
+  ...(cargar()||{})
+};
+
+if(!estado.ultimoCuidado){
+  estado.ultimoCuidado={};
+}
+
+function guardar(){
+
+  try{
+
+    localStorage.setItem(
+      CLAVE,
+      JSON.stringify(estado)
+    );
+
+  }catch(error){
+
+    console.warn("No se pudo guardar",error);
+
+  }
+}
+
+// RELOJ
+
+function actualizarReloj(){
+
+  const ahora=new Date();
+
+  document.getElementById("hora").textContent=
+    ahora.toLocaleTimeString("es-CL",{
+      hour:"2-digit",
+      minute:"2-digit",
+      hour12:false
+    });
+
+  document.getElementById("fecha").textContent=
+    ahora.toLocaleDateString("es-CL",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+}
+
+actualizarReloj();
+
+setInterval(actualizarReloj,30000);
+
+// ETAPAS DE CRECIMIENTO
+
+function etapaLulu(nivel){
+
+  if(nivel<=10){
+
+    return {
+      icono:"🫘",
+      nombre:"Pequeño espíritu mágico",
+      descripcion:"Lulú está descubriendo sus primeros poderes."
+    };
+
+  }
+
+  if(nivel<=25){
+
+    return {
+      icono:"🌱",
+      nombre:"Brote encantado",
+      descripcion:"Sus hojitas están llenas de magia."
+    };
+
+  }
+
+  if(nivel<=50){
+
+    return {
+      icono:"🌿",
+      nombre:"Fantasmita del jardín",
+      descripcion:"Lulú comienza a dominar sus pequeñas travesuras."
+    };
+
+  }
+
+  if(nivel<=75){
+
+    return {
+      icono:"🪴",
+      nombre:"Espíritu de las estrellas",
+      descripcion:"Su energía mágica crece cada día."
+    };
+
+  }
+
+  if(nivel<=100){
+
+    return {
+      icono:"🌸",
+      nombre:"Flor de medianoche",
+      descripcion:"¡Su magia está floreciendo!"
+    };
+
+  }
+
+  const ciclo=Math.floor((nivel-101)/100)+1;
+
+  return {
+    icono:"🌺",
+    nombre:"Guardiana lunar · Ciclo "+ciclo,
+    descripcion:"Su magia sigue creciendo."
+  };
+}
+
+// ACTUALIZAR INDICADORES
+
+function actualizarPantalla(){
+
+  const etapa=etapaLulu(estado.nivel);
+
+  document.getElementById("nivel").textContent=
+    estado.nivel;
+
+  document.getElementById("experiencia").textContent=
+    estado.xp+" / 100";
+
+  document.getElementById("porcentaje").textContent=
+    estado.xp+"%";
+
+  document.getElementById("barra-xp").style.width=
+    estado.xp+"%";
+
+  ["agua","luz","carino"].forEach(tipo=>{
+
+    const valor=Math.max(
+      0,Math.min(100,estado[tipo])
+    );
+
+    document.getElementById(tipo+"-texto").textContent=
+      valor+"%";
+
+    document.getElementById("barra-"+tipo).style.width=
+      valor+"%";
+
+  });
+
+  // PROTEGER LA ILUSTRACIÓN ANIMADA
+
+  if(!document.getElementById("lulu-vectorial")){
+
+    document.getElementById("lulu").textContent=
+      etapa.icono;
+
+  }
+
+  document.getElementById("etapa").textContent=
+    etapa.nombre;
+
+  document.getElementById("descripcion").textContent=
+    etapa.descripcion;
+
+  window.LuluVisual?.actualizar?.();
+}
+
+// CUIDADOS
+
+function cuidar(tipo){
+
+  const ahora=Date.now();
+
+  const anterior=
+    estado.ultimoCuidado[tipo]||0;
+
+  const espera=5*60*1000;
+
+  if(ahora-anterior<espera){
+
+    const minutos=Math.ceil(
+      (espera-(ahora-anterior))/60000
+    );
+
+    document.getElementById("mensaje").textContent=
+      "Ya recibí ese cuidado. Puedes repetirlo en "+
+      minutos+" minuto(s). 👻💜";
+
+    return;
+  }
+
+  estado.ultimoCuidado[tipo]=ahora;
+
+  estado[tipo]=Math.min(
+    100,estado[tipo]+15
+  );
+
+  estado.xp+=25;
+
+  let subio=false;
+
+  while(estado.xp>=100){
+
+    estado.xp-=100;
+    estado.nivel++;
+    subio=true;
+
+  }
+
+  const mensajes={
+
+    agua:"¡Mis hojitas recibieron agüita encantada! 💧",
+
+    luz:"¡Mi florecita está brillando como una estrella! ✨",
+
+    carino:"¡Buuu! Mis hojitas están muy felices. 💜"
+
+  };
+
+  let mensaje=mensajes[tipo];
+
+  if(subio){
+
+    mensaje+=" ¡Subí al nivel "+
+      estado.nivel+"! 🌟";
+
+  }
+
+  document.getElementById("mensaje").textContent=
+    mensaje;
+
+  guardar();
+
+  actualizarPantalla();
+
+  // ANIMACIONES DE LULÚ
+
+  if(
+    window.LuluVisual &&
+    document.getElementById("lulu-vectorial")
+  ){
+
+    if(tipo==="agua"){
+      window.LuluVisual.regar?.();
+    }
+
+    if(tipo==="luz"){
+      window.LuluVisual.iluminar?.();
+    }
+
+    if(tipo==="carino"){
+      window.LuluVisual.acariciar?.();
+    }
+
+  }else{
+
+    const lulu=document.getElementById("lulu");
+
+    lulu.classList.add("feliz");
+
+    setTimeout(()=>{
+
+      lulu.classList.remove("feliz");
+
+    },700);
+
+  }
+}
+
+// BOTONES DE CUIDADO
+
+document.querySelectorAll("[data-cuidado]")
+.forEach(boton=>{
+
+  boton.addEventListener("click",()=>{
+
+    cuidar(boton.dataset.cuidado);
+
+  });
+
+});
+
+// NAVEGACIÓN
+
+document.getElementById("encontrar")
+.addEventListener("click",()=>{
+
+  document.getElementById("lulu")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+});
+
+document.getElementById("diario")
+.addEventListener("click",()=>{
+
+  document.getElementById("diario-panel")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+});
+
+// INICIAR LULÚ
+
+actualizarPantalla();
+
+</script>
+
+<!-- CONEXIÓN CON LULÚ ANIMADA -->
+
+<script src="../lulu.js" defer></script>
+
+</body>
+</html>
+
+<!-- FIN PARTE 2 -->
