@@ -3,185 +3,68 @@
 (() => {
   "use strict";
 
-  const CLAVE = "casaLumi.lulu.v2";
-  const ARCHIVO = "lulu.svg";
+  const archivoJS = document.currentScript.src;
+  const ARCHIVO = new URL("lulu.svg", archivoJS).href;
 
-  const limitar = n => Math.max(0, Math.min(100, n));
-
-  let datos = {
-    agua: 85,
-    luz: 90,
-    carino: 85,
-    ultima: Date.now()
-  };
-
-  try {
-    const anterior = JSON.parse(localStorage.getItem(CLAVE));
-    if (anterior) datos = { ...datos, ...anterior };
-  } catch {}
-
-  let reaccion = "";
-  let finReaccion = 0;
-  let panel;
-
-  function guardar() {
-    localStorage.setItem(CLAVE, JSON.stringify(datos));
-  }
-
-  function actualizar() {
-    const ahora = Date.now();
-    const horas = Math.max(0, ahora - datos.ultima) / 3600000;
-    const hora = new Date().getHours();
-
-    datos.agua = limitar(datos.agua - horas * 2);
-    datos.carino = limitar(datos.carino - horas);
-    datos.luz = hora >= 7 && hora < 20 ? 90 : 25;
-    datos.ultima = ahora;
-
-    guardar();
-  }
-
-/* ===== FIN PARTE 1 ===== */
-/* ===== INICIO PARTE 2 ===== */
-
-  const mensajes = {
-    normal: "¡Hoy mi magia está despierta!",
-    sedienta: "Mis hojitas necesitan agüita...",
-    dormida: "Soñando con lunas y estrellas...",
-    triste: "Hoy necesito un poquito de cariño.",
-    feliz: "¡Mis hojitas están felices!",
-    regada: "¡Agüita mágica!",
-    traviesa: "¡Buuu! Jejeje...",
-    floreciendo: "¡Estoy floreciendo!"
-  };
-
-  function estado() {
-    const hora = new Date().getHours();
-
-    if (Date.now() < finReaccion) return reaccion;
-    if (datos.agua < 30) return "sedienta";
-    if (hora >= 22 || hora < 7) return "dormida";
-    if (datos.carino < 30) return "triste";
-
-    if (datos.agua > 90 && datos.carino > 90) {
-      return "floreciendo";
-    }
-
-    return "normal";
-  }
-
-  function mostrar() {
-    actualizar();
-
-    if (!panel) return;
-
-    const e = estado();
-
-    panel.dataset.estado = e;
-    panel.querySelector(".lulu-mensaje").textContent =
-      mensajes[e];
-
-    panel.querySelector(".lulu-agua").textContent =
-      Math.round(datos.agua) + "%";
-
-    panel.querySelector(".lulu-luz").textContent =
-      Math.round(datos.luz) + "%";
-
-    panel.querySelector(".lulu-carino").textContent =
-      Math.round(datos.carino) + "%";
-  }
-
-  function reaccionar(tipo) {
-    reaccion = tipo;
-    finReaccion = Date.now() + 15000;
-    mostrar();
-  }
-
-  window.Lulu = {
-    regar() {
-      actualizar();
-      datos.agua = limitar(datos.agua + 25);
-      reaccionar("regada");
-    },
-
-    acariciar() {
-      actualizar();
-      datos.carino = limitar(datos.carino + 15);
-      reaccionar("feliz");
-    },
-
-    jugar() {
-      actualizar();
-      datos.carino = limitar(datos.carino + 10);
-      reaccionar("traviesa");
-    }
-  };
-
-/* ===== FIN PARTE 2 ===== */ 
- /* ===== INICIO PARTE 3 ===== */
+  let criatura;
+  let temporizador;
 
   const estilos = document.createElement("style");
 
   estilos.textContent = `
-    #lulu-magica {
+    #lulu-vectorial {
       position: relative;
-      text-align: center;
-      color: #f5ddff;
-      background: radial-gradient(
-        ellipse at center,
-        #39134f,
-        #160b25 75%
-      );
-      border: 1px solid #a85de8;
-      border-radius: 25px;
-      padding: 18px;
-      overflow: hidden;
+      width: min(100%, 310px);
+      margin: 15px auto;
+      isolation: isolate;
     }
 
-    .lulu-dibujo {
-      position: relative;
-      width: min(100%, 320px);
-      margin: auto;
-    }
-
-    .lulu-dibujo svg {
+    #lulu-vectorial svg {
       display: block;
       width: 100%;
       height: auto;
       overflow: visible;
-      filter: drop-shadow(0 0 12px #a343ed);
+      filter: drop-shadow(0 0 16px #b96aff88);
     }
 
-    .lulu-dibujo svg g {
+    #lulu-vectorial svg g {
       transform-box: fill-box;
       transform-origin: center;
     }
 
-    .lulu-dibujo #cuerpo {
+    #lulu-vectorial #cuerpo {
       animation: luluRespirar 4s ease-in-out infinite;
     }
 
-    .lulu-dibujo #flor {
+    #lulu-vectorial #flor {
       transform-origin: center bottom;
       animation: luluFlor 3s ease-in-out infinite;
     }
 
-    .lulu-dibujo #ojos {
-      animation: luluParpadeo 6s infinite;
+    #lulu-vectorial #ojos {
+      animation: luluParpadear 6s infinite;
     }
 
     @keyframes luluRespirar {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.015, 1.025); }
+      0%,100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.015,1.025);
+      }
     }
 
     @keyframes luluFlor {
-      0%, 100% { transform: rotate(-3deg); }
-      50% { transform: rotate(3deg); }
+      0%,100% {
+        transform: rotate(-3deg);
+      }
+      50% {
+        transform: rotate(3deg);
+      }
     }
 
-    @keyframes luluParpadeo {
-      0%, 44%, 48%, 100% {
+    @keyframes luluParpadear {
+      0%,44%,48%,100% {
         transform: scaleY(1);
       }
       46% {
@@ -189,70 +72,70 @@
       }
     }
 
-    #lulu-magica[data-estado="dormida"] #ojos {
+    #lulu-vectorial[data-estado="dormida"] #ojos {
       animation: none;
       transform: scaleY(.08);
     }
 
-    #lulu-magica[data-estado="sedienta"] #flor {
+    #lulu-vectorial[data-estado="sedienta"] #flor {
       animation: none;
       transform: rotate(15deg);
     }
 
-    #lulu-magica[data-estado="triste"] svg {
-      filter: brightness(.75);
+    #lulu-vectorial[data-estado="triste"] svg {
+      filter: brightness(.8);
     }
 
-    #lulu-magica[data-estado="feliz"] svg,
-    #lulu-magica[data-estado="traviesa"] svg {
+    #lulu-vectorial[data-estado="feliz"] svg,
+    #lulu-vectorial[data-estado="regada"] svg,
+    #lulu-vectorial[data-estado="traviesa"] svg {
       animation: luluSaltar .7s ease-in-out 3;
     }
 
-    #lulu-magica[data-estado="floreciendo"] svg {
-      filter: drop-shadow(0 0 25px #e087ff);
+    #lulu-vectorial[data-estado="iluminada"] svg,
+    #lulu-vectorial[data-estado="floreciendo"] svg {
+      filter: drop-shadow(0 0 28px #d78aff);
     }
 
     @keyframes luluSaltar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      0%,100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-9px);
+      }
     }
 
-    .lulu-mensaje {
-      color: #edbaff;
+    .lulu-particula {
+      position: absolute;
+      pointer-events: none;
+      z-index: 3;
+      font-size: 20px;
+      animation: luluMagia 2s ease-out forwards;
+    }
+
+    @keyframes luluMagia {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(.7);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-65px) scale(1.3);
+      }
+    }
+
+    #lulu-emocion {
+      text-align: center;
+      font-size: 14px;
+      color: #efc9ff;
       font-style: italic;
-      margin: 12px 0;
+      margin: 10px 0;
     }
 
-    .lulu-niveles {
-      display: flex;
-      justify-content: space-around;
-      gap: 8px;
-      font-size: 13px;
-      margin: 15px 0;
-    }
-
-    .lulu-botones {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .lulu-botones button {
-      background: #35134e;
-      color: #f5ddff;
-      border: 1px solid #b96aff;
-      border-radius: 15px;
-      padding: 10px 14px;
-      cursor: pointer;
-    }
-
-    .lulu-botones button:active {
-      transform: scale(.95);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #lulu-magica * {
+    @media(prefers-reduced-motion:reduce) {
+      #lulu-vectorial *,
+      #lulu-vectorial svg {
         animation: none !important;
       }
     }
@@ -260,105 +143,580 @@
 
   document.head.appendChild(estilos);
 
-/* ===== FIN PARTE 3 ===== */
- /* ===== INICIO PARTE 4 ===== */
+/* ===== FIN PARTE 1 ===== */
+ /* ===== INICIO PARTE 2 ===== */
+
+  const mensajes = {
+    normal: "Mi magia está despierta. ✨",
+    dormida: "Zzz... soñando con estrellas. 🌙",
+    sedienta: "Mis hojitas necesitan agüita. 💧",
+    triste: "Necesito un poquito de cariño.",
+    feliz: "¡Mis hojitas están felices! 💜",
+    regada: "¡Agüita mágica!",
+    iluminada: "¡Qué bonita luz!",
+    traviesa: "¡Buuu! Jejeje...",
+    floreciendo: "¡Mi magia está floreciendo! 🌸"
+  };
+
+  function obtenerNivel(tipo) {
+
+    const elemento =
+      document.getElementById(tipo + "-texto");
+
+    if (!elemento) return 60;
+
+    const valor = parseFloat(elemento.textContent);
+
+    return Number.isFinite(valor) ? valor : 60;
+  }
+
+  function estadoAutomatico() {
+
+    const hora = new Date().getHours();
+
+    const agua = obtenerNivel("agua");
+    const carino = obtenerNivel("carino");
+    const luz = obtenerNivel("luz");
+
+    if (agua < 30) {
+      return "sedienta";
+    }
+
+    if (hora >= 22 || hora < 7) {
+      return "dormida";
+    }
+
+    if (carino < 30) {
+      return "triste";
+    }
+
+    if (
+      agua >= 90 &&
+      carino >= 90 &&
+      luz >= 70
+    ) {
+      return "floreciendo";
+    }
+
+    return "normal";
+  }
+
+  function cambiarEstado(estado) {
+
+    if (!criatura) return;
+
+    criatura.dataset.estado = estado;
+
+    const emocion =
+      document.getElementById("lulu-emocion");
+
+    if (emocion) {
+      emocion.textContent =
+        mensajes[estado] || mensajes.normal;
+    }
+  }
+
+/* ===== FIN PARTE 2 ===== */
+ /* ===== INICIO PARTE 3 ===== */
+
+  function particulas(simbolo) {
+
+    if (!criatura) return;
+
+    for (let i = 0; i < 8; i++) {
+
+      const estrella =
+        document.createElement("span");
+
+      estrella.className = "lulu-particula";
+      estrella.textContent = simbolo;
+
+      estrella.style.left =
+        (15 + Math.random() * 70) + "%";
+
+      estrella.style.top =
+        (25 + Math.random() * 45) + "%";
+
+      estrella.style.animationDelay =
+        (Math.random() * .4) + "s";
+
+      criatura.appendChild(estrella);
+
+      setTimeout(() => {
+        estrella.remove();
+      }, 2500);
+    }
+  }
+
+  function reaccionar(estado, simbolo) {
+
+    clearTimeout(temporizador);
+
+    cambiarEstado(estado);
+
+    if (simbolo) {
+      particulas(simbolo);
+    }
+
+    temporizador = setTimeout(() => {
+
+      temporizador = null;
+
+      cambiarEstado(estadoAutomatico());
+
+    }, 12000);
+  }
+
+  window.LuluVisual = {
+
+    regar() {
+      reaccionar("regada", "💧");
+    },
+
+    iluminar() {
+      reaccionar("iluminada", "✨");
+    },
+
+    acariciar() {
+      reaccionar("feliz", "💜");
+    },
+
+    jugar() {
+      reaccionar("traviesa", "✦");
+    },
+
+    actualizar() {
+
+      if (!temporizador) {
+        cambiarEstado(estadoAutomatico());
+      }
+
+    }
+  };
+
+/* ===== FIN PARTE 3 ===== *
+  /* ===== INICIO PARTE 4 ===== */
 
   async function iniciar() {
-    const espacio = document.getElementById("lulu");
+
+    const espacio =
+      document.getElementById("lulu");
 
     if (!espacio) return;
-    if (document.getElementById("lulu-magica")) return;
 
-    panel = document.createElement("section");
-    panel.id = "lulu-magica";
+    if (document.getElementById("lulu-vectorial")) {
+      return;
+    }
 
-    panel.innerHTML = `
-      <h2>✦ Lulú ✦</h2>
-      <small>Mi pequeña mandrágora encantada</small>
-
-      <div class="lulu-dibujo"></div>
-
-      <p class="lulu-mensaje">
-        Despertando mi magia...
-      </p>
-
-      <div class="lulu-niveles">
-        <div>💧 Agua<br>
-          <strong class="lulu-agua">--</strong>
-        </div>
-
-        <div>☀️ Luz<br>
-          <strong class="lulu-luz">--</strong>
-        </div>
-
-        <div>💜 Cariño<br>
-          <strong class="lulu-carino">--</strong>
-        </div>
-      </div>
-
-      <div class="lulu-botones">
-        <button data-accion="regar">💧 Regar</button>
-        <button data-accion="acariciar">💜 Acariciar</button>
-        <button data-accion="jugar">✨ Jugar</button>
-      </div>
-    `;
-
-    espacio.appendChild(panel);
-
-    panel.querySelectorAll("[data-accion]").forEach(boton => {
-      boton.addEventListener("click", () => {
-        window.Lulu[boton.dataset.accion]();
-      });
-    });
+    criatura = document.createElement("div");
+    criatura.id = "lulu-vectorial";
 
     try {
+
       const respuesta = await fetch(ARCHIVO);
 
       if (!respuesta.ok) {
         throw new Error("No se encontró lulu.svg");
       }
 
-      const dibujo = await respuesta.text();
+      const contenido = await respuesta.text();
 
-      const documento = new DOMParser().parseFromString(
-        dibujo,
-        "image/svg+xml"
-      );
+      const documento = new DOMParser()
+        .parseFromString(
+          contenido,
+          "image/svg+xml"
+        );
 
       const svg = documento.documentElement;
 
-      if (svg.localName !== "svg") {
+      if (
+        svg.localName !== "svg" ||
+        documento.querySelector("parsererror")
+      ) {
         throw new Error("SVG inválido");
       }
 
-      panel.querySelector(".lulu-dibujo").appendChild(
+      criatura.appendChild(
         document.importNode(svg, true)
       );
 
-    } catch (error) {
-      panel.querySelector(".lulu-dibujo").textContent =
-        "🌱 Lulú aún no encuentra su forma mágica.";
+      espacio.classList.remove("lulu");
+      espacio.replaceChildren(criatura);
 
-      console.error(error);
+      const maceta =
+        document.querySelector(".zona-lulu .maceta");
+
+      if (maceta) {
+        maceta.style.display = "none";
+      }
+
+      const emocion =
+        document.createElement("p");
+
+      emocion.id = "lulu-emocion";
+
+      espacio.appendChild(emocion);
+
+    } catch (error) {
+
+      console.error("Lulú:", error);
+
+      criatura = null;
+
+      return;
     }
 
-    mostrar();
-
-    setInterval(mostrar, 10000);
+    cambiarEstado(estadoAutomatico());
 
     setInterval(() => {
-      if (estado() === "normal" && Math.random() < .3) {
-        reaccionar("traviesa");
+
+      window.LuluVisual.actualizar();
+
+    }, 10000);
+
+    setInterval(() => {
+
+      if (
+        !temporizador &&
+        estadoAutomatico() === "normal" &&
+        Math.random() < .25
+      ) {
+
+        window.LuluVisual.jugar();
+
+      }
+
+    }, 60000);
+  }
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciar
+    );
+
+  } else {
+
+    iniciar();
+
+  }
+
+})();
+/* ===== INICIO PARTE 4 ===== */
+
+  async function iniciar() {
+
+    const espacio =
+      document.getElementById("lulu");
+
+    if (!espacio) return;
+
+    if (document.getElementById("lulu-vectorial")) {
+      return;
+    }
+
+    criatura = document.createElement("div");
+    criatura.id = "lulu-vectorial";
+
+    try {
+
+      const respuesta = await fetch(ARCHIVO);
+
+      if (!respuesta.ok) {
+        throw new Error("No se encontró lulu.svg");
+      }
+
+      const contenido = await respuesta.text();
+
+      const documento = new DOMParser()
+        .parseFromString(
+          contenido,
+          "image/svg+xml"
+        );
+
+      const svg = documento.documentElement;
+
+      if (
+        svg.localName !== "svg" ||
+        documento.querySelector("parsererror")
+      ) {
+        throw new Error("SVG inválido");
+      }
+
+      criatura.appendChild(
+        document.importNode(svg, true)
+      );
+
+      espacio.classList.remove("lulu");
+      espacio.replaceChildren(criatura);
+
+      const maceta =
+        document.querySelector(".zona-lulu .maceta");
+
+      if (maceta) {
+        maceta.style.display = "none";
+      }
+
+      const emocion =
+        document.createElement("p");
+
+      emocion.id = "lulu-emocion";
+
+      espacio.appendChild(emocion);
+
+    } catch (error) {
+
+      console.error("Lulú:", error);
+
+      criatura = null;
+
+      return;
+    }
+
+    cambiarEstado(estadoAutomatico());
+
+    setInterval(() => {
+
+      window.LuluVisual.actualizar();
+
+    }, 10000);
+
+    setInterval(() => {
+
+      if (
+        !temporizador &&
+        estadoAutomatico() === "normal" &&
+        Math.random() < .25
+      ) {
+
+        window.LuluVisual.jugar();
+
+      }
+
+    }, 60000);
+  }
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciar
+    );
+
+  } else {
+
+    iniciar();
+
+  }
+
+})();
+
+/* ===== FIN PARTE 4 ===== */
+JavaScript
+/* ===== INICIO PARTE 4 ===== */
+
+  async function iniciar() {
+
+    const espacio =
+      document.getElementById("lulu");
+
+    if (!espacio) return;
+
+    if (document.getElementById("lulu-vectorial")) {
+      return;
+    }
+
+    criatura = document.createElement("div");
+    criatura.id = "lulu-vectorial";
+
+    try {
+
+      const respuesta = await fetch(ARCHIVO);
+
+      if (!respuesta.ok) {
+        throw new Error("No se encontró lulu.svg");
+      }
+
+      const contenido = await respuesta.text();
+
+      const documento = new DOMParser()
+        .parseFromString(
+          contenido,
+          "image/svg+xml"
+        );
+
+      const svg = documento.documentElement;
+
+      if (
+        svg.localName !== "svg" ||
+        documento.querySelector("parsererror")
+      ) {
+        throw new Error("SVG inválido");
+      }
+
+      criatura.appendChild(
+        document.importNode(svg, true)
+      );
+
+      espacio.classList.remove("lulu");
+      espacio.replaceChildren(criatura);
+
+      const maceta =
+        document.querySelector(".zona-lulu .maceta");
+
+      if (maceta) {
+        maceta.style.display = "none";
+      }
+
+      const emocion =
+        document.createElement("p");
+
+      emocion.id = "lulu-emocion";
+
+      espacio.appendChild(emocion);
+
+    } catch (error) {
+
+      console.error("Lulú:", error);
+
+      criatura = null;
+
+      return;
+    }
+
+    cambiarEstado(estadoAutomatico());
+
+    setInterval(() => {
+
+      window.LuluVisual.actualizar();
+
+    }, 10000);
+
+    setInterval(() => {
+
+      if (
+        !temporizador &&
+        estadoAutomatico() === "normal" &&
+        Math.random() < .25
+      ) {
+
+        window.LuluVisual.jugar();
+
+      }
+
+    }, 60000);
+  }
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciar
+    );
+
+  } else {
+
+    iniciar();
+
+  }
+
+})();
+/* ===== INICIO PARTE 4A ===== */
+
+  async function iniciar() {
+
+    const espacio =
+      document.getElementById("lulu");
+
+    if (!espacio) return;
+
+    if (document.getElementById("lulu-vectorial")) {
+      return;
+    }
+
+    criatura = document.createElement("div");
+    criatura.id = "lulu-vectorial";
+
+    try {
+
+      const respuesta = await fetch(ARCHIVO);
+
+      if (!respuesta.ok) {
+        throw new Error("No se encontró lulu.svg");
+      }
+
+      const contenido = await respuesta.text();
+
+      const documento = new DOMParser()
+        .parseFromString(
+          contenido,
+          "image/svg+xml"
+        );
+
+      const svg = documento.documentElement;
+
+      if (
+        svg.localName !== "svg" ||
+        documento.querySelector("parsererror")
+      ) {
+        throw new Error("SVG inválido");
+      }
+
+      criatura.appendChild(
+        document.importNode(svg, true)
+      );
+
+      espacio.classList.remove("lulu");
+      espacio.replaceChildren(criatura);
+
+/* ===== FIN PARTE 4A ===== */
+      /* ===== INICIO PARTE 4B ===== */
+
+      const maceta =
+        document.querySelector(".zona-lulu .maceta");
+
+      if (maceta) {
+        maceta.style.display = "none";
+      }
+
+      const emocion = document.createElement("p");
+      emocion.id = "lulu-emocion";
+      espacio.appendChild(emocion);
+
+    } catch (error) {
+      console.error("Lulú:", error);
+      criatura = null;
+      return;
+    }
+
+    cambiarEstado(estadoAutomatico());
+
+    setInterval(() => {
+      window.LuluVisual.actualizar();
+    }, 10000);
+
+    setInterval(() => {
+      if (
+        !temporizador &&
+        estadoAutomatico() === "normal" &&
+        Math.random() < .25
+      ) {
+        window.LuluVisual.jugar();
       }
     }, 60000);
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", iniciar);
+    document.addEventListener(
+      "DOMContentLoaded",
+      iniciar
+    );
   } else {
     iniciar();
   }
 
 })();
 
-/* ===== FIN PARTE 4 ===== */
+/* ===== FIN PARTE 4B ===== */
+      
